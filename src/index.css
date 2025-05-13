@@ -1,10 +1,13 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -35,19 +38,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -96,6 +92,50 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-saas-bg text-saas-text font-inter;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-saas-accent to-blue-400 bg-clip-text text-transparent;
+  }
+
+  .highlight {
+    @apply text-highlight;
+  }
+
+  .container-custom {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .button-primary {
+    @apply bg-saas-accent hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all;
+  }
+
+  .button-secondary {
+    @apply bg-white hover:bg-gray-100 text-saas-text font-semibold py-3 px-6 rounded-lg border border-gray-300 transition-all;
+  }
+
+  .card-feature {
+    @apply bg-white p-6 rounded-xl border border-gray-100 shadow-sm;
+  }
+
+  table {
+    @apply w-full text-left;
+  }
+
+  th {
+    @apply py-3 px-4 bg-gray-50 font-semibold text-gray-700;
+  }
+
+  td {
+    @apply py-3 px-4 border-t border-gray-100;
+  }
+
+  blockquote {
+    @apply border-l-4 border-highlight pl-4 py-2 my-4 italic;
   }
 }
