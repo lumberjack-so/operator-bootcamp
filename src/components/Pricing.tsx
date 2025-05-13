@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X } from 'lucide-react';
@@ -89,24 +88,18 @@ const Pricing = () => {
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 pt-6 relative">
-          {/* Best Value Banner - Enhanced design with gradient background and rounded edges */}
-          <div className="absolute top-[-2.5rem] md:left-1/3 md:right-1/3 z-10 overflow-hidden">
-            <div className="bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 text-black py-3 px-8 text-center font-bold rounded-2xl shadow-lg transform transition-transform hover:scale-105 border-2 border-amber-500">
-              <div className="flex items-center justify-center gap-2 text-black">
-                <span className="animate-pulse">✨</span>
-                BEST VALUE
-                <span className="animate-pulse">✨</span>
-              </div>
-            </div>
-          </div>
-          
           {pricingPlans.map((plan, index) => (
             <div 
               key={index} 
               className={`bg-white rounded-xl overflow-hidden border ${
                 plan.isPopular ? 'border-highlight shadow-xl' : 'border-gray-200'
-              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col`}
+              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col relative`}
             >
+              {plan.isPopular && (
+                <div className="bg-[#FFCD39] text-black py-2 px-4 text-center font-semibold text-sm w-full">
+                  BEST VALUE
+                </div>
+              )}
               <div className="p-8 flex-grow">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl group-hover:animate-bounce">{plan.emoji}</span>
