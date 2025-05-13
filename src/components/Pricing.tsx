@@ -134,18 +134,18 @@ const Pricing = () => {
                   </Badge>
                 </div>
                 
-                <ul className="mb-8 space-y-4">
+                <div className="mb-8">
                   {sharedFeatures.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-3">
+                    <div key={i} className="grid grid-cols-[24px_1fr] gap-3 items-start py-3 border-b border-gray-100 last:border-0">
                       {feature.plans[index] ? (
-                        <Check size={20} className="text-green-500 mt-1 flex-shrink-0" />
+                        <Check size={20} className="text-green-500 mt-0.5 flex-shrink-0" />
                       ) : (
-                        <X size={20} className="text-red-500 mt-1 flex-shrink-0" />
+                        <X size={20} className="text-red-500 mt-0.5 flex-shrink-0" />
                       )}
                       <span className={!feature.plans[index] ? "text-gray-500" : ""}>{feature.name}</span>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
               
               <div className="p-8 pt-0">
