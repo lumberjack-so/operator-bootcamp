@@ -26,7 +26,7 @@ const Pricing = () => {
       price: "$247",
       fullValue: "$693",
       discount: "64% OFF",
-      isPopular: true,
+      isPopular: false,
       emoji: "🛠️",
       isEarlyBird: true,
       features: ["All 12 build-along sessions", "Community access", "Lifetime replays ($99 value)", "Workshop assets", "Live Q&A participation ($99 value)"]
@@ -37,10 +37,10 @@ const Pricing = () => {
       price: "$397",
       fullValue: "$1,257",
       discount: "68% OFF",
-      isPopular: false,
+      isPopular: true,
       emoji: "✨",
       isEarlyBird: true,
-      features: ["All Deep Dive workshops", "All Build-Along sessions", "Complete asset library", "Priority Q&A access", "Certificate of completion"]
+      features: ["All Deep Dive workshops", "All Build-Along sessions", "Complete asset library ($200 value)", "Priority Q&A access", "Certificate of completion"]
     },
     {
       title: "PRO Cohort",
@@ -98,7 +98,7 @@ const Pricing = () => {
             >
               {plan.isPopular && (
                 <div className="bg-highlight text-black py-3 text-center font-bold">
-                  MOST POPULAR 🌟
+                  BEST VALUE 🌟
                 </div>  
               )}
               
