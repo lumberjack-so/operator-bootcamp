@@ -14,6 +14,8 @@ const Pricing = () => {
       title: "Deep Dive Pass",
       description: "All 12 workshops + assets",
       price: "$197",
+      fullValue: "$564",
+      discount: "65% OFF",
       isPopular: false,
       emoji: "🎯",
       features: ["Access to all 12 deep-dive workshops", "Workshop presentation slides", "Code samples & templates", "14-day replay access"]
@@ -22,15 +24,19 @@ const Pricing = () => {
       title: "Build-Along Pass",
       description: "12 Build-Along sessions + community + replays",
       price: "$247",
+      fullValue: "$693",
+      discount: "64% OFF",
       isPopular: true,
       emoji: "🛠️",
       isEarlyBird: true,
-      features: ["All 12 build-along sessions", "Community access", "Lifetime replays", "Workshop assets", "Live Q&A participation"]
+      features: ["All 12 build-along sessions", "Community access", "Lifetime replays ($99 value)", "Workshop assets", "Live Q&A participation ($99 value)"]
     },
     {
       title: "All-Access Pass",
       description: "Combines Deep Dive & Build-Along + perks",
       price: "$397",
+      fullValue: "$1,257",
+      discount: "68% OFF",
       isPopular: false,
       emoji: "✨",
       isEarlyBird: true,
@@ -41,9 +47,11 @@ const Pricing = () => {
       description: "All-Access ➕ $300 AlfredOS credits ➕ 1-on-1 kickoff ➕ mid-game & finale calls ➕ custom GPT tutor",
       subtext: "(Only 10 seats)",
       price: "$1,497",
+      fullValue: "$3,007",
+      discount: "50% OFF",
       isPopular: false,
       emoji: "👑",
-      features: ["Everything in All-Access", "$300 AlfredOS credits", "1-on-1 kickoff call", "Mid-program & finale calls", "Custom GPT tutor", "Unlimited DMs with instructor"]
+      features: ["Everything in All-Access", "$300 AlfredOS credits", "1-on-1 kickoff call ($250 value)", "Mid-program & finale calls ($500 value)", "Custom GPT tutor ($500 value)", "Unlimited DMs with instructor"]
     }
   ];
 
@@ -112,6 +120,18 @@ const Pricing = () => {
                       Early Bird
                     </Badge>
                   )}
+                  {plan.title === "PRO Cohort" && (
+                    <Badge className="bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-400 animate-pulse">
+                      10 spots only
+                    </Badge>
+                  )}
+                </div>
+                
+                <div className="flex items-center gap-2 mb-8 p-3 bg-green-50 border border-green-100 rounded-lg">
+                  <span className="text-green-600 font-medium">Full value: {plan.fullValue}</span>
+                  <Badge className="bg-green-100 text-green-800 font-bold">
+                    {plan.discount}
+                  </Badge>
                 </div>
                 
                 <ul className="mb-8 space-y-4">
