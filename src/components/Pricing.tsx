@@ -89,9 +89,15 @@ const Pricing = () => {
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 pt-6 relative">
-          {/* Best Value Banner - Positioned absolutely */}
-          <div className="absolute top-[-2rem] md:left-1/3 md:right-1/3 bg-highlight text-black py-3 text-center font-bold rounded-t-xl z-10">
-            BEST VALUE 🌟
+          {/* Best Value Banner - Enhanced design with gradient background */}
+          <div className="absolute top-[-2.5rem] md:left-1/3 md:right-1/3 z-10 overflow-hidden">
+            <div className="bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 text-black py-3 px-8 text-center font-bold rounded-t-xl shadow-lg transform transition-transform hover:scale-105 border-2 border-amber-500 border-b-0">
+              <div className="flex items-center justify-center gap-2 text-black">
+                <span className="animate-pulse">✨</span>
+                BEST VALUE
+                <span className="animate-pulse">✨</span>
+              </div>
+            </div>
           </div>
           
           {pricingPlans.map((plan, index) => (
