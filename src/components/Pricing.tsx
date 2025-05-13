@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Check, Heart, Timer } from 'lucide-react';
+import { Check, Heart, Timer, X } from 'lucide-react';
 import Countdown from 'react-countdown';
 import { Badge } from '@/components/ui/badge';
 
@@ -19,7 +19,8 @@ const Pricing = () => {
       isPopular: false,
       emoji: "🛠️",
       isEarlyBird: true,
-      features: ["All 12 build-along sessions", "Community access", "Lifetime replays ($99 value)", "Workshop assets", "Live Q&A participation ($99 value)"]
+      features: ["All 12 build-along sessions", "Community access", "Lifetime replays", "Workshop assets", "Live Q&A participation"],
+      notIncluded: ["Access to Deep Dive Workshops"]
     },
     {
       title: "All-Access Pass",
@@ -129,6 +130,13 @@ const Pricing = () => {
                     <li key={i} className="flex items-start gap-3">
                       <Check size={20} className="text-green-500 mt-1 flex-shrink-0" />
                       <span>{feature}</span>
+                    </li>
+                  ))}
+                  
+                  {plan.notIncluded && plan.notIncluded.map((item, i) => (
+                    <li key={`not-${i}`} className="flex items-start gap-3">
+                      <X size={20} className="text-red-500 mt-1 flex-shrink-0" />
+                      <span className="text-gray-500">{item}</span>
                     </li>
                   ))}
                 </ul>
