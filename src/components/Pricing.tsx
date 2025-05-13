@@ -88,22 +88,19 @@ const Pricing = () => {
           <Countdown date={targetDate} renderer={renderer} />
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8 relative">
+        <div className="grid md:grid-cols-3 gap-8 pt-6 relative">
+          {/* Best Value Banner - Positioned absolutely */}
+          <div className="absolute top-[-2rem] md:left-1/3 md:right-1/3 bg-highlight text-black py-3 text-center font-bold rounded-t-xl z-10">
+            BEST VALUE 🌟
+          </div>
+          
           {pricingPlans.map((plan, index) => (
             <div 
               key={index} 
               className={`bg-white rounded-xl overflow-hidden border ${
                 plan.isPopular ? 'border-highlight shadow-xl' : 'border-gray-200'
-              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col ${
-                plan.isPopular ? 'mt-6' : '' // Add margin-top to adjust for the "BEST VALUE" banner
-              }`}
+              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col`}
             >
-              {plan.isPopular && (
-                <div className="bg-highlight text-black py-3 text-center font-bold absolute top-[-2.5rem] w-full rounded-t-xl">
-                  BEST VALUE 🌟
-                </div>  
-              )}
-              
               <div className="p-8 flex-grow">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl group-hover:animate-bounce">{plan.emoji}</span>
