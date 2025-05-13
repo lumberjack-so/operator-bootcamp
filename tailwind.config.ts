@@ -68,13 +68,13 @@ export default {
 					dark: '#E6B000'
 				},
 				saas: {
-					bg: '#F5F5F5',
+					bg: '#F8F9FC',
 					text: '#111827',
 					accent: '#4F46E5'
 				}
 			},
 			fontFamily: {
-				'inter': ['Inter', 'sans-serif'],
+				'ubuntu': ['Ubuntu', 'sans-serif'],
 				'mono': ['Fira Code', 'monospace'],
 			},
 			borderRadius: {

@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Fira+Code:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -92,11 +92,11 @@
   }
 
   body {
-    @apply bg-saas-bg text-saas-text font-inter;
+    @apply bg-saas-bg text-saas-text font-ubuntu tracking-normal;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
+    @apply font-bold tracking-tight;
   }
 
   .gradient-text {
@@ -108,19 +108,19 @@
   }
 
   .container-custom {
-    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto max-w-7xl px-5 sm:px-8 lg:px-10;
   }
 
   .button-primary {
-    @apply bg-saas-accent hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all;
+    @apply bg-saas-accent hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-all shadow-sm hover:shadow-md;
   }
 
   .button-secondary {
-    @apply bg-white hover:bg-gray-100 text-saas-text font-semibold py-3 px-6 rounded-lg border border-gray-300 transition-all;
+    @apply bg-white hover:bg-gray-100 text-saas-text font-semibold py-3 px-8 rounded-lg border border-gray-300 transition-all shadow-sm hover:shadow-md;
   }
 
   .card-feature {
-    @apply bg-white p-6 rounded-xl border border-gray-100 shadow-sm;
+    @apply bg-white p-7 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all;
   }
 
   table {
@@ -128,14 +128,30 @@
   }
 
   th {
-    @apply py-3 px-4 bg-gray-50 font-semibold text-gray-700;
+    @apply py-4 px-5 bg-gray-50 font-semibold text-gray-700;
   }
 
   td {
-    @apply py-3 px-4 border-t border-gray-100;
+    @apply py-4 px-5 border-t border-gray-100;
   }
 
   blockquote {
-    @apply border-l-4 border-highlight pl-4 py-2 my-4 italic;
+    @apply border-l-4 border-highlight pl-6 py-3 my-6 italic;
+  }
+
+  .emoji-bullet {
+    @apply text-xl mr-3;
+  }
+
+  .spacer-sm {
+    @apply my-8;
+  }
+  
+  .spacer-md {
+    @apply my-16;
+  }
+  
+  .spacer-lg {
+    @apply my-24;
   }
 }
