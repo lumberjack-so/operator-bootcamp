@@ -88,16 +88,18 @@ const Pricing = () => {
           <Countdown date={targetDate} renderer={renderer} />
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 relative">
           {pricingPlans.map((plan, index) => (
             <div 
               key={index} 
               className={`bg-white rounded-xl overflow-hidden border ${
                 plan.isPopular ? 'border-highlight shadow-xl' : 'border-gray-200'
-              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col`}
+              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col ${
+                plan.isPopular ? 'mt-6' : '' // Add margin-top to adjust for the "BEST VALUE" banner
+              }`}
             >
               {plan.isPopular && (
-                <div className="bg-highlight text-black py-3 text-center font-bold">
+                <div className="bg-highlight text-black py-3 text-center font-bold absolute top-[-2.5rem] w-full rounded-t-xl">
                   BEST VALUE 🌟
                 </div>  
               )}
