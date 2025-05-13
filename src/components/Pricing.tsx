@@ -18,9 +18,7 @@ const Pricing = () => {
       discount: "64% OFF",
       isPopular: false,
       emoji: "🛠️",
-      isEarlyBird: true,
-      features: ["All 12 build-along sessions", "Community access", "Lifetime replays", "Workshop assets", "Live Q&A participation"],
-      notIncluded: ["Access to Deep Dive Workshops"]
+      isEarlyBird: true
     },
     {
       title: "All-Access Pass",
@@ -30,8 +28,7 @@ const Pricing = () => {
       discount: "68% OFF",
       isPopular: true,
       emoji: "✨",
-      isEarlyBird: true,
-      features: ["All Deep Dive workshops", "All Build-Along sessions", "Complete asset library ($200 value)", "Priority Q&A access", "Certificate of completion"]
+      isEarlyBird: true
     },
     {
       title: "PRO Cohort",
@@ -41,9 +38,21 @@ const Pricing = () => {
       fullValue: "$3,007",
       discount: "50% OFF",
       isPopular: false,
-      emoji: "👑",
-      features: ["Everything in All-Access", "$300 AlfredOS credits", "1-on-1 kickoff call ($250 value)", "Mid-program & finale calls ($500 value)", "Custom GPT tutor ($500 value)", "Unlimited DMs with instructor"]
+      emoji: "👑"
     }
+  ];
+
+  // Shared features list with yes/no for each plan
+  const sharedFeatures = [
+    { name: "Access to 12 n8n Tutorial Workshops", plans: [true, true, true] },
+    { name: "Access to Deep Dive Workshops", plans: [false, true, true] },
+    { name: "Community Access", plans: [true, true, true] },
+    { name: "Lifetime Replays", plans: [true, true, true] },
+    { name: "Live Q&A Participation", plans: [false, true, true] },
+    { name: "Certificate of Completion", plans: [false, true, true] },
+    { name: "1-on-1 Private Coaching", plans: [false, false, true] },
+    { name: "Custom GPT Tutor", plans: [false, false, true] },
+    { name: "Unlimited DM / Email Support", plans: [false, false, true] }
   ];
 
   // Countdown renderer
@@ -126,17 +135,14 @@ const Pricing = () => {
                 </div>
                 
                 <ul className="mb-8 space-y-4">
-                  {plan.features.map((feature, i) => (
+                  {sharedFeatures.map((feature, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <Check size={20} className="text-green-500 mt-1 flex-shrink-0" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                  
-                  {plan.notIncluded && plan.notIncluded.map((item, i) => (
-                    <li key={`not-${i}`} className="flex items-start gap-3">
-                      <X size={20} className="text-red-500 mt-1 flex-shrink-0" />
-                      <span className="text-gray-500">{item}</span>
+                      {feature.plans[index] ? (
+                        <Check size={20} className="text-green-500 mt-1 flex-shrink-0" />
+                      ) : (
+                        <X size={20} className="text-red-500 mt-1 flex-shrink-0" />
+                      )}
+                      <span className={!feature.plans[index] ? "text-gray-500" : ""}>{feature.name}</span>
                     </li>
                   ))}
                 </ul>
