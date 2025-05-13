@@ -32,7 +32,7 @@ const Pricing = () => {
     },
     {
       title: "PRO Cohort",
-      description: "All-Access ➕ $300 AlfredOS credits ➕ 1-on-1 kickoff ➕ mid-game & finale calls ➕ custom GPT tutor",
+      description: "For true AI-first Operators only",
       subtext: "(Only 10 seats)",
       price: "$1,497",
       fullValue: "$3,007",
