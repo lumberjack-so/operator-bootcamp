@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer } from 'lucide-react';
 import Countdown from 'react-countdown';
+import { Badge } from '@/components/ui/badge';
 
 const Pricing = () => {
   // Set target date to May 31st, 2025 23:59 CET
@@ -20,17 +21,19 @@ const Pricing = () => {
     {
       title: "Build-Along Pass",
       description: "12 Build-Along sessions + community + replays",
-      price: "$247 EB / $497",
+      price: "$247",
       isPopular: true,
       emoji: "🛠️",
+      isEarlyBird: true,
       features: ["All 12 build-along sessions", "Community access", "Lifetime replays", "Workshop assets", "Live Q&A participation"]
     },
     {
       title: "All-Access Pass",
       description: "Combines Deep Dive & Build-Along + perks",
-      price: "$397 EB / $697",
+      price: "$397",
       isPopular: false,
       emoji: "✨",
+      isEarlyBird: true,
       features: ["All Deep Dive workshops", "All Build-Along sessions", "Complete asset library", "Priority Q&A access", "Certificate of completion"]
     },
     {
@@ -102,8 +105,13 @@ const Pricing = () => {
                 
                 <p className="text-sm text-gray-600 mb-6 min-h-[40px]">{plan.description}</p>
                 
-                <div className="mb-8">
+                <div className="mb-8 flex items-center gap-2">
                   <span className="text-3xl font-bold">{plan.price}</span>
+                  {plan.isEarlyBird && (
+                    <Badge className="bg-amber-200 text-amber-800 hover:bg-amber-300 border-amber-400 animate-pulse">
+                      Early Bird
+                    </Badge>
+                  )}
                 </div>
                 
                 <ul className="mb-8 space-y-4">
