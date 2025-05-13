@@ -11,16 +11,6 @@ const Pricing = () => {
 
   const pricingPlans = [
     {
-      title: "Deep Dive Pass",
-      description: "All 12 workshops + assets",
-      price: "$197",
-      fullValue: "$564",
-      discount: "65% OFF",
-      isPopular: false,
-      emoji: "🎯",
-      features: ["Access to all 12 deep-dive workshops", "Workshop presentation slides", "Code samples & templates", "14-day replay access"]
-    },
-    {
       title: "Build-Along Pass",
       description: "12 Build-Along sessions + community + replays",
       price: "$247",
@@ -88,13 +78,13 @@ const Pricing = () => {
           <Countdown date={targetDate} renderer={renderer} />
         </div>
         
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           {pricingPlans.map((plan, index) => (
             <div 
               key={index} 
               className={`bg-white rounded-xl overflow-hidden border ${
                 plan.isPopular ? 'border-highlight shadow-xl' : 'border-gray-200'
-              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group`}
+              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col`}
             >
               {plan.isPopular && (
                 <div className="bg-highlight text-black py-3 text-center font-bold">
@@ -102,7 +92,7 @@ const Pricing = () => {
                 </div>  
               )}
               
-              <div className="p-8">
+              <div className="p-8 flex-grow">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl group-hover:animate-bounce">{plan.emoji}</span>
                   <h3 className="text-xl font-bold flex items-center gap-2 flex-wrap">
@@ -142,7 +132,9 @@ const Pricing = () => {
                     </li>
                   ))}
                 </ul>
-                
+              </div>
+              
+              <div className="p-8 pt-0">
                 <Button 
                   className={`w-full py-6 ${
                     plan.isPopular 
