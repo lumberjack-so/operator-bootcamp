@@ -5,18 +5,18 @@ import { Calendar, CheckCircle } from 'lucide-react';
 const ProgramStructure = () => {
   // Program structure data
   const programWeeks = [
-    { week: 1, deepDive: "n8n Basics (Fast-Track)", buildAlong: "Personal \"daily digest\" automation" },
-    { week: 2, deepDive: "Speak Like a Techie (Git/GitHub crash course)", buildAlong: "Google Sheets → Slack report" },
-    { week: 3, deepDive: "Cursor for Non-Coders", buildAlong: "Gmail zero-inbox bot" },
-    { week: 4, deepDive: "APIs in Plain English", buildAlong: "Twitter → Notion content pipeline" },
-    { week: 5, deepDive: "Build an App from Scratch with Vibe-Coding", buildAlong: "AI-powered lead-qualifier" },
-    { week: 6, deepDive: "Advanced n8n Techniques", buildAlong: "Stripe failed-payment recovery" },
-    { week: 7, deepDive: "Claude Desktop & MCP Servers", buildAlong: "Multi-step document QA agent" },
-    { week: 8, deepDive: "Designing AI Agent Architecture", buildAlong: "Blog-to-Podcast generator" },
-    { week: 9, deepDive: "Error Handling & Monitoring", buildAlong: "Auto-backup & alert workflow" },
-    { week: 10, deepDive: "Deployment & Hosting Best Practices", buildAlong: "Self-healing web-scraper" },
-    { week: 11, deepDive: "Monetising Your Automations", buildAlong: "Client onboarding automation" },
-    { week: 12, deepDive: "My $15 k/mo Commercial Setup", buildAlong: "\"Ask Me Anything\" + launch prep" }
+    { week: 1, deepDive: "Getting Started with n8n", buildAlong: "Personal \"daily digest\" automation" },
+    { week: 2, deepDive: "GitHub Essentials", buildAlong: "Google Sheets → Slack report" },
+    { week: 3, deepDive: "APIs Explained", buildAlong: "Gmail zero-inbox bot" },
+    { week: 4, deepDive: "Building an App from Scratch", buildAlong: "Twitter → Notion content pipeline" },
+    { week: 5, deepDive: "Model Context Protocol Basics", buildAlong: "AI-powered lead-qualifier" },
+    { week: 6, deepDive: "Creating AI Agents in n8n", buildAlong: "Stripe failed-payment recovery" },
+    { week: 7, deepDive: "Using Claude Desktop as Your COO", buildAlong: "Multi-step document QA agent" },
+    { week: 8, deepDive: "Designing AI Agent Workflows", buildAlong: "Blog-to-Podcast generator" },
+    { week: 9, deepDive: "Supabase for Your Backend", buildAlong: "Auto-backup & alert workflow" },
+    { week: 10, deepDive: "Simple App Hosting", buildAlong: "Self-healing web-scraper" },
+    { week: 11, deepDive: "Your AI-First Operator Stack", buildAlong: "Client onboarding automation" },
+    { week: 12, deepDive: "My $15K/mo Automation Setup", buildAlong: "\"Ask Me Anything\" + launch prep" }
   ];
 
   return (
