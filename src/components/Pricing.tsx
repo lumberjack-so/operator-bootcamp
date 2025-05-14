@@ -11,7 +11,7 @@ const Pricing = () => {
 
   const pricingPlans = [
     {
-      title: "Build-Along Pass",
+      title: "Operator Pass",
       description: "12 Build-Along sessions + community + replays",
       price: "$247",
       fullValue: "$693",
