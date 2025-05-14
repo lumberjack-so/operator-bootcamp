@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X } from 'lucide-react';
@@ -31,9 +30,8 @@ const Pricing = () => {
       isEarlyBird: true
     },
     {
-      title: "PRO Cohort",
+      title: "VIP Pass",
       description: "For true AI-first Operators only",
-      subtext: "(Only 10 seats)",
       price: "$1,497",
       fullValue: "$3,007",
       discount: "50% OFF",
@@ -106,7 +104,6 @@ const Pricing = () => {
                   <span className="text-3xl group-hover:animate-bounce">{plan.emoji}</span>
                   <h3 className="text-xl font-bold flex items-center gap-2 flex-wrap">
                     {plan.title} 
-                    {plan.subtext && <span className="text-sm font-normal text-rose-500">{plan.subtext}</span>}
                   </h3>
                 </div>
                 
@@ -119,7 +116,7 @@ const Pricing = () => {
                       Early Bird
                     </Badge>
                   )}
-                  {plan.title === "PRO Cohort" && (
+                  {plan.title === "VIP Pass" && (
                     <Badge className="bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-400 animate-pulse">
                       10 spots only
                     </Badge>
