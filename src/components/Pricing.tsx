@@ -94,14 +94,14 @@ const Pricing = () => {
               key={index} 
               className={`bg-white rounded-xl overflow-hidden border ${
                 plan.isPopular ? 'border-highlight shadow-xl' : 'border-gray-200'
-              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col relative`}
+              } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col justify-between relative`}
             >
               {plan.isPopular && (
                 <div className="bg-[#FFCD39] text-black py-2 px-4 text-center font-semibold text-sm w-full absolute top-0 left-0 right-0">
                   BEST VALUE
                 </div>
               )}
-              <div className={`p-8 flex-grow ${plan.isPopular ? 'pt-12' : ''}`}>
+              <div className={`p-8 ${plan.isPopular ? 'pt-12' : ''}`}>
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl group-hover:animate-bounce">{plan.emoji}</span>
                   <h3 className="text-xl font-bold flex items-center gap-2 flex-wrap">
@@ -151,7 +151,7 @@ const Pricing = () => {
                 </div>
               </div>
               
-              <div className="p-8 pt-0 flex justify-center">
+              <div className="p-8 pt-0 mt-auto">
                 <Button 
                   onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                   className={`w-full py-6 ${
