@@ -59,9 +59,12 @@ const Hero = () => {
           
           <p className="text-xl font-semibold mb-14">No fluff, just the skills that compound. 🚀</p>
           
-          <Button size="lg" className="button-primary text-lg px-10 py-7 flex items-center gap-3">
-            Grab Your Seat <ArrowRight size={20} />
-          </Button>
+          <div className="flex justify-center">
+            <Button size="lg" className="button-primary text-lg px-10 py-7 flex items-center gap-3" 
+                   onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+              Grab Your Seat <ArrowRight size={20} />
+            </Button>
+          </div>
         </div>
       </div>
     </section>
