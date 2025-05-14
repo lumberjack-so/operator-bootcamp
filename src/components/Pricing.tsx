@@ -1,8 +1,10 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X } from 'lucide-react';
 import Countdown from 'react-countdown';
 import { Badge } from '@/components/ui/badge';
+import PassLogo from '@/components/PassLogo';
 
 const Pricing = () => {
   // Set target date to May 31st, 2025 23:59 CET
@@ -11,6 +13,7 @@ const Pricing = () => {
   const pricingPlans = [
     {
       title: "Builder Pass",
+      logo: "/lovable-uploads/85cdc44e-d9b6-46ec-ba7a-1b07f4124f0e.png",
       description: "12 Build-Along sessions + community + replays",
       price: "$247",
       fullValue: "$693",
@@ -21,6 +24,7 @@ const Pricing = () => {
     },
     {
       title: "Operator Pass",
+      logo: "/lovable-uploads/07958d66-3a4c-468a-9c96-ddae9c612b79.png",
       description: "Combines Deep Dive & Build-Along + perks",
       price: "$347",
       fullValue: "$1,257",
@@ -31,6 +35,7 @@ const Pricing = () => {
     },
     {
       title: "VIP Pass",
+      logo: "/lovable-uploads/9914abc4-578e-4c6c-82fe-83b2ec7717ce.png",
       description: "For true AI-first Operators only",
       price: "$1,497",
       fullValue: "$3,007",
@@ -100,16 +105,21 @@ const Pricing = () => {
                 </div>
               )}
               <div className={`p-8 ${plan.isPopular ? 'pt-12' : ''}`}>
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-3xl group-hover:animate-bounce">{plan.emoji}</span>
-                  <h3 className="text-xl font-bold flex items-center gap-2 flex-wrap">
+                <PassLogo 
+                  imageSrc={plan.logo} 
+                  alt={`${plan.title} Logo`}
+                  className="transform group-hover:scale-105 transition-transform duration-300"
+                />
+                
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <h3 className="text-xl font-bold text-center">
                     {plan.title} 
                   </h3>
                 </div>
                 
-                <p className="text-sm text-gray-600 mb-6 min-h-[40px]">{plan.description}</p>
+                <p className="text-sm text-gray-600 mb-6 min-h-[40px] text-center">{plan.description}</p>
                 
-                <div className="mb-8 flex items-center gap-2">
+                <div className="mb-8 flex items-center justify-center gap-2">
                   <span className="text-3xl font-bold">{plan.price}</span>
                   {plan.isEarlyBird && (
                     <Badge className="bg-amber-200 text-amber-800 hover:bg-amber-300 border-amber-400 animate-pulse">
@@ -123,7 +133,7 @@ const Pricing = () => {
                   )}
                 </div>
                 
-                <div className="flex items-center gap-2 mb-8 p-3 bg-green-50 border border-green-100 rounded-lg">
+                <div className="flex items-center justify-center gap-2 mb-8 p-3 bg-green-50 border border-green-100 rounded-lg">
                   <span className="text-green-600 font-medium">Full value: {plan.fullValue}</span>
                   <Badge className="bg-green-100 text-green-800 font-bold">
                     {plan.discount}
