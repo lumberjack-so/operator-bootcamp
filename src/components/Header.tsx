@@ -14,7 +14,7 @@ const Header = () => {
         <div className="flex items-center gap-4">
           <div className="text-xl font-bold flex items-center gap-3">
             <span className="text-highlight text-3xl">≡≡</span>
-            <span>Operator Bootcamp</span>
+            <span>AI-First Operator Bootcamp</span>
             <Sparkles className="text-highlight h-5 w-5" />
           </div>
           <div className="flex items-center">
