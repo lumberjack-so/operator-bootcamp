@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X } from 'lucide-react';
@@ -96,11 +97,11 @@ const Pricing = () => {
               } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col relative`}
             >
               {plan.isPopular && (
-                <div className="bg-[#FFCD39] text-black py-2 px-4 text-center font-semibold text-sm w-full">
+                <div className="bg-[#FFCD39] text-black py-2 px-4 text-center font-semibold text-sm w-full absolute top-0 left-0 right-0">
                   BEST VALUE
                 </div>
               )}
-              <div className="p-8 flex-grow">
+              <div className={`p-8 flex-grow ${plan.isPopular ? 'pt-12' : ''}`}>
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl group-hover:animate-bounce">{plan.emoji}</span>
                   <h3 className="text-xl font-bold flex items-center gap-2 flex-wrap">
