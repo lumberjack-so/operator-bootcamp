@@ -1,24 +1,13 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles, Zap, Clock, CalendarDays } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-
 const Hero = () => {
-  return (
-    <section className="py-28 bg-gradient-to-b from-white to-gray-50">
+  return <section className="py-28 bg-gradient-to-b from-white to-gray-50">
       <div className="container-custom text-center">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-center mb-5">
-            <Badge variant="secondary" className="px-3 py-1 text-xs font-medium flex items-center gap-1">
-              Introducing the AI-First Operator Bootcamp by 
-              <img 
-                src="https://substackcdn.com/image/fetch/w_80,h_80,c_fill,f_webp,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3fd24c57-2b52-4fa5-8b0c-4d2a85ee0753_720x720.png" 
-                alt="Lumberjack" 
-                className="h-4 w-4 rounded-sm inline ml-1"
-              />
-              <span className="ml-0.5">Lumberjack</span>
-            </Badge>
+            
           </div>
           
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6 inline-flex items-center mx-auto">
@@ -76,15 +65,14 @@ const Hero = () => {
           <p className="text-xl font-semibold mb-14">No fluff, just the skills that compound. 🚀</p>
           
           <div className="flex justify-center">
-            <Button size="lg" className="button-primary text-lg px-10 py-7 flex items-center gap-3" 
-                   onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button size="lg" className="button-primary text-lg px-10 py-7 flex items-center gap-3" onClick={() => document.getElementById('pricing')?.scrollIntoView({
+            behavior: 'smooth'
+          })}>
               Grab Your Seat <ArrowRight size={20} />
             </Button>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
