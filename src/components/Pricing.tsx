@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Check, Heart, Timer, X } from 'lucide-react';
+import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
 import Countdown from 'react-countdown';
 import { Badge } from '@/components/ui/badge';
 import PassLogo from '@/components/PassLogo';
@@ -100,9 +100,9 @@ const Pricing = () => {
               } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col justify-between relative`}
             >
               {plan.isPopular && (
-                <div className="absolute top-0 right-0 overflow-hidden w-28 h-28 z-10">
-                  <div className="absolute top-0 right-0 rotate-45 origin-top-right translate-y-5 translate-x-5">
-                    <div className="bg-highlight text-black font-bold text-xs py-1 px-10 shadow-md">
+                <div className="absolute -top-1 -right-1 overflow-hidden w-32 h-32 z-10">
+                  <div className="absolute top-0 right-0 rotate-45 origin-top-right translate-y-6 translate-x-2">
+                    <div className="bg-highlight text-black font-bold text-sm py-2 px-10 shadow-lg border border-amber-600">
                       BEST VALUE!
                     </div>
                   </div>
