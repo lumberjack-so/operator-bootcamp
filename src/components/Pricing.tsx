@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X } from 'lucide-react';
@@ -11,7 +10,7 @@ const Pricing = () => {
 
   const pricingPlans = [
     {
-      title: "Operator Pass",
+      title: "Builder Pass",
       description: "12 Build-Along sessions + community + replays",
       price: "$247",
       fullValue: "$693",
@@ -21,7 +20,7 @@ const Pricing = () => {
       isEarlyBird: true
     },
     {
-      title: "All-Access Pass",
+      title: "Operator Pass",
       description: "Combines Deep Dive & Build-Along + perks",
       price: "$347",
       fullValue: "$1,257",
