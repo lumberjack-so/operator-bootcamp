@@ -150,8 +150,9 @@ const Pricing = () => {
                 </div>
               </div>
               
-              <div className="p-8 pt-0">
+              <div className="p-8 pt-0 flex justify-center">
                 <Button 
+                  onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                   className={`w-full py-6 ${
                     plan.isPopular 
                       ? 'bg-highlight hover:bg-highlight-dark text-black' 
@@ -164,10 +165,6 @@ const Pricing = () => {
             </div>
           ))}
         </div>
-        
-        <p className="text-center mt-10 text-gray-600 bg-gray-50 p-4 rounded-lg inline-block mx-auto">
-          <em>Early-bird pricing ends when 50 seats are gone or <strong>May 31st, 2025</strong>, whichever comes first. ⏰</em>
-        </p>
       </div>
     </section>
   );

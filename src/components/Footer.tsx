@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Twitter, Linkedin, Youtube, Mail, Sparkles } from 'lucide-react';
 
@@ -10,10 +9,21 @@ const Footer = () => {
       <div className="container-custom">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           <div>
-            <div className="text-xl font-bold text-white flex items-center gap-3 mb-6">
+            <div className="text-xl font-bold text-white flex items-center gap-3 mb-4">
               <span className="text-highlight text-3xl">≡≡</span>
               <span>AI-First</span>
               <Sparkles className="text-highlight h-5 w-5" />
+            </div>
+            <div className="flex items-center mb-6">
+              <span className="text-xs text-gray-400">by</span>
+              <a href="https://lumberjack.so" target="_blank" rel="noopener noreferrer" className="flex items-center ml-2">
+                <img 
+                  src="https://substackcdn.com/image/fetch/w_80,h_80,c_fill,f_webp,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3fd24c57-2b52-4fa5-8b0c-4d2a85ee0753_720x720.png" 
+                  alt="Lumberjack" 
+                  className="h-6 w-6 rounded-sm"
+                />
+                <span className="ml-1 text-sm font-medium text-white">Lumberjack</span>
+              </a>
             </div>
             <p className="leading-relaxed">
               Turning ordinary operators into automation superstars through hands-on training and community support. 🚀
@@ -42,7 +52,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-800 pt-8 text-sm text-gray-400 flex justify-center items-center">
-          <p>© {year} AI-First Bootcamp. All rights reserved. Made with 💜</p>
+          <p>© {year} AI-First Bootcamp. All rights reserved. Made with 💜 by <a href="https://lumberjack.so" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">Lumberjack</a></p>
         </div>
       </div>
     </footer>
