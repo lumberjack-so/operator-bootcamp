@@ -12,7 +12,7 @@ interface PassLogoProps {
 const PassLogo = ({ imageSrc, alt, className }: PassLogoProps) => {
   return (
     <div className={cn("w-full max-w-[160px] mx-auto mb-6", className)}>
-      <AspectRatio ratio={1 / 1} className="bg-[#FEF7E0] rounded-xl overflow-hidden border-2 border-amber-200 shadow-md">
+      <AspectRatio ratio={1 / 1}>
         <img 
           src={imageSrc} 
           alt={alt} 

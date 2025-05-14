@@ -13,7 +13,7 @@ const Pricing = () => {
   const pricingPlans = [
     {
       title: "Builder Pass",
-      logo: "/lovable-uploads/85cdc44e-d9b6-46ec-ba7a-1b07f4124f0e.png",
+      logo: "/lovable-uploads/cca830e9-c681-4273-94e8-69eff61f6e64.png",
       description: "12 Build-Along sessions + community + replays",
       price: "$247",
       fullValue: "$693",
@@ -24,7 +24,7 @@ const Pricing = () => {
     },
     {
       title: "Operator Pass",
-      logo: "/lovable-uploads/07958d66-3a4c-468a-9c96-ddae9c612b79.png",
+      logo: "/lovable-uploads/2aff9228-17af-428f-a871-7b1132121527.png",
       description: "Combines Deep Dive & Build-Along + perks",
       price: "$347",
       fullValue: "$1,257",
@@ -35,7 +35,7 @@ const Pricing = () => {
     },
     {
       title: "VIP Pass",
-      logo: "/lovable-uploads/9914abc4-578e-4c6c-82fe-83b2ec7717ce.png",
+      logo: "/lovable-uploads/5ce67589-1b06-4944-91c3-594bd472f764.png",
       description: "For true AI-first Operators only",
       price: "$1,497",
       fullValue: "$3,007",
