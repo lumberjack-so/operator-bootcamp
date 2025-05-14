@@ -7,10 +7,20 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from '@/components/ui/button';
-import { HelpCircle, MessageSquare } from 'lucide-react';
+import { HelpCircle, MessageSquare, Calendar, VideoIcon } from 'lucide-react';
 
 const FAQ = () => {
   const faqs = [
+    {
+      question: "When does the bootcamp start?",
+      answer: "The bootcamp officially starts on July 2nd, 2025. Mark your calendar and get ready to transform your workflows!",
+      emoji: "📅"
+    },
+    {
+      question: "What's the format of the workshops?",
+      answer: "Deep dive workshops are prerecorded videos (up to 60 minutes each) that you can watch at your own pace. The n8n builder workshops are conducted live for interactive learning and real-time problem solving.",
+      emoji: "🎥"
+    },
     {
       question: "I'm not technical—will I drown?",
       answer: "Nope. Drowning requires deep water; we start you in the kiddie pool and raise the floor each week. By Week 3 you'll brag about your Git commits.",
@@ -71,6 +81,23 @@ const FAQ = () => {
           </h2>
           
           <p className="text-center text-gray-600 mb-12">Everything you need to know before joining</p>
+          
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8 flex items-center">
+            <Calendar className="h-6 w-6 text-amber-600 mr-4 flex-shrink-0" />
+            <div>
+              <h3 className="font-bold text-amber-800 mb-1">Important Dates:</h3>
+              <p className="text-amber-700">The AI-First Operator Bootcamp officially starts on <span className="font-bold">July 2nd, 2025</span>.</p>
+            </div>
+          </div>
+          
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-12 flex items-center">
+            <VideoIcon className="h-6 w-6 text-blue-600 mr-4 flex-shrink-0" />
+            <div>
+              <h3 className="font-bold text-blue-800 mb-1">Workshop Format:</h3>
+              <p className="text-blue-700"><span className="font-bold">Deep dive workshops:</span> Prerecorded videos up to 60 minutes each.</p>
+              <p className="text-blue-700"><span className="font-bold">n8n builder workshops:</span> Live interactive sessions.</p>
+            </div>
+          </div>
           
           <div className="mt-12">
             <Accordion type="single" collapsible className="space-y-4">
