@@ -59,7 +59,7 @@ const Problem = () => {
             </p>
           </div>
           
-          <div className="text-center">
+          <div className="flex justify-center w-full">
             <Button 
               size="lg" 
               className="button-primary flex items-center gap-3 px-10 py-7 text-lg"
