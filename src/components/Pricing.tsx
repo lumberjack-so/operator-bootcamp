@@ -100,9 +100,9 @@ const Pricing = () => {
               } transition-all hover:shadow-lg hover:transform hover:scale-[1.02] group flex flex-col justify-between relative`}
             >
               {plan.isPopular && (
-                <div className="absolute -top-1 -right-1 overflow-hidden w-32 h-32 z-10">
-                  <div className="absolute top-0 right-0 rotate-45 origin-top-right translate-y-6 translate-x-2">
-                    <div className="bg-highlight text-black font-bold text-sm py-2 px-10 shadow-lg border border-amber-600">
+                <div className="absolute -top-4 -right-4 overflow-hidden w-40 h-40 z-10">
+                  <div className="absolute top-0 right-0 rotate-45 origin-top-right translate-y-14 -translate-x-2">
+                    <div className="bg-highlight text-black font-bold text-xs py-1 px-8 shadow-md">
                       BEST VALUE!
                     </div>
                   </div>
