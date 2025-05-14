@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles, Zap, Clock } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 const Hero = () => {
   return (
@@ -9,7 +10,15 @@ const Hero = () => {
       <div className="container-custom text-center">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-center mb-5">
-            <Sparkles className="text-highlight h-10 w-10" />
+            <Badge variant="secondary" className="px-3 py-1 text-xs font-medium flex items-center gap-1">
+              Introducing the AI-First Operator Bootcamp by 
+              <img 
+                src="https://substackcdn.com/image/fetch/w_80,h_80,c_fill,f_webp,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3fd24c57-2b52-4fa5-8b0c-4d2a85ee0753_720x720.png" 
+                alt="Lumberjack" 
+                className="h-4 w-4 rounded-sm inline ml-1"
+              />
+              <span className="ml-0.5">Lumberjack</span>
+            </Badge>
           </div>
           
           <h1 className="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">
