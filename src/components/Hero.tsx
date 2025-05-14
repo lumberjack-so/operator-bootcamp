@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Zap, Clock } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Clock, CalendarDays } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 const Hero = () => {
@@ -19,6 +19,13 @@ const Hero = () => {
               />
               <span className="ml-0.5">Lumberjack</span>
             </Badge>
+          </div>
+          
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6 inline-flex items-center mx-auto">
+            <CalendarDays className="h-5 w-5 text-amber-600 mr-2 flex-shrink-0" />
+            <p className="text-amber-800 font-medium text-sm">
+              Starting <span className="font-bold">July 2nd, 2025</span> - Secure your spot now!
+            </p>
           </div>
           
           <h1 className="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">
