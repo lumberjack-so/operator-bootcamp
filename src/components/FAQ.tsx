@@ -28,7 +28,7 @@ const FAQ = () => {
     },
     {
       question: "What if I miss a live call?",
-      answer: "Catch the 4K replay, skim the timestamped notes, drop questions in Slack—done. Life happens, automation waits.",
+      answer: "Catch the 4K replay, skim the timestamped notes, drop questions in the Community—done. Life happens, automation waits.",
       emoji: "🎬"
     },
     {
@@ -63,7 +63,7 @@ const FAQ = () => {
     },
     {
       question: "Do I lose access after 90 days?",
-      answer: "Never. Recordings, templates and Slack stay open—automation is a lifelong sport.",
+      answer: "Never. Recordings, templates and Community stay open—automation is a lifelong sport.",
       emoji: "🔐"
     }
   ];

@@ -44,7 +44,7 @@ const Features = () => {
     {
       icon: <Users className="text-highlight h-10 w-10" />,
       title: "Never build alone.",
-      description: "Slack community, office-hour threads, and a custom GPT tutor that knows the curriculum inside-out.",
+      description: "Community, office-hour threads, and a custom GPT tutor that knows the curriculum inside-out.",
       emoji: "👥"
     }
   ];
