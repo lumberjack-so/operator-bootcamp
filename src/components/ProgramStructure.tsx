@@ -5,18 +5,18 @@ import { Calendar, CheckCircle } from 'lucide-react';
 const ProgramStructure = () => {
   // Program structure data
   const programWeeks = [
-    { week: 1, deepDive: "Getting Started with n8n", buildAlong: "Personal \"daily digest\" automation" },
-    { week: 2, deepDive: "GitHub Essentials", buildAlong: "Google Sheets → Slack report" },
-    { week: 3, deepDive: "APIs Explained", buildAlong: "Gmail zero-inbox bot" },
-    { week: 4, deepDive: "Building an App from Scratch", buildAlong: "Twitter → Notion content pipeline" },
-    { week: 5, deepDive: "Model Context Protocol Basics", buildAlong: "AI-powered lead-qualifier" },
-    { week: 6, deepDive: "Creating AI Agents in n8n", buildAlong: "Stripe failed-payment recovery" },
-    { week: 7, deepDive: "Using Claude Desktop as Your COO", buildAlong: "Multi-step document QA agent" },
-    { week: 8, deepDive: "Designing AI Agent Workflows", buildAlong: "Blog-to-Podcast generator" },
-    { week: 9, deepDive: "Supabase for Your Backend", buildAlong: "Auto-backup & alert workflow" },
-    { week: 10, deepDive: "Simple App Hosting", buildAlong: "Self-healing web-scraper" },
-    { week: 11, deepDive: "Your AI-First Operator Stack", buildAlong: "Client onboarding automation" },
-    { week: 12, deepDive: "My $15K/mo Automation Setup", buildAlong: "\"Ask Me Anything\" + launch prep" }
+    { week: 1, deepDive: "Getting Started with n8n", buildAlong: "Clean Unwanted Emails from Your Inbox" },
+    { week: 2, deepDive: "GitHub Essentials", buildAlong: "Generate Briefings of a Lead Before a Call" },
+    { week: 3, deepDive: "APIs Explained", buildAlong: "Turn News into Podcast Recordings" },
+    { week: 4, deepDive: "Building an App from Scratch", buildAlong: "Hyperpersonalized Email Nurturing for Customers" },
+    { week: 5, deepDive: "Model Context Protocol Basics", buildAlong: "Generate Tasks, Calendar Events, and Emails from Meeting Transcripts" },
+    { week: 6, deepDive: "Creating AI Agents in n8n", buildAlong: "AI-Based Email Processing" },
+    { week: 7, deepDive: "Using Claude Desktop as Your COO", buildAlong: "Back Up Your n8n Workflows to GitHub" },
+    { week: 8, deepDive: "Designing AI Agent Workflows", buildAlong: "Voice Agent (ElevenLabs and n8n)" },
+    { week: 9, deepDive: "Supabase for Your Backend", buildAlong: "Automated Proposal Generation" },
+    { week: 10, deepDive: "Simple App Hosting", buildAlong: "Automated Lead Generation" },
+    { week: 11, deepDive: "Your AI-First Operator Stack", buildAlong: "n8n-Based MCP Chat Agent" },
+    { week: 12, deepDive: "My $15K/mo Automation Setup", buildAlong: "Multi-Agent Personal Assistant" }
   ];
 
   return (
