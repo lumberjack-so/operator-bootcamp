@@ -17,27 +17,45 @@ const Problem = () => {
             You're smart, experienced—and still copy-pasting Zaps. 😢
           </p>
           
-          <ul className="mb-10 space-y-5 bg-gray-50 p-8 rounded-xl shadow-sm">
-            <li className="flex items-start gap-3">
-              <span className="emoji-bullet">💸</span> 
-              <span>Your SaaS stack bleeds <strong>$200+ every month</strong>.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="emoji-bullet">😰</span> 
-              <span>Anything that looks like a terminal makes you slam the laptop shut.</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="emoji-bullet">🏃</span> 
-              <span>The AI gold-rush is here, but you're stuck on the sideline.</span>
-            </li>
-          </ul>
+          <div className="prose prose-lg max-w-none space-y-6 text-lg leading-relaxed">
+            <p>
+              It's 2025 and the world still runs on Excel. It's the last piece of software that the "rest of us" can use. There's always something that pops up and promises to dethrone the king of spreadsheets with Zaps, prompts, or no-code agents. Yet, even the simplest drag-and-drop solutions end up becoming too technical. Engineers can deal with it, but the rest of us? We're still relegated to Excel. Shitty? Yes. But familiar.
+            </p>
+            
+            <p>
+              Here's the uncomfortable truth: <strong>automation tools aren't built for regular humans—they're built for engineers who don't want to admit it</strong>. You're either stuck with spreadsheets or drowning in jargon like APIs, webhooks, and JSON. Sure, you could spend another year dodging command lines and hacking together workflows that barely hold together—or you could escape purgatory.
+            </p>
+            
+            <p>
+              They say AI is the great equalizer of skills. That means an AI-First Operator (you, once you're done with the Bootcamp) will always be more capable, more productive, more impactful than just a regular "software operator" (you now).
+            </p>
+            
+            <p>
+              AI-First Operators are already here, with us. They just don't advertise it that much. Their colleagues, business partners are scratching their heads thinking "how much time does this guy have" because their output seems impossible. I'm not just talking about the speed, but also the quality. Their work seems like it's on another level.
+            </p>
+            
+            <p>
+              These people are already becoming indispensable in organizations. They won't necessarily get promoted but they're becoming irreplaceable.
+            </p>
+            
+            <p>
+              You're here on this page, reading this copy because you already decided you want to become like that. To become that high leverage, AI-First Operator.
+            </p>
+            
+            <p>
+              One that not only thinks about how to automate things but uses an AI-First Operator Stack that does the heavy lifting for them.
+            </p>
+            
+            <p className="font-medium">
+              That's why this Bootcamp exists.
+            </p>
+            
+            <p className="text-2xl font-bold text-center mt-8">
+              It's automation, for the rest of us.
+            </p>
+          </div>
           
-          <p className="text-lg mb-12 leading-relaxed">
-            Sound familiar? You're not alone. Hundreds of "elder-millennial" founders and operators told us the same thing. 
-            <strong> They know automation is the leverage play, yet the leap from drag-and-drop to production workflows feels impossible.</strong>
-          </p>
-          
-          <div className="bg-gray-50 p-10 rounded-xl border border-gray-100 mb-16 shadow-sm">
+          <div className="bg-gray-50 p-10 rounded-xl border border-gray-100 mt-12 mb-16 shadow-sm">
             <h3 className="text-2xl font-bold mb-8 flex items-center">
               <Calendar className="text-saas-accent h-6 w-6 mr-3" />
               The 12-Week Fix
