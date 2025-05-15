@@ -1,16 +1,19 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Calendar, Check, MailOpen, PartyPopper } from 'lucide-react';
+import { Calendar, Check, MailOpen, PartyPopper, Server } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
+
 const ThankYou = () => {
   const [dimensions, setDimensions] = useState({
     width: 0,
     height: 0
   });
   const [showConfetti, setShowConfetti] = useState(true);
+
   useEffect(() => {
     // Set dimensions for confetti
     const updateDimensions = () => {
@@ -26,11 +29,13 @@ const ThankYou = () => {
     const timer = setTimeout(() => {
       setShowConfetti(false);
     }, 8000);
+    
     return () => {
       window.removeEventListener('resize', updateDimensions);
       clearTimeout(timer);
     };
   }, []);
+
   return <div className="min-h-screen flex flex-col">
       {showConfetti && <ReactConfetti width={dimensions.width} height={dimensions.height} recycle={true} numberOfPieces={200} gravity={0.15} />}
       
@@ -89,6 +94,22 @@ const ThankYou = () => {
                       <p className="text-gray-600">We're excited to have you on board! Prepare to transform your life with AI-first operations. </p>
                     </div>
                   </div>
+                  
+                  <div className="flex items-start">
+                    <div className="bg-yellow-100 p-3 rounded-full mr-4">
+                      <Server className="h-6 w-6 text-yellow-600" />
+                    </div>
+                    <div className="text-left">
+                      <h3 className="text-lg font-bold mb-2">Setup Your n8n Environment</h3>
+                      <p className="text-gray-600">
+                        Before the program starts, please ensure you have a working n8n environment. You can either:
+                      </p>
+                      <ul className="list-disc ml-5 mt-2 space-y-1 text-gray-600">
+                        <li>Sign up for an <a href="https://www.n8n.io/cloud/" target="_blank" rel="noopener noreferrer" className="text-saas-accent hover:underline">n8n cloud subscription</a></li>
+                        <li>Self-host your own n8n instance (for help, follow this <a href="https://lumberjack.so/p/install-n8n-on-railway-in-5-minutes" target="_blank" rel="noopener noreferrer" className="text-saas-accent hover:underline">5-minute Railway setup tutorial</a>)</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
               
@@ -107,4 +128,5 @@ const ThankYou = () => {
       <Footer />
     </div>;
 };
+
 export default ThankYou;
