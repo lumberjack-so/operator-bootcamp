@@ -27,12 +27,14 @@ const Hero = () => {
           </h3>
           
           <div className="bg-gray-100 p-6 rounded-xl mb-10 shadow-inner">
-            <p className="text-lg text-gray-700 flex items-center justify-center gap-3">
+            <p className="text-lg text-gray-700 flex flex-col md:flex-row items-center justify-center gap-3">
               <Clock className="text-saas-accent h-5 w-5" />
-              <span>12 live sessions + 12 prerecorded workshops</span>
-              <span className="mx-1">•</span>
+              <span>12 live sessions + 12 prerecorded deep dives</span>
+              <span className="mx-1 hidden md:inline">•</span>
               <span>Hands-on</span>
-              <span className="mx-1">•</span>
+              <span className="mx-1 hidden md:inline">•</span>
+              <span>Lifetime Access</span>
+              <span className="mx-1 hidden md:inline">•</span>
               <span>Seats capped at <strong>120</strong> (36 already taken)</span>
             </p>
           </div>
