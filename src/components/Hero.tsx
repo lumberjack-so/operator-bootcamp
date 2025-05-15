@@ -27,16 +27,24 @@ const Hero = () => {
           </h3>
           
           <div className="bg-gray-100 p-6 rounded-xl mb-10 shadow-inner">
-            <p className="text-lg text-gray-700 flex flex-col md:flex-row items-center justify-center gap-3">
-              <Clock className="text-saas-accent h-5 w-5" />
-              <span>12 live sessions + 12 prerecorded deep dives</span>
-              <span className="mx-1 hidden md:inline">•</span>
-              <span>Hands-on</span>
-              <span className="mx-1 hidden md:inline">•</span>
-              <span>Lifetime Access</span>
-              <span className="mx-1 hidden md:inline">•</span>
-              <span>Limited spots</span>
-            </p>
+            <ul className="text-lg text-gray-700 flex flex-col md:flex-row items-center justify-center gap-x-6 gap-y-2 flex-wrap">
+              <li className="flex items-center gap-2">
+                <Clock className="text-saas-accent h-5 w-5" />
+                <span>12 live workshops</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>12 n8n workflows</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>12 prerecorded deep dives</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>Lifetime Access</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>Limited spots</span>
+              </li>
+            </ul>
           </div>
           
           <p className="text-lg mb-12 max-w-3xl mx-auto leading-relaxed">
