@@ -6,17 +6,17 @@ const ProgramStructure = () => {
   // Program structure data
   const programWeeks = [
     { week: 1, deepDive: "Getting Started with n8n", buildAlong: "Clean Unwanted Emails from Your Inbox" },
-    { week: 2, deepDive: "GitHub Essentials", buildAlong: "Generate Briefings of a Lead Before a Call" },
-    { week: 3, deepDive: "APIs Explained", buildAlong: "Turn News into Podcast Recordings" },
-    { week: 4, deepDive: "Building an App from Scratch", buildAlong: "Hyperpersonalized Email Nurturing for Customers" },
-    { week: 5, deepDive: "Model Context Protocol Basics", buildAlong: "Generate Tasks, Calendar Events, and Emails from Meeting Transcripts" },
+    { week: 2, deepDive: "GitHub Essentials", buildAlong: "Back Up Your n8n Workflows to GitHub" },
+    { week: 3, deepDive: "APIs Explained", buildAlong: "Generate Briefings of a Lead Before a Call" },
+    { week: 4, deepDive: "Building an App from Scratch", buildAlong: "Turn News into Podcast Recordings" },
+    { week: 5, deepDive: "Model Context Protocol Basics", buildAlong: "Hyperpersonalized Email Nurturing for Customers" },
     { week: 6, deepDive: "Creating AI Agents in n8n", buildAlong: "AI-Based Email Processing" },
-    { week: 7, deepDive: "Using Claude Desktop as Your COO", buildAlong: "Back Up Your n8n Workflows to GitHub" },
-    { week: 8, deepDive: "Designing AI Agent Workflows", buildAlong: "Voice Agent (ElevenLabs and n8n)" },
-    { week: 9, deepDive: "Supabase for Your Backend", buildAlong: "Automated Proposal Generation" },
-    { week: 10, deepDive: "Simple App Hosting", buildAlong: "Automated Lead Generation" },
-    { week: 11, deepDive: "Your AI-First Operator Stack", buildAlong: "n8n-Based MCP Chat Agent" },
-    { week: 12, deepDive: "My $15K/mo Automation Setup", buildAlong: "Multi-Agent Personal Assistant" }
+    { week: 7, deepDive: "Cursor for Non-Coding Tasks", buildAlong: "n8n-Based MCP Chat Agent" },
+    { week: 8, deepDive: "Designing AI Agent Workflows", buildAlong: "Generate Tasks, Calendar Events, and Emails from Meeting Transcripts" },
+    { week: 9, deepDive: "Supabase for Your Backend", buildAlong: "Automated Lead Generation" },
+    { week: 10, deepDive: "Simple App Hosting", buildAlong: "Voice Agent (ElevenLabs and n8n)" },
+    { week: 11, deepDive: "Your AI-First Operator Stack", buildAlong: "Multi-Agent Personal Assistant" },
+    { week: 12, deepDive: "My $15K/mo Automation Setup", buildAlong: "Automated Proposal Generation" }
   ];
 
   return (
