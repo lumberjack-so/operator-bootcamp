@@ -35,7 +35,7 @@ const Hero = () => {
               <span className="mx-1 hidden md:inline">•</span>
               <span>Lifetime Access</span>
               <span className="mx-1 hidden md:inline">•</span>
-              <span>Seats capped at <strong>120</strong> (36 already taken)</span>
+              <span>Limited spots</span>
             </p>
           </div>
           
