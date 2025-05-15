@@ -1,37 +1,13 @@
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Check, Heart, Timer, X, Ribbon, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
 import Countdown from 'react-countdown';
 import { Badge } from '@/components/ui/badge';
 import PassLogo from '@/components/PassLogo';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 const Pricing = () => {
   // Set target date to May 31st, 2025 23:59 CET
   const targetDate = new Date('2025-05-31T23:59:00+02:00');
-  // State to track which payment option is currently open (if any)
-  const [openPayment, setOpenPayment] = useState<number | null>(null);
-
-  // Effect to load Polar script when a payment option is open
-  useEffect(() => {
-    if (openPayment !== null) {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/@polar-sh/checkout@0.1/dist/embed.global.js';
-      script.defer = true;
-      script.dataset.autoInit = '';
-      script.id = 'polar-checkout-script';
-      document.body.appendChild(script);
-
-      return () => {
-        // Clean up script when component unmounts or payment is closed
-        const existingScript = document.getElementById('polar-checkout-script');
-        if (existingScript) {
-          existingScript.remove();
-        }
-      };
-    }
-  }, [openPayment]);
   
   const pricingPlans = [{
     title: "Builder Pass",
@@ -42,8 +18,7 @@ const Pricing = () => {
     discount: "72% OFF",
     isPopular: false,
     emoji: "🛠️",
-    isEarlyBird: true,
-    checkoutUrl: "https://buy.polar.sh/polar_cl_dYdrOWDsH8uiync5fmm7GceGLFzVn8OBHRgJX1440ch"
+    isEarlyBird: true
   }, {
     title: "Operator Pass",
     logo: "/lovable-uploads/2aff9228-17af-428f-a871-7b1132121527.png",
@@ -53,8 +28,7 @@ const Pricing = () => {
     discount: "80% OFF",
     isPopular: true,
     emoji: "✨",
-    isEarlyBird: true,
-    checkoutUrl: "https://buy.polar.sh/polar_cl_TPSVJn753qmRZXLylW5RiSk60IFKbEY6BK6zK4YJkQq"
+    isEarlyBird: true
   }, {
     title: "VIP Pass",
     logo: "/lovable-uploads/5ce67589-1b06-4944-91c3-594bd472f764.png",
@@ -63,8 +37,7 @@ const Pricing = () => {
     fullValue: "$4,997",
     discount: "70% OFF",
     isPopular: false,
-    emoji: "👑",
-    checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl"
+    emoji: "👑"
   }];
 
   // Shared features list with yes/no for each plan
@@ -119,12 +92,6 @@ const Pricing = () => {
         </div>;
     }
   };
-
-  // Function to toggle payment section
-  const togglePayment = (index: number) => {
-    setOpenPayment(openPayment === index ? null : index);
-  };
-  
   return <section id="pricing" className="py-28 bg-gradient-to-b from-gray-50 to-white">
       <div className="container-custom">
         <div className="flex justify-center mb-4">
@@ -186,22 +153,11 @@ const Pricing = () => {
               </div>
               
               <div className="p-8 pt-0 mt-auto">
-                <Collapsible open={openPayment === index} onOpenChange={() => togglePayment(index)} className="w-full">
-                  <CollapsibleTrigger asChild>
-                    <Button className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03] flex items-center justify-center`}>
-                      Reserve My Seat
-                      {openPayment === index ? <ChevronUp className="ml-2" /> : <ChevronDown className="ml-2" />}
-                    </Button>
-                  </CollapsibleTrigger>
-                  
-                  <CollapsibleContent className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <div className="flex justify-center">
-                      <a href={plan.checkoutUrl} data-polar-checkout data-polar-checkout-theme="dark" className="bg-black text-white font-medium py-3 px-6 rounded-lg hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center w-full sm:max-w-[280px]">
-                        Complete Purchase
-                      </a>
-                    </div>
-                  </CollapsibleContent>
-                </Collapsible>
+                <Button onClick={() => document.getElementById('pricing')?.scrollIntoView({
+              behavior: 'smooth'
+            })} className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}>
+                  Reserve My Seat
+                </Button>
               </div>
             </div>)}
         </div>
