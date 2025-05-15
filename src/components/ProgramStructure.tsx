@@ -1,8 +1,6 @@
-
 import React from 'react';
 import { Calendar, CheckCircle } from 'lucide-react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
-
 const ProgramStructure = () => {
   // Program structure data
   const programWeeks = [{
@@ -102,9 +100,7 @@ const ProgramStructure = () => {
           
           <div className="flex items-center justify-center mt-8 bg-white p-4 rounded-lg shadow-sm inline-block mx-auto">
             <CheckCircle className="text-green-500 h-5 w-5 mr-2" />
-            <p className="text-gray-600 italic">
-              All sessions recorded in 4K & timestamped for easy replay.
-            </p>
+            <p className="text-gray-600 italic">All sessions recorded &amp; timestamped for easy replay.</p>
           </div>
         </div>
       </div>
