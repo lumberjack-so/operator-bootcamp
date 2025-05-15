@@ -1,6 +1,8 @@
+
 import React from 'react';
 import { Calendar, CheckCircle } from 'lucide-react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
+
 const ProgramStructure = () => {
   // Program structure data
   const programWeeks = [{
@@ -78,9 +80,9 @@ const ProgramStructure = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-16">Week</TableHead>
-                  <TableHead>Deep-Dive Workshop</TableHead>
-                  <TableHead>Build-Along Focus</TableHead>
-                  <TableHead>What You'll Learn</TableHead>
+                  <TableHead className="w-1/4">Deep-Dive Workshop</TableHead>
+                  <TableHead className="w-1/4">Build-Along Focus</TableHead>
+                  <TableHead className="w-1/4">What You'll Learn</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
