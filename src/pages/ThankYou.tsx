@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Calendar, Check, MailOpen, Party } from 'lucide-react';
+import { Calendar, Check, MailOpen, PartyPopper } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
 
@@ -54,7 +54,7 @@ const ThankYou = () => {
             <div className="max-w-3xl mx-auto text-center">
               <div className="flex justify-center mb-8">
                 <div className="bg-purple-100 p-5 rounded-full">
-                  <Party className="h-14 w-14 text-highlight animate-pulse" />
+                  <PartyPopper className="h-14 w-14 text-highlight animate-pulse" />
                 </div>
               </div>
               
