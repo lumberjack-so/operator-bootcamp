@@ -4,9 +4,11 @@ import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
 import Countdown from 'react-countdown';
 import { Badge } from '@/components/ui/badge';
 import PassLogo from '@/components/PassLogo';
+
 const Pricing = () => {
   // Set target date to May 31st, 2025 23:59 CET
   const targetDate = new Date('2025-05-31T23:59:00+02:00');
+  
   const pricingPlans = [{
     title: "Builder Pass",
     logo: "/lovable-uploads/cca830e9-c681-4273-94e8-69eff61f6e64.png",
@@ -56,6 +58,9 @@ const Pricing = () => {
     plans: [false, true, true]
   }, {
     name: "Certificate of Completion",
+    plans: [false, true, true]
+  }, {
+    name: "$300 in AlfredOS Credits",
     plans: [false, true, true]
   }, {
     name: "1-on-1 Private Coaching",
@@ -159,4 +164,5 @@ const Pricing = () => {
       </div>
     </section>;
 };
+
 export default Pricing;
