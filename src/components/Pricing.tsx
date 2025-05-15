@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
@@ -18,7 +19,8 @@ const Pricing = () => {
     discount: "72% OFF",
     isPopular: false,
     emoji: "🛠️",
-    isEarlyBird: true
+    isEarlyBird: true,
+    checkoutUrl: "https://buy.polar.sh/polar_cl_dYdrOWDsH8uiync5fmm7GceGLFzVn8OBHRgJX1440ch"
   }, {
     title: "Operator Pass",
     logo: "/lovable-uploads/2aff9228-17af-428f-a871-7b1132121527.png",
@@ -28,7 +30,8 @@ const Pricing = () => {
     discount: "80% OFF",
     isPopular: true,
     emoji: "✨",
-    isEarlyBird: true
+    isEarlyBird: true,
+    checkoutUrl: "https://buy.polar.sh/polar_cl_TPSVJn753qmRZXLylW5RiSk60IFKbEY6BK6zK4YJkQq"
   }, {
     title: "VIP Pass",
     logo: "/lovable-uploads/5ce67589-1b06-4944-91c3-594bd472f764.png",
@@ -37,7 +40,8 @@ const Pricing = () => {
     fullValue: "$4,997",
     discount: "70% OFF",
     isPopular: false,
-    emoji: "👑"
+    emoji: "👑",
+    checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl"
   }];
 
   // Shared features list with yes/no for each plan
@@ -153,9 +157,10 @@ const Pricing = () => {
               </div>
               
               <div className="p-8 pt-0 mt-auto">
-                <Button onClick={() => document.getElementById('pricing')?.scrollIntoView({
-              behavior: 'smooth'
-            })} className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}>
+                <Button 
+                  onClick={() => window.open(plan.checkoutUrl, '_blank')}
+                  className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}
+                >
                   Reserve My Seat
                 </Button>
               </div>
