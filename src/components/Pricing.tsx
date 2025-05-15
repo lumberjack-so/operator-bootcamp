@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
@@ -13,9 +14,9 @@ const Pricing = () => {
     title: "Builder Pass",
     logo: "/lovable-uploads/cca830e9-c681-4273-94e8-69eff61f6e64.png",
     description: "12 Build-Along sessions + community + replays",
-    price: "$247",
+    price: "$197",
     fullValue: "$693",
-    discount: "64% OFF",
+    discount: "72% OFF",
     isPopular: false,
     emoji: "🛠️",
     isEarlyBird: true
@@ -25,7 +26,7 @@ const Pricing = () => {
     description: "Combines Deep Dive & Build-Along + perks",
     price: "$347",
     fullValue: "$1,257",
-    discount: "68% OFF",
+    discount: "72% OFF",
     isPopular: true,
     emoji: "✨",
     isEarlyBird: true
