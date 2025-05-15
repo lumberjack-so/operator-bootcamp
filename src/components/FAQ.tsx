@@ -124,7 +124,7 @@ const FAQ = () => {
             </div>
             
             <script src="https://widget.senja.io/widget/6dd7efe9-f280-4c2c-99e8-829819340758/platform.js" type="text/javascript" async></script>
-<div class="senja-embed" data-id="6dd7efe9-f280-4c2c-99e8-829819340758" data-mode="shadow" data-lazyload="false" style="display: block; width: 100%;"></div>
+            <div class="senja-embed" data-id="6dd7efe9-f280-4c2c-99e8-829819340758" data-mode="shadow" data-lazyload="false" style="display: block; width: 100%;"></div>
             
             <Button size="lg" className="button-primary w-full py-7 text-lg">
               Reserve Your Spot Now
