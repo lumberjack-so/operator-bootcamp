@@ -116,6 +116,19 @@ const FAQ = () => {
               ))}
             </Accordion>
           </div>
+          
+          <div className="mt-16 bg-gray-50 p-10 rounded-xl border border-gray-200 shadow-sm">
+            <div className="flex items-center mb-5">
+              <MessageSquare className="text-highlight h-6 w-6 mr-3" />
+              <span className="text-xl font-medium">From our students</span>
+            </div>
+            
+            <blockquote className="text-lg italic mb-6">
+              "I built three client automations before week 8 and closed $4,200 in new MRR."
+              <footer className="text-gray-600 mt-3">– <em>Justin S.</em></footer>
+            </blockquote>
+            
+            <p className="mb-8 text-lg">You're one workflow away from the same. Don't wait. ⏱️</p>
             
             <Button size="lg" className="button-primary w-full py-7 text-lg">
               Reserve Your Spot Now
