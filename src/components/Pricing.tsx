@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
@@ -25,8 +24,8 @@ const Pricing = () => {
     logo: "/lovable-uploads/2aff9228-17af-428f-a871-7b1132121527.png",
     description: "Combines Deep Dive & Build-Along + perks",
     price: "$347",
-    fullValue: "$1,257",
-    discount: "72% OFF",
+    fullValue: "$1,747",
+    discount: "80% OFF",
     isPopular: true,
     emoji: "✨",
     isEarlyBird: true
@@ -35,8 +34,8 @@ const Pricing = () => {
     logo: "/lovable-uploads/5ce67589-1b06-4944-91c3-594bd472f764.png",
     description: "For true AI-first Operators only",
     price: "$1,497",
-    fullValue: "$3,007",
-    discount: "50% OFF",
+    fullValue: "$4,997",
+    discount: "70% OFF",
     isPopular: false,
     emoji: "👑"
   }];
