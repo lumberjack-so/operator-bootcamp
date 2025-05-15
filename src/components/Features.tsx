@@ -31,8 +31,8 @@ const Features = () => {
     },
     {
       icon: <Bot className="text-highlight h-10 w-10" />,
-      title: "Run your own local LLMs & agents.",
-      description: "Claude Desktop, GPT-4o, multi-agent orchestration—no cloud lock-in, full privacy.",
+      title: "Build your own AI workforce.",
+      description: "Claude Desktop, n8n AI Agents, multi-agent orchestration - you'll own the agent that does exactly what you need.",
       emoji: "🤖"
     },
     {
