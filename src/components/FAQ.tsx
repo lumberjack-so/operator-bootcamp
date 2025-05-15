@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -10,6 +10,22 @@ import { Button } from '@/components/ui/button';
 import { HelpCircle, MessageSquare, Calendar, VideoIcon } from 'lucide-react';
 
 const FAQ = () => {
+  // Effect to reload the Senja script when the component mounts
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://widget.senja.io/widget/6dd7efe9-f280-4c2c-99e8-829819340758/platform.js';
+    script.async = true;
+    script.type = 'text/javascript';
+    document.head.appendChild(script);
+
+    return () => {
+      // Clean up the script when the component unmounts
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, []);
+
   const faqs = [
     {
       question: "When does the bootcamp start?",
@@ -123,12 +139,16 @@ const FAQ = () => {
               <span className="text-xl font-medium">From our students</span>
             </div>
             
-            <blockquote className="text-lg italic mb-6">
-              "I built three client automations before week 8 and closed $4,200 in new MRR."
-              <footer className="text-gray-600 mt-3">– <em>Justin S.</em></footer>
-            </blockquote>
+            {/* Replaced testimonial blockquote with Senja widget */}
+            <div 
+              className="senja-embed" 
+              data-id="6dd7efe9-f280-4c2c-99e8-829819340758" 
+              data-mode="shadow" 
+              data-lazyload="false" 
+              style={{ display: "block", width: "100%" }}
+            ></div>
             
-            <p className="mb-8 text-lg">You're one workflow away from the same. Don't wait. ⏱️</p>
+            <p className="mt-8 mb-8 text-lg">You're one workflow away from the same. ⏱️</p>
             
             <Button size="lg" className="button-primary w-full py-7 text-lg">
               Reserve Your Spot Now
