@@ -25,8 +25,8 @@ const Features = () => {
     },
     {
       icon: <Code className="text-highlight h-10 w-10" />,
-      title: "Build your own AI workforce.",
-      description: "Claude Desktop, n8n AI Agents, multi-agent orchestration - you'll own the agent that does exactly what you need.",
+      title: "Become a vibe-coder.",
+      description: "Cut through the dev jargon, ship real products for real money without writing \"real\" code. Navigate tools like Cursor, Lovable, Void with confidence.",
       emoji: "👨‍💻"
     },
     {
