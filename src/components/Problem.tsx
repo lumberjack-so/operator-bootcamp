@@ -1,11 +1,8 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, AlertTriangle, Check, Calendar } from 'lucide-react';
-
 const Problem = () => {
-  return (
-    <section id="features" className="py-28 bg-white">
+  return <section id="features" className="py-28 bg-white">
       <div className="container-custom">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center">
@@ -30,9 +27,7 @@ const Problem = () => {
               They say AI is the great equalizer of skills. That means an AI-First Operator (you, once you're done with the Bootcamp) will always be more capable, more productive, more impactful than just a regular "software operator" (you now).
             </p>
             
-            <p>
-              AI-First Operators are already here, with us. They just don't advertise it that much. Their colleagues, business partners are scratching their heads thinking "how much time does this guy have" because their output seems impossible. I'm not just talking about the speed, but also the quality. Their work seems like it's on another level.
-            </p>
+            <p>AI-First Operators are already here, with us. They just don't advertise it that much. Their colleagues, business partners are scratching their heads thinking &quot;how much time does this guy have&quot; because their output seems impossible. They're like Hermione in the Prisoner of Azkaban. I'm not just talking about the speed, but also the quality. Their work seems like it's on another level.</p>
             
             <p>
               These people are already becoming indispensable in organizations. They won't necessarily get promoted but they're becoming irreplaceable.
@@ -78,18 +73,14 @@ const Problem = () => {
           </div>
           
           <div className="flex justify-center w-full">
-            <Button 
-              size="lg" 
-              className="button-primary flex items-center gap-3 px-10 py-7 text-lg"
-              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-            >
+            <Button size="lg" className="button-primary flex items-center gap-3 px-10 py-7 text-lg" onClick={() => document.getElementById('pricing')?.scrollIntoView({
+            behavior: 'smooth'
+          })}>
               Grab Your Seat <ArrowRight size={20} />
             </Button>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Problem;
