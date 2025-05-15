@@ -123,12 +123,8 @@ const FAQ = () => {
               <span className="text-xl font-medium">From our students</span>
             </div>
             
-            <blockquote className="text-lg italic mb-6">
-              "I built three client automations before week 8 and closed $4,200 in new MRR."
-              <footer className="text-gray-600 mt-3">– <em>Justin S.</em></footer>
-            </blockquote>
-            
-            <p className="mb-8 text-lg">You're one workflow away from the same. Don't wait. ⏱️</p>
+            <script src="https://widget.senja.io/widget/6dd7efe9-f280-4c2c-99e8-829819340758/platform.js" type="text/javascript" async></script>
+<div class="senja-embed" data-id="6dd7efe9-f280-4c2c-99e8-829819340758" data-mode="shadow" data-lazyload="false" style="display: block; width: 100%;"></div>
             
             <Button size="lg" className="button-primary w-full py-7 text-lg">
               Reserve Your Spot Now
