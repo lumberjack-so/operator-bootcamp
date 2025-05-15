@@ -25,8 +25,8 @@ const Features = () => {
     },
     {
       icon: <Code className="text-highlight h-10 w-10" />,
-      title: "Speak fluent API & JSON without writing \"real\" code.",
-      description: "Cut through dev jargon, debug like a pro, impress actual engineers.",
+      title: "Become a vibe-coder.",
+      description: "Cut through the dev jargon, ship real products for real money without writing \"real\" code. Navigate tools like Cursor, Lovable, Void with confidence.",
       emoji: "👨‍💻"
     },
     {
