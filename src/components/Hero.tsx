@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles, Zap, Clock, CalendarDays } from 'lucide-react';
@@ -28,7 +29,7 @@ const Hero = () => {
           <div className="bg-gray-100 p-6 rounded-xl mb-10 shadow-inner">
             <p className="text-lg text-gray-700 flex items-center justify-center gap-3">
               <Clock className="text-saas-accent h-5 w-5" />
-              <span>24 live sessions</span>
+              <span>12 live sessions + 12 prerecorded workshops</span>
               <span className="mx-1">•</span>
               <span>Hands-on</span>
               <span className="mx-1">•</span>

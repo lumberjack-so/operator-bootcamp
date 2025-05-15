@@ -42,15 +42,15 @@ const Problem = () => {
               <Calendar className="text-saas-accent h-6 w-6 mr-3" />
               The 12-Week Fix
             </h3>
-            <p className="mb-6 text-lg">Two live calls every week:</p>
+            <p className="mb-6 text-lg">Weekly content structure:</p>
             <ol className="mb-8 space-y-5">
               <li className="flex items-start gap-3">
                 <span className="font-bold text-highlight text-xl">1.</span>
-                <span><strong>Deep-Dive Workshop (90 min)</strong> – one core concept, demystified. 🧠</span>
+                <span><strong>Deep-Dive Workshop (90 min)</strong> – prerecorded, one core concept, demystified. 🧠</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="font-bold text-highlight text-xl">2.</span>
-                <span><strong>Build-Along Session (90 min)</strong> – open n8n, ship a workflow together. ⚙️</span>
+                <span><strong>Build-Along Session (90 min)</strong> – live interactive, open n8n, ship a workflow together. ⚙️</span>
               </li>
             </ol>
             <p className="font-semibold text-lg flex items-center">

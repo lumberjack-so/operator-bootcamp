@@ -33,7 +33,7 @@ const FAQ = () => {
     },
     {
       question: "Time-zone issues?",
-      answer: "We alternate 9 AM ET / 4 PM ET so both hemispheres stay sane. Worst case: watch the replay over breakfast.",
+      answer: "The weekly live call alternates between 9 AM ET / 4 PM ET so both hemispheres stay sane. Worst case: watch the replay over breakfast.",
       emoji: "🌍"
     },
     {
