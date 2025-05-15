@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -6,11 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Calendar, Check, MailOpen, PartyPopper } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
-
 const ThankYou = () => {
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [dimensions, setDimensions] = useState({
+    width: 0,
+    height: 0
+  });
   const [showConfetti, setShowConfetti] = useState(true);
-  
   useEffect(() => {
     // Set dimensions for confetti
     const updateDimensions = () => {
@@ -19,32 +19,20 @@ const ThankYou = () => {
         height: window.innerHeight
       });
     };
-    
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
-    
+
     // Stop confetti after 8 seconds
     const timer = setTimeout(() => {
       setShowConfetti(false);
     }, 8000);
-    
     return () => {
       window.removeEventListener('resize', updateDimensions);
       clearTimeout(timer);
     };
   }, []);
-  
-  return (
-    <div className="min-h-screen flex flex-col">
-      {showConfetti && (
-        <ReactConfetti
-          width={dimensions.width}
-          height={dimensions.height}
-          recycle={true}
-          numberOfPieces={200}
-          gravity={0.15}
-        />
-      )}
+  return <div className="min-h-screen flex flex-col">
+      {showConfetti && <ReactConfetti width={dimensions.width} height={dimensions.height} recycle={true} numberOfPieces={200} gravity={0.15} />}
       
       <Header />
       
@@ -98,19 +86,14 @@ const ThankYou = () => {
                     </div>
                     <div className="text-left">
                       <h3 className="text-lg font-bold mb-2">Get Ready</h3>
-                      <p className="text-gray-600">
-                        We're excited to have you on board! Prepare to transform your workflow with AI-first operations. No additional setup is required now.
-                      </p>
+                      <p className="text-gray-600">We're excited to have you on board! Prepare to transform your life with AI-first operations. </p>
                     </div>
                   </div>
                 </div>
               </div>
               
               <div className="flex flex-col md:flex-row justify-center gap-4">
-                <Button 
-                  asChild
-                  className="bg-saas-accent hover:bg-blue-700 text-white py-6 px-8"
-                >
+                <Button asChild className="bg-saas-accent hover:bg-blue-700 text-white py-6 px-8">
                   <Link to="/">
                     Back to Homepage
                   </Link>
@@ -122,8 +105,6 @@ const ThankYou = () => {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default ThankYou;
