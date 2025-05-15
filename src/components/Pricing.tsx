@@ -1,14 +1,15 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
 import Countdown from 'react-countdown';
 import { Badge } from '@/components/ui/badge';
 import PassLogo from '@/components/PassLogo';
+import { useNavigate } from 'react-router-dom';
 
 const Pricing = () => {
   // Set target date to May 31st, 2025 23:59 CET
   const targetDate = new Date('2025-05-31T23:59:00+02:00');
+  const navigate = useNavigate();
   
   const pricingPlans = [{
     title: "Builder Pass",
@@ -43,6 +44,17 @@ const Pricing = () => {
     emoji: "👑",
     checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl"
   }];
+
+  // Handle checkout button click
+  const handleCheckout = (checkoutUrl: string) => {
+    // Open checkout in new tab
+    window.open(checkoutUrl, '_blank');
+    
+    // Navigate to thank you page
+    setTimeout(() => {
+      navigate('/thank-you');
+    }, 500);
+  };
 
   // Shared features list with yes/no for each plan
   const sharedFeatures = [{
@@ -158,7 +170,7 @@ const Pricing = () => {
               
               <div className="p-8 pt-0 mt-auto">
                 <Button 
-                  onClick={() => window.open(plan.checkoutUrl, '_blank')}
+                  onClick={() => handleCheckout(plan.checkoutUrl)}
                   className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}
                 >
                   Reserve My Seat
