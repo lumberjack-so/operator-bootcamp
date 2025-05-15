@@ -116,15 +116,6 @@ const FAQ = () => {
               ))}
             </Accordion>
           </div>
-          
-          <div className="mt-16 bg-gray-50 p-10 rounded-xl border border-gray-200 shadow-sm">
-            <div className="flex items-center mb-5">
-              <MessageSquare className="text-highlight h-6 w-6 mr-3" />
-              <span className="text-xl font-medium">From our students</span>
-            </div>
-            
-            <script src="https://widget.senja.io/widget/6dd7efe9-f280-4c2c-99e8-829819340758/platform.js" type="text/javascript" async></script>
-            <div class="senja-embed" data-id="6dd7efe9-f280-4c2c-99e8-829819340758" data-mode="shadow" data-lazyload="false" style="display: block; width: 100%;"></div>
             
             <Button size="lg" className="button-primary w-full py-7 text-lg">
               Reserve Your Spot Now
