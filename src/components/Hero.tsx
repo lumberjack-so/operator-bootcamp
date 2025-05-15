@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Zap, Clock, CalendarDays } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Clock, CalendarDays, Video, Workflow, Infinity } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+
 const Hero = () => {
   return <section className="py-28 bg-gradient-to-b from-white to-gray-50">
       <div className="container-custom text-center">
@@ -33,16 +34,16 @@ const Hero = () => {
                 <span>12 live workshops</span>
               </li>
               <li className="flex items-center gap-2">
+                <Zap className="text-saas-accent h-5 w-5" />
                 <span>12 n8n workflows</span>
               </li>
               <li className="flex items-center gap-2">
+                <Video className="text-saas-accent h-5 w-5" />
                 <span>12 prerecorded deep dives</span>
               </li>
               <li className="flex items-center gap-2">
+                <Infinity className="text-saas-accent h-5 w-5" />
                 <span>Lifetime Access</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span>Limited spots</span>
               </li>
             </ul>
           </div>
@@ -86,4 +87,5 @@ const Hero = () => {
       </div>
     </section>;
 };
+
 export default Hero;
