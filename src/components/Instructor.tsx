@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Award, Heart } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const Instructor = () => {
   return (
@@ -16,16 +17,21 @@ const Instructor = () => {
           </h2>
           
           <div className="flex flex-col md:flex-row gap-10 items-center bg-white p-10 rounded-xl border border-gray-100 shadow-sm mb-20">
-            <div className="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shadow-md">
-              <div className="text-4xl font-bold text-gray-400">YN</div>
-            </div>
+            <Avatar className="w-40 h-40">
+              <AvatarImage 
+                src="/lovable-uploads/bed719ce-a6b9-472c-bc52-5f1c5288212c.png" 
+                alt="David Szabo-Stuban" 
+                className="object-cover"
+              />
+              <AvatarFallback className="text-4xl font-bold text-gray-400">DS</AvatarFallback>
+            </Avatar>
             
             <div>
-              <h3 className="text-2xl font-bold mb-5">Your Name 👋</h3>
+              <h3 className="text-2xl font-bold mb-5">David Szabo-Stuban 👋</h3>
               <p className="text-gray-700 leading-relaxed">
-                Founder of AlfredOS, writer of <em>The Lumberjack</em>. 400+ students taught, 
-                $15k/mo earned from self-hosted automations, 35k newsletter subscribers. 
-                Passionate about making technology accessible to everyone! ✨
+                Indie hacker, 4x founder, soon to be girl dad. 30+ products shipped in 13 years, 
+                10k+ students taught in AI. First ML startup in 2015. AI Architect at Stylers Group by day, 
+                author at Lumberjack by night (7k subscribers). Passionate about turning regular people into builders! ✨
               </p>
             </div>
           </div>
