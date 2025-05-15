@@ -20,7 +20,7 @@ const Features = () => {
     {
       icon: <DollarSign className="text-highlight h-10 w-10" />,
       title: "Pay once, save forever.",
-      description: "Graduates cancel an average of $240+/mo in SaaS subscriptions—your tuition pays for itself before week 12 ends.",
+      description: "You'll replace your paid SaaS tools with open-source apps and self-built n8n workflows. This will save you up to $200 per month -- the program pays for itself before it ends.",
       emoji: "💰"
     },
     {
