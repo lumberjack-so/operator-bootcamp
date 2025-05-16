@@ -13,6 +13,7 @@ const ThankYou = () => {
     height: 0
   });
   const [showConfetti, setShowConfetti] = useState(true);
+  const [vimeoLoaded, setVimeoLoaded] = useState(false);
 
   useEffect(() => {
     // Set dimensions for confetti
@@ -34,16 +35,21 @@ const ThankYou = () => {
     const script = document.createElement('script');
     script.src = 'https://player.vimeo.com/api/player.js';
     script.async = true;
+    script.onload = () => setVimeoLoaded(true);
     document.body.appendChild(script);
     
     return () => {
       window.removeEventListener('resize', updateDimensions);
       clearTimeout(timer);
-      document.body.removeChild(script);
+      // Only remove the script if we added it
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, []);
 
-  return <div className="min-h-screen flex flex-col">
+  return (
+    <div className="min-h-screen flex flex-col">
       {showConfetti && <ReactConfetti width={dimensions.width} height={dimensions.height} recycle={true} numberOfPieces={200} gravity={0.15} />}
       
       <Header />
@@ -67,7 +73,15 @@ const ThankYou = () => {
               </p>
               
               <div className="mb-12 max-w-2xl mx-auto">
-                <div style="padding:75% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1085020029?h=e471f28267&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="You&#039;re in! Welcome to the AI-First Operator Bootcamp!"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+                <div className="relative" style={{ paddingTop: "75%" }}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1085016446?h=ed3b28d86c&badge=0&autopause=0&player_id=0&app_id=58479" 
+                    className="absolute top-0 left-0 w-full h-full" 
+                    frameBorder="0" 
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                    title="You're in! Welcome to the AI-First Operator Bootcamp!"
+                  />
+                </div>
               </div>
               
               <div className="bg-white rounded-xl shadow-lg p-8 mb-12 border border-gray-100">
@@ -137,7 +151,8 @@ const ThankYou = () => {
       </main>
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
 
 export default ThankYou;
