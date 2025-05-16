@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from '@/components/ui/button';
@@ -87,7 +88,7 @@ const FAQ = () => {
             <VideoIcon className="h-6 w-6 text-blue-600 mr-4 flex-shrink-0" />
             <div>
               <h3 className="font-bold text-blue-800 mb-1">Workshop Format:</h3>
-              <p className="text-blue-700"><span className="font-bold">Deep dive workshops:</span> Prerecorded videos up to 60 minutes each.</p>
+              <p className="text-blue-700"><span className="font-bold">Deep dive workshops:</span> Prerecorded videos up to 30 minutes each.</p>
               <p className="text-blue-700"><span className="font-bold">n8n builder workshops:</span> Live interactive sessions.</p>
             </div>
           </div>
