@@ -74,13 +74,7 @@ const ThankYou = () => {
               
               <div className="mb-12 max-w-2xl mx-auto">
                 <div className="relative" style={{ paddingTop: "75%" }}>
-                  <iframe 
-                    src="https://player.vimeo.com/video/1085020029?h=ed3b28d86c&badge=0&autopause=0&player_id=0&app_id=58479" 
-                    className="absolute top-0 left-0 w-full h-full" 
-                    frameBorder="0" 
-                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
-                    title="You're in! Welcome to the AI-First Operator Bootcamp!"
-                  />
+                  <iframe src="https://player.vimeo.com/video/1085020029?h=e471f28267&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="You&#039;re in! Welcome to the AI-First Operator Bootcamp!"></iframe>
                 </div>
               </div>
               
