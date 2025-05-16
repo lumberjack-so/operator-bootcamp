@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, AlertTriangle, Check, Calendar } from 'lucide-react';
@@ -59,7 +60,7 @@ const Problem = () => {
             <ol className="mb-8 space-y-5">
               <li className="flex items-start gap-3">
                 <span className="font-bold text-highlight text-xl">1.</span>
-                <span><strong>Deep-Dive Workshop (90 min)</strong> – prerecorded, one core concept, demystified. 🧠</span>
+                <span><strong>Deep-Dive Workshop (30 min)</strong> – prerecorded, one core concept, demystified. 🧠</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="font-bold text-highlight text-xl">2.</span>
