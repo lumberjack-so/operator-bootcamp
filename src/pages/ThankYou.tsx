@@ -75,7 +75,7 @@ const ThankYou = () => {
               <div className="mb-12 max-w-2xl mx-auto">
                 <div className="relative" style={{ paddingTop: "75%" }}>
                   <iframe 
-                    src="https://player.vimeo.com/video/1085016446?h=ed3b28d86c&badge=0&autopause=0&player_id=0&app_id=58479" 
+                    src="https://player.vimeo.com/video/1085020029?h=ed3b28d86c&badge=0&autopause=0&player_id=0&app_id=58479" 
                     className="absolute top-0 left-0 w-full h-full" 
                     frameBorder="0" 
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
