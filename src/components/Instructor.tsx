@@ -1,11 +1,8 @@
-
 import React from 'react';
 import { Award, Heart } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-
 const Instructor = () => {
-  return (
-    <section className="py-28 bg-gray-50">
+  return <section className="py-28 bg-gray-50">
       <div className="container-custom">
         <div className="max-w-3xl mx-auto">
           <div className="flex justify-center mb-4">
@@ -18,11 +15,7 @@ const Instructor = () => {
           
           <div className="flex flex-col md:flex-row gap-10 items-center bg-white p-10 rounded-xl border border-gray-100 shadow-sm mb-20">
             <Avatar className="w-40 h-40">
-              <AvatarImage 
-                src="/lovable-uploads/bed719ce-a6b9-472c-bc52-5f1c5288212c.png" 
-                alt="David Szabo-Stuban" 
-                className="object-cover"
-              />
+              <AvatarImage src="/lovable-uploads/bed719ce-a6b9-472c-bc52-5f1c5288212c.png" alt="David Szabo-Stuban" className="object-cover" />
               <AvatarFallback className="text-4xl font-bold text-gray-400">DS</AvatarFallback>
             </Avatar>
             
@@ -41,19 +34,14 @@ const Instructor = () => {
               <Heart className="text-red-500 h-6 w-6 mr-3" />
               Ready to ditch Zap fatigue?
             </h3>
-            <p className="mb-10 text-lg">Seats are limited to <strong>120</strong> to keep sessions interactive – 36 already gone. ⏲️</p>
             
-            <a 
-              href="#pricing" 
-              className="bg-highlight hover:bg-highlight-dark text-black font-bold py-5 px-14 rounded-lg inline-block shadow-sm hover:shadow-md transition-all text-lg"
-            >
+            
+            <a href="#pricing" className="bg-highlight hover:bg-highlight-dark text-black font-bold py-5 px-14 rounded-lg inline-block shadow-sm hover:shadow-md transition-all text-lg">
               I'M IN → 
             </a>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Instructor;
