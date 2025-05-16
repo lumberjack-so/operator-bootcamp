@@ -30,9 +30,16 @@ const ThankYou = () => {
       setShowConfetti(false);
     }, 8000);
     
+    // Load Vimeo player script
+    const script = document.createElement('script');
+    script.src = 'https://player.vimeo.com/api/player.js';
+    script.async = true;
+    document.body.appendChild(script);
+    
     return () => {
       window.removeEventListener('resize', updateDimensions);
       clearTimeout(timer);
+      document.body.removeChild(script);
     };
   }, []);
 
@@ -58,6 +65,18 @@ const ThankYou = () => {
               <p className="text-xl text-gray-700 mb-12">
                 You're now officially part of the AI-First Operator Bootcamp!
               </p>
+              
+              <div className="mb-12 max-w-2xl mx-auto">
+                <div style={{padding:'56.25% 0 0 0', position:'relative'}}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1085016446?h=ed3b28d86c&badge=0&autopause=0&player_id=0&app_id=58479" 
+                    style={{position:'absolute', top:0, left:0, width:'100%', height:'100%'}} 
+                    frameBorder="0" 
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                    title="You're in! Welcome to the AI-First Operator Bootcamp!"
+                  ></iframe>
+                </div>
+              </div>
               
               <div className="bg-white rounded-xl shadow-lg p-8 mb-12 border border-gray-100">
                 <div className="flex flex-col space-y-6">
