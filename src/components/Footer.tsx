@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Twitter, Linkedin, Youtube, Mail, Sparkles } from 'lucide-react';
+import { Linkedin, Youtube, Mail, Sparkles } from 'lucide-react';
 const Footer = () => {
   const year = new Date().getFullYear();
   return <footer className="bg-gray-900 text-gray-300 py-16">
@@ -36,10 +37,9 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-6 text-lg">Connect With Us</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="hover:text-white transition-colors flex items-center"><Twitter className="h-5 w-5 mr-2" /> Twitter</a></li>
-              <li><a href="#" className="hover:text-white transition-colors flex items-center"><Linkedin className="h-5 w-5 mr-2" /> LinkedIn</a></li>
-              <li><a href="#" className="hover:text-white transition-colors flex items-center"><Youtube className="h-5 w-5 mr-2" /> YouTube</a></li>
-              <li><a href="#" className="hover:text-white transition-colors flex items-center"><Mail className="h-5 w-5 mr-2" /> Contact</a></li>
+              <li><a href="https://www.linkedin.com/in/ssdavidai/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center"><Linkedin className="h-5 w-5 mr-2" /> LinkedIn</a></li>
+              <li><a href="https://www.youtube.com/@lumberjackai" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center"><Youtube className="h-5 w-5 mr-2" /> YouTube</a></li>
+              <li><a href="mailto:david@szabostuban.com" className="hover:text-white transition-colors flex items-center"><Mail className="h-5 w-5 mr-2" /> Contact</a></li>
             </ul>
           </div>
         </div>
