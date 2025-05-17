@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Calendar, Check, MailOpen, PartyPopper, Server, RefreshCw } from 'lucide-react';
+import { Calendar, Check, MailOpen, PartyPopper, Server, RefreshCw, AlertTriangle } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
 import { useToast } from '@/hooks/use-toast';
+import { trackPurchase, checkAffonsoStatus } from '@/utils/trackingUtils';
 
 // Define a type for the product information
 interface ProductInfo {
@@ -14,7 +16,11 @@ interface ProductInfo {
   productPrice: number;
 }
 
+// Define states for tracking script loading
+type ScriptStatus = 'loading' | 'ready' | 'timeout' | 'error';
+
 const ThankYou = () => {
+  // UI and general state
   const [dimensions, setDimensions] = useState({
     width: 0,
     height: 0
@@ -22,119 +28,136 @@ const ThankYou = () => {
   const [showConfetti, setShowConfetti] = useState(true);
   const [vimeoLoaded, setVimeoLoaded] = useState(false);
   const [checkoutVerified, setCheckoutVerified] = useState(false);
-  const [affonsoReady, setAffonsoReady] = useState(false);
-  const [affonsoLoading, setAffonsoLoading] = useState(true);
+  
+  // Tracking and Affonso script state with more detailed status
+  const [scriptStatus, setScriptStatus] = useState<ScriptStatus>('loading');
   const [tracked, setTracked] = useState(false);
-  const [affonsoLoadTimeout, setAffonsoLoadTimeout] = useState(false);
+  const [isTracking, setIsTracking] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+  const [productInfo, setProductInfo] = useState<ProductInfo | null>(null);
+  
+  // Hooks
   const location = useLocation();
   const { toast } = useToast();
   
-  // This effect handles detecting if Affonso is loaded
-  useEffect(() => {
-    console.log("Checking for Affonso script...");
-
-    // Check if Affonso is already loaded (immediate check)
-    if (window.Affonso && typeof window.Affonso.purchase === 'function') {
-      console.log("✅ Affonso script already loaded!");
-      setAffonsoReady(true);
-      setAffonsoLoading(false);
+  // Get checkout info from URL params
+  const searchParams = new URLSearchParams(location.search);
+  const checkoutId = searchParams.get('checkout_id');
+  
+  // Check Affonso script status more robustly
+  const checkAffonsoScript = useCallback(() => {
+    const status = checkAffonsoStatus();
+    
+    if (status.ready) {
+      console.log("✅ Affonso script detected and ready!");
+      setScriptStatus('ready');
+      return true;
+    }
+    return false;
+  }, []);
+  
+  // Handle tracking of purchase
+  const handleTrackPurchase = useCallback(async () => {
+    if (tracked || !checkoutId || !productInfo || scriptStatus !== 'ready') {
       return;
     }
     
-    // Set a timeout of 10 seconds for script loading
-    const timeoutId = setTimeout(() => {
-      if (!affonsoReady) {
-        console.log("❌ Affonso script load timeout after 10 seconds");
-        setAffonsoLoadTimeout(true);
-        setAffonsoLoading(false);
-      }
-    }, 10000);
+    setIsTracking(true);
     
-    // Poll for script loading every 500ms
-    const intervalId = setInterval(() => {
-      if (window.Affonso && typeof window.Affonso.purchase === 'function') {
-        console.log("✅ Affonso script loaded and ready!");
-        setAffonsoReady(true);
-        setAffonsoLoading(false);
-        clearInterval(intervalId);
-        clearTimeout(timeoutId);
+    try {
+      const success = await trackPurchase(checkoutId, productInfo);
+      
+      if (success) {
+        console.log('✅ Successfully tracked purchase with Affonso');
+        setTracked(true);
+        toast({
+          title: "Purchase Tracked",
+          description: "Your purchase has been successfully recorded. Thank you!",
+          variant: "default"
+        });
+      } else {
+        throw new Error("Tracking failed");
       }
-    }, 500);
-    
-    // Clean up interval and timeout on unmount
-    return () => {
-      clearInterval(intervalId);
-      clearTimeout(timeoutId);
-      console.log("Cleaned up Affonso detection interval and timeout");
-    };
-  }, []);
+    } catch (error) {
+      console.error('Error tracking purchase with Affonso:', error);
+      toast({
+        title: "Tracking Issue",
+        description: "There was an issue recording your purchase. We'll try again automatically.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsTracking(false);
+    }
+  }, [checkoutId, productInfo, scriptStatus, toast, tracked]);
   
-  // Handle manual retry of script loading
-  const handleRetryScriptLoading = () => {
-    console.log("Manually retrying Affonso script loading...");
-    setAffonsoLoading(true);
-    setAffonsoLoadTimeout(false);
+  // Function to handle manual retry with exponential backoff
+  const handleRetryScriptLoading = useCallback(() => {
+    console.log(`Manually retrying Affonso script loading (attempt ${retryCount + 1})...`);
+    setScriptStatus('loading');
     
-    // Try to reload the script
-    const existingScript = document.querySelector('script[data-affonso="cmas59i1t0030zn5a024kdnm2"]');
-    if (existingScript) {
-      existingScript.remove();
+    // Calculate backoff delay (2^n * 500ms)
+    const backoffDelay = Math.min(Math.pow(2, retryCount) * 500, 5000);
+    
+    // Clear script status data
+    if (window.affonsoStatus) {
+      window.affonsoStatus.scriptLoaded = false;
+      window.affonsoStatus.scriptFailed = false;
+      window.affonsoStatus.loadAttempts += 1;
     }
     
-    const script = document.createElement('script');
-    script.src = 'https://affonso.io/js/pixel.min.js';
-    script.async = true;
-    script.defer = true;
-    script.dataset.affonso = 'cmas59i1t0030zn5a024kdnm2';
-    script.dataset.cookie_duration = '30';
-    document.head.appendChild(script);
-    
-    // Set a new timeout and interval to check if script loads
-    const timeoutId = setTimeout(() => {
-      if (!affonsoReady) {
-        console.log("❌ Affonso script reload timeout after 10 seconds");
-        setAffonsoLoadTimeout(true);
-        setAffonsoLoading(false);
+    // Try to reload the script with backoff
+    setTimeout(() => {
+      const existingScript = document.querySelector('script[data-affonso="cmas59i1t0030zn5a024kdnm2"]');
+      if (existingScript) {
+        existingScript.remove();
       }
-    }, 10000);
-    
-    const intervalId = setInterval(() => {
-      if (window.Affonso && typeof window.Affonso.purchase === 'function') {
-        console.log("✅ Affonso script reloaded and ready!");
-        setAffonsoReady(true);
-        setAffonsoLoading(false);
-        clearInterval(intervalId);
-        clearTimeout(timeoutId);
-        
-        // If we have a valid checkout ID, try tracking again
-        const searchParams = new URLSearchParams(location.search);
-        const checkoutId = searchParams.get('checkout_id');
-        if (checkoutId && !tracked) {
-          // Get the product info and track the purchase
-          trackPurchase(checkoutId, searchParams);
+      
+      const script = document.createElement('script');
+      script.src = 'https://affonso.io/js/pixel.min.js';
+      script.async = true;
+      script.dataset.affonso = 'cmas59i1t0030zn5a024kdnm2';
+      script.dataset.cookie_duration = '30';
+      
+      script.onload = () => {
+        if (window.affonsoStatus) {
+          window.affonsoStatus.scriptLoaded = true;
+          window.affonsoStatus.lastAttempt = new Date();
         }
-      }
-    }, 500);
-  };
-  
-  // Function to track purchase that accepts parameters for better reusability
-  const trackPurchase = (checkoutId: string, searchParams: URLSearchParams) => {
-    if (tracked || !affonsoReady) return;
-    
-    // Get product details from multiple sources with fallbacks
-    const productId = searchParams.get('product_id');
-    const productName = searchParams.get('product_name');
-    const productPrice = searchParams.get('product_price');
-    
-    let productInfo: ProductInfo;
-    
-    if (productId && productName && productPrice) {
-      productInfo = {
-        productId: productId,
-        productName: decodeURIComponent(productName),
-        productPrice: parseFloat(productPrice)
+        setScriptStatus('ready');
+        document.dispatchEvent(new Event('affonso_ready'));
       };
-      console.log('Product info from URL:', productInfo);
+      
+      script.onerror = () => {
+        if (window.affonsoStatus) {
+          window.affonsoStatus.scriptFailed = true;
+          window.affonsoStatus.lastAttempt = new Date();
+        }
+        setScriptStatus('error');
+      };
+      
+      document.head.appendChild(script);
+      setRetryCount(prev => prev + 1);
+    }, backoffDelay);
+  }, [retryCount]);
+  
+  // Extract product info from URL or localStorage
+  useEffect(() => {
+    if (!checkoutId) return;
+    
+    const urlProductId = searchParams.get('product_id');
+    const urlProductName = searchParams.get('product_name');
+    const urlProductPrice = searchParams.get('product_price');
+    
+    // Get product details from URL or localStorage with fallbacks
+    let info: ProductInfo;
+    
+    if (urlProductId && urlProductName && urlProductPrice) {
+      info = {
+        productId: urlProductId,
+        productName: decodeURIComponent(urlProductName),
+        productPrice: parseFloat(urlProductPrice)
+      };
+      console.log('Product info from URL:', info);
     } else {
       console.log('No product info in URL, checking localStorage...');
       const planInfoStr = localStorage.getItem('selectedPlan');
@@ -144,14 +167,14 @@ const ThankYou = () => {
           const parsedInfo = JSON.parse(planInfoStr);
           console.log('Retrieved product info from localStorage:', parsedInfo);
           
-          productInfo = {
+          info = {
             productId: parsedInfo.productId || 'bootcamp-purchase',
             productName: parsedInfo.productName || 'AI-First Operator Bootcamp',
             productPrice: parsedInfo.productPrice || 0
           };
         } catch (error) {
           console.error('Error parsing product info from localStorage:', error);
-          productInfo = {
+          info = {
             productId: 'bootcamp-purchase',
             productName: 'AI-First Operator Bootcamp',
             productPrice: 0
@@ -159,7 +182,7 @@ const ThankYou = () => {
         }
       } else {
         console.log('No product info found in localStorage');
-        productInfo = {
+        info = {
           productId: 'bootcamp-purchase',
           productName: 'AI-First Operator Bootcamp',
           productPrice: 0
@@ -167,73 +190,91 @@ const ThankYou = () => {
       }
     }
     
-    try {
-      console.log('Tracking purchase with Affonso:', {
-        checkoutId, 
-        ...productInfo
-      });
-      
-      window.Affonso.purchase({
-        id: checkoutId,
-        amount: productInfo.productPrice,
-        currency: 'USD',
-        products: [{
-          id: productInfo.productId,
-          name: productInfo.productName,
-          price: productInfo.productPrice,
-          quantity: 1
-        }]
-      });
-      
-      console.log('✅ Successfully tracked purchase with Affonso');
-      setTracked(true);
-      
-      toast({
-        title: "Purchase Tracked",
-        description: "Your purchase has been successfully recorded. Thank you!",
-        variant: "default"
-      });
-      
-      // Clear localStorage after successful tracking
-      localStorage.removeItem('selectedPlan');
-      console.log('Cleared product info from localStorage');
-    } catch (error) {
-      console.error('Error tracking purchase with Affonso:', error);
-      toast({
-        title: "Tracking Error",
-        description: "There was an error recording your purchase. Our team has been notified.",
-        variant: "destructive"
-      });
-    }
-  };
-  
-  // Main effect to handle verification and tracking of purchase
-  useEffect(() => {
-    // Check if this page was accessed with a checkout_id parameter
-    const searchParams = new URLSearchParams(location.search);
-    const checkoutId = searchParams.get('checkout_id');
+    // Store product info in component state for later use
+    setProductInfo(info);
     
+    // Persist for potential future retries (falls back to localStorage as backup)
+    try {
+      sessionStorage.setItem('purchaseData', JSON.stringify({
+        checkoutId,
+        productInfo: info,
+        timestamp: new Date().toISOString()
+      }));
+    } catch (e) {
+      console.error('Error storing purchase data:', e);
+    }
+  }, [checkoutId, searchParams]);
+  
+  // Main effect to detect Affonso script and set up listeners
+  useEffect(() => {
+    console.log("Checking for Affonso script...");
+    
+    // Check if we already have window.affonsoStatus from our HTML setup
+    if (window.affonsoStatus && window.affonsoStatus.scriptLoaded) {
+      console.log("✅ Affonso status object indicates script is loaded!");
+      setScriptStatus('ready');
+      return;
+    }
+    
+    // Try immediate check for Affonso availability
+    if (checkAffonsoScript()) {
+      return;
+    }
+    
+    // Set up event listener for our custom event
+    const handleAffonsoReady = () => {
+      console.log("✅ Affonso ready event received!");
+      setScriptStatus('ready');
+    };
+    document.addEventListener('affonso_ready', handleAffonsoReady);
+    
+    // Set a longer timeout (15 seconds) for script loading
+    const timeoutId = setTimeout(() => {
+      if (scriptStatus === 'loading') {
+        console.log("❌ Affonso script load timeout after 15 seconds");
+        setScriptStatus('timeout');
+      }
+    }, 15000);
+    
+    // Set up polling as backup (every 1 second for 15 seconds)
+    const intervalId = setInterval(() => {
+      if (checkAffonsoScript()) {
+        clearInterval(intervalId);
+        clearTimeout(timeoutId);
+      }
+    }, 1000);
+    
+    // Clean up
+    return () => {
+      document.removeEventListener('affonso_ready', handleAffonsoReady);
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
+    };
+  }, [checkAffonsoScript, scriptStatus]);
+  
+  // Effect for automatic tracking when conditions are right
+  useEffect(() => {
+    if (checkoutId && productInfo && scriptStatus === 'ready' && !tracked && !isTracking) {
+      handleTrackPurchase();
+    }
+  }, [checkoutId, handleTrackPurchase, isTracking, productInfo, scriptStatus, tracked]);
+  
+  // Verify checkout and set status
+  useEffect(() => {
     if (checkoutId) {
       console.log('Checkout ID detected:', checkoutId);
-      // If we have a checkout ID from Polar, we can assume the purchase was completed
       setCheckoutVerified(true);
-      
-      // Try to track the purchase if Affonso is ready
-      if (affonsoReady && !tracked) {
-        trackPurchase(checkoutId, searchParams);
-      }
     } else {
       console.log('No checkout ID detected - user may have accessed this page directly');
-      // Show a message if the page was accessed without a checkout ID
       toast({
         title: "Purchase Not Verified",
         description: "We couldn't verify your purchase. If you've completed checkout, please contact support.",
         variant: "destructive"
       });
     }
-  }, [location.search, toast, affonsoReady, tracked]);
-
-  // Effect to handle window dimensions for confetti and other UI elements
+  }, [checkoutId, toast]);
+  
+  // Effect to handle window dimensions for confetti
   useEffect(() => {
     // Set dimensions for confetti
     const updateDimensions = () => {
@@ -267,6 +308,44 @@ const ThankYou = () => {
     };
   }, []);
 
+  // Get status message and color based on script status
+  const getScriptStatusInfo = () => {
+    switch (scriptStatus) {
+      case 'ready':
+        return {
+          icon: <Check className="h-4 w-4 text-green-600" />,
+          message: "Tracking service connected",
+          color: "text-green-800 bg-green-50 border-green-200"
+        };
+      case 'loading':
+        return {
+          icon: <RefreshCw className="h-4 w-4 animate-spin text-amber-600" />,
+          message: "Connecting to tracking service...",
+          color: "text-amber-800 bg-amber-50 border-amber-200"
+        };
+      case 'timeout':
+        return {
+          icon: <AlertTriangle className="h-4 w-4 text-amber-600" />,
+          message: "Tracking service connection timed out",
+          color: "text-amber-800 bg-amber-50 border-amber-200"
+        };
+      case 'error':
+        return {
+          icon: <AlertTriangle className="h-4 w-4 text-red-600" />,
+          message: "Error connecting to tracking service",
+          color: "text-red-800 bg-red-50 border-red-200"
+        };
+      default:
+        return {
+          icon: <RefreshCw className="h-4 w-4 text-gray-600" />,
+          message: "Checking tracking service...",
+          color: "text-gray-800 bg-gray-50 border-gray-200"
+        };
+    }
+  };
+  
+  const statusInfo = getScriptStatusInfo();
+
   return (
     <div className="min-h-screen flex flex-col">
       {showConfetti && checkoutVerified && <ReactConfetti width={dimensions.width} height={dimensions.height} recycle={true} numberOfPieces={200} gravity={0.15} />}
@@ -293,21 +372,33 @@ const ThankYou = () => {
                   "We're processing your order. If you've already completed checkout, you'll receive confirmation soon."}
               </p>
               
-              {affonsoLoadTimeout && checkoutVerified && (
-                <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg text-left">
-                  <h3 className="font-bold text-amber-800 mb-2">Tracking Notice</h3>
-                  <p className="text-amber-700 mb-3">
+              {(scriptStatus === 'timeout' || scriptStatus === 'error') && checkoutVerified && !tracked && (
+                <div className={`mb-6 p-4 border rounded-lg text-left ${statusInfo.color}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    {statusInfo.icon}
+                    <h3 className="font-bold">{statusInfo.message}</h3>
+                  </div>
+                  <p className="mb-3">
                     We're having trouble connecting to our tracking service. Your purchase was successful, but we may need to manually record it.
                   </p>
                   <Button 
                     variant="outline" 
-                    className="flex items-center gap-2 border-amber-300 text-amber-800 hover:bg-amber-100"
+                    className={`flex items-center gap-2 ${scriptStatus === 'timeout' ? 'border-amber-300 text-amber-800 hover:bg-amber-100' : 'border-red-300 text-red-800 hover:bg-red-100'}`}
                     onClick={handleRetryScriptLoading}
-                    disabled={affonsoLoading}
+                    disabled={isTracking || scriptStatus === 'loading'}
                   >
-                    <RefreshCw className={`h-4 w-4 ${affonsoLoading ? 'animate-spin' : ''}`} />
-                    {affonsoLoading ? 'Reconnecting...' : 'Retry Connection'}
+                    <RefreshCw className={`h-4 w-4 ${isTracking || scriptStatus === 'loading' ? 'animate-spin' : ''}`} />
+                    {isTracking ? 'Connecting...' : scriptStatus === 'loading' ? 'Reconnecting...' : 'Retry Connection'}
                   </Button>
+                </div>
+              )}
+              
+              {scriptStatus === 'ready' && tracked && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-left">
+                  <div className="flex items-center gap-2">
+                    <Check className="h-5 w-5 text-green-600" />
+                    <h3 className="font-bold text-green-800">Purchase Successfully Tracked</h3>
+                  </div>
                 </div>
               )}
               
