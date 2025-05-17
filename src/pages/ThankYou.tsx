@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -44,11 +43,22 @@ const ThankYou = () => {
     script.onload = () => setVimeoLoaded(true);
     document.body.appendChild(script);
     
-    // Attempt to track purchase if data exists
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+      clearTimeout(timer);
+      // Only remove the script if we added it
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
+
+  // Separate useEffect for purchase tracking to avoid dependency issues
+  useEffect(() => {
     const attemptPurchaseTracking = async () => {
       const purchaseData = getPurchaseData();
       
-      if (purchaseData) {
+      if (purchaseData && trackingStatus === 'idle') {
         setTrackingStatus('loading');
         
         // If we don't have an email yet, we'll wait for user input
@@ -86,27 +96,22 @@ const ThankYou = () => {
     };
     
     attemptPurchaseTracking();
+  }, [trackingStatus]);
+
+  // Set up tracking timeout in a separate useEffect
+  useEffect(() => {
+    // Only set timeout when in loading state
+    if (trackingStatus !== 'loading') return;
     
-    // Set a timeout for tracking after 15 seconds
     const trackingTimeout = setTimeout(() => {
-      if (trackingStatus === 'loading') {
-        setTrackingStatus('timeout');
-        toast.warning("Tracking timeout", { 
-          description: "Purchase tracking timed out. You can try again manually." 
-        });
-      }
+      setTrackingStatus('timeout');
+      toast.warning("Tracking timeout", { 
+        description: "Purchase tracking timed out. You can try again manually." 
+      });
     }, 15000);
     
-    return () => {
-      window.removeEventListener('resize', updateDimensions);
-      clearTimeout(timer);
-      clearTimeout(trackingTimeout);
-      // Only remove the script if we added it
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
-  }, [trackingStatus, userEmail]);
+    return () => clearTimeout(trackingTimeout);
+  }, [trackingStatus]);
 
   // Handle email input and manual tracking
   const handleEmailSubmit = async (e) => {
@@ -214,7 +219,7 @@ const ThankYou = () => {
                       <Check className="h-5 w-5" />
                       Purchase tracked successfully!
                     </div>
-                  ) : trackingStatus === 'error' || trackingStatus === 'timeout' ? (
+                  ) : (trackingStatus === 'error' || trackingStatus === 'timeout') ? (
                     <div>
                       <div className="flex items-center gap-2 text-amber-600 font-medium mb-4">
                         <AlertCircle className="h-5 w-5" />
