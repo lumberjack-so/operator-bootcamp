@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -6,6 +7,13 @@ import { Calendar, Check, MailOpen, PartyPopper, Server } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
 import { useToast } from '@/hooks/use-toast';
+
+// Define a type for the product information
+interface ProductInfo {
+  productId?: string;
+  productName?: string;
+  productPrice?: number;
+}
 
 const ThankYou = () => {
   const [dimensions, setDimensions] = useState({
@@ -30,11 +38,18 @@ const ThankYou = () => {
       
       // Get product details from session storage if available
       const planInfoStr = sessionStorage.getItem('selectedPlan');
-      let productInfo = {};
+      // Initialize with default values that match our interface
+      let productInfo: ProductInfo = {
+        productId: 'bootcamp-purchase',
+        productName: 'AI-First Operator Bootcamp',
+        productPrice: 0
+      };
       
       if (planInfoStr) {
         try {
-          productInfo = JSON.parse(planInfoStr);
+          const parsedInfo = JSON.parse(planInfoStr) as ProductInfo;
+          // Merge with defaults to ensure we have valid values
+          productInfo = { ...productInfo, ...parsedInfo };
           console.log('Retrieved product info from session storage:', productInfo);
         } catch (error) {
           console.error('Error parsing product info from session storage:', error);
