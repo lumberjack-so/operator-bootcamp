@@ -24,9 +24,8 @@ const ThankYou = () => {
   const [showConfetti, setShowConfetti] = useState(true);
   const [vimeoLoaded, setVimeoLoaded] = useState(false);
   const [trackingStatus, setTrackingStatus] = useState<TrackingStatus>('idle');
-  const [userEmail, setUserEmail] = useState('');
-  const [retryCount, setRetryCount] = useState(0);
   const [scriptReady, setScriptReady] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     // Set dimensions for confetti
@@ -84,12 +83,7 @@ const ThankYou = () => {
       
       const purchaseData = getPurchaseData();
       
-      if (purchaseData) {
-        // Only proceed if we have the email or we're going to ask for it
-        if (!purchaseData.email) {
-          return; // We'll wait for user input
-        }
-        
+      if (purchaseData && purchaseData.email) {
         setTrackingStatus('loading');
         
         try {
@@ -107,16 +101,13 @@ const ThankYou = () => {
             clearPurchaseData(); // Clear after successful tracking
           } else {
             setTrackingStatus('error');
-            toast.error("Tracking issue", { 
-              description: result.error || "Could not track purchase" 
-            });
+            // Silent error - don't show to user
+            console.error("Tracking error:", result.error);
           }
         } catch (error) {
           console.error("Error tracking purchase:", error);
           setTrackingStatus('error');
-          toast.error("Tracking error", { 
-            description: "Something went wrong while tracking your purchase" 
-          });
+          // Silent error - don't show to user
         }
       }
     };
@@ -130,68 +121,13 @@ const ThankYou = () => {
     
     const trackingTimeout = setTimeout(() => {
       setTrackingStatus('timeout');
-      toast.warning("Tracking timeout", { 
-        description: "Purchase tracking timed out. You can try again manually." 
-      });
+      // Silent timeout - don't show to user
+      console.error("Purchase tracking timed out.");
     }, 15000);
     
     return () => clearTimeout(trackingTimeout);
   }, [trackingStatus]);
 
-  // Handle email submission and manual tracking
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userEmail) {
-      toast.error("Email required", { description: "Please enter your email to track your purchase" });
-      return;
-    }
-    
-    // Get purchase data and update with email
-    const purchaseData = getPurchaseData();
-    if (purchaseData) {
-      purchaseData.email = userEmail;
-      setTrackingStatus('loading');
-      
-      try {
-        const result = await trackAffonsoPurchase(
-          purchaseData.purchaseId,
-          purchaseData.amount,
-          purchaseData.email
-        );
-        
-        if (result.success) {
-          setTrackingStatus('success');
-          toast.success("Purchase successfully tracked!", { 
-            description: "Thank you for your purchase!" 
-          });
-          clearPurchaseData(); // Clear after successful tracking
-        } else {
-          setTrackingStatus('error');
-          toast.error("Tracking issue", { 
-            description: result.error || "Could not track purchase" 
-          });
-        }
-      } catch (error) {
-        console.error("Error tracking purchase:", error);
-        setTrackingStatus('error');
-        toast.error("Tracking error", { 
-          description: "Something went wrong while tracking your purchase" 
-        });
-      }
-    } else {
-      toast.error("No purchase data", { 
-        description: "No purchase data found to track" 
-      });
-    }
-  };
-  
-  // Handle retry tracking
-  const handleRetryTracking = () => {
-    setTrackingStatus('idle');
-    setRetryCount(prev => prev + 1);
-    toast.info("Retrying purchase tracking...");
-  };
-  
   // Purchase data for display
   const purchaseData = getPurchaseData();
 
@@ -231,8 +167,8 @@ const ThankYou = () => {
                 </div>
               </div>
               
-              {/* Purchase Tracking Status */}
-              {purchaseData && (
+              {/* Purchase Tracking Status - Only show on success */}
+              {purchaseData && trackingStatus === 'success' && (
                 <div className="bg-white rounded-xl shadow-md p-6 mb-8 border border-gray-100">
                   <h3 className="text-xl font-bold mb-4">Purchase Details</h3>
                   
@@ -246,72 +182,10 @@ const ThankYou = () => {
                     <span className="font-medium">Amount:</span> ${purchaseData.amount}
                   </div>
                   
-                  {trackingStatus === 'success' ? (
-                    <div className="flex items-center gap-2 text-green-600 font-medium">
-                      <Check className="h-5 w-5" />
-                      Purchase tracked successfully!
-                    </div>
-                  ) : trackingStatus === 'loading' ? (
-                    <div className="flex items-center gap-2 text-blue-600 font-medium">
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Tracking your purchase...
-                    </div>
-                  ) : trackingStatus === 'error' || trackingStatus === 'timeout' ? (
-                    <div>
-                      <div className="flex items-center gap-2 text-amber-600 font-medium mb-4">
-                        <AlertCircle className="h-5 w-5" />
-                        {trackingStatus === 'error' ? 'There was an issue tracking your purchase.' : 'Tracking timed out.'}
-                      </div>
-                      
-                      {!scriptReady && (
-                        <div className="bg-amber-50 p-3 rounded-md mb-4 text-amber-800 text-sm">
-                          The tracking system is still loading. Please wait a moment and try again.
-                        </div>
-                      )}
-                      
-                      <form onSubmit={handleEmailSubmit} className="flex flex-col space-y-4">
-                        <div className="flex flex-col space-y-2">
-                          <label htmlFor="email" className="text-sm font-medium text-left">
-                            Please enter your email to track your purchase:
-                          </label>
-                          <input 
-                            type="email"
-                            id="email"
-                            className="px-4 py-2 border rounded-md"
-                            value={userEmail}
-                            onChange={(e) => setUserEmail(e.target.value)}
-                            placeholder="your@email.com"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="flex flex-col md:flex-row gap-2">
-                          <Button 
-                            type="submit" 
-                            className="bg-saas-accent hover:bg-blue-700 text-white flex-1"
-                            disabled={!scriptReady || trackingStatus === 'loading'}
-                          >
-                            {trackingStatus === 'loading' ? (
-                              <>
-                                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                                Processing...
-                              </>
-                            ) : 'Track Purchase'}
-                          </Button>
-                          
-                          <Button 
-                            type="button" 
-                            variant="outline"
-                            onClick={handleRetryTracking}
-                            className="flex-1"
-                            disabled={!scriptReady || trackingStatus === 'loading'}
-                          >
-                            Retry
-                          </Button>
-                        </div>
-                      </form>
-                    </div>
-                  ) : null}
+                  <div className="flex items-center gap-2 text-green-600 font-medium">
+                    <Check className="h-5 w-5" />
+                    Purchase tracked successfully!
+                  </div>
                 </div>
               )}
               
