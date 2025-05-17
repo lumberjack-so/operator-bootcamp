@@ -18,6 +18,40 @@ declare global {
 }
 
 /**
+ * Check if the Affonso script is loaded and ready
+ */
+export const isAffonsoScriptLoaded = (): boolean => {
+  return window.Affonso !== undefined && typeof window.Affonso.purchase === 'function';
+};
+
+/**
+ * Wait for Affonso script to load with timeout
+ */
+export const waitForAffonsoScript = (timeout = 5000): Promise<boolean> => {
+  return new Promise((resolve) => {
+    // If already loaded, resolve immediately
+    if (isAffonsoScriptLoaded()) {
+      resolve(true);
+      return;
+    }
+
+    // Set a timeout
+    const timeoutId = setTimeout(() => {
+      resolve(false);
+    }, timeout);
+
+    // Check every 100ms
+    const interval = setInterval(() => {
+      if (isAffonsoScriptLoaded()) {
+        clearTimeout(timeoutId);
+        clearInterval(interval);
+        resolve(true);
+      }
+    }, 100);
+  });
+};
+
+/**
  * Get the Affonso referral ID if it exists
  */
 export const getAffonsoReferralId = (): string | undefined => {
@@ -29,7 +63,7 @@ export const getAffonsoReferralId = (): string | undefined => {
  */
 export const trackAffonsoSignup = (email: string): void => {
   try {
-    if (window.Affonso && typeof window.Affonso.signup === 'function') {
+    if (isAffonsoScriptLoaded()) {
       window.Affonso.signup(email);
       console.log('Affonso signup tracked successfully');
     } else {
@@ -49,22 +83,26 @@ export const trackAffonsoPurchase = async (
   email: string,
   currency: string = 'USD'
 ): Promise<{ success: boolean; error?: string }> => {
+  // First, wait up to 3 seconds for the script to load
+  const scriptLoaded = await waitForAffonsoScript(3000);
+  
+  if (!scriptLoaded) {
+    return { 
+      success: false, 
+      error: "Tracking script not loaded. Please try again." 
+    };
+  }
+  
   return new Promise((resolve) => {
     try {
-      if (window.Affonso && typeof window.Affonso.purchase === 'function') {
-        window.Affonso.purchase({
-          id: purchaseId,
-          value: amount,
-          currency,
-          email,
-        });
-        console.log('Affonso purchase tracked successfully');
-        resolve({ success: true });
-      } else {
-        const error = 'Affonso purchase tracking not available';
-        console.warn(error);
-        resolve({ success: false, error });
-      }
+      window.Affonso.purchase({
+        id: purchaseId,
+        value: amount,
+        currency,
+        email,
+      });
+      console.log('Affonso purchase tracked successfully');
+      resolve({ success: true });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('Error tracking Affonso purchase:', errorMessage);

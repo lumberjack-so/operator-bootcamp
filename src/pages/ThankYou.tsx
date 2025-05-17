@@ -1,11 +1,17 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Calendar, Check, MailOpen, PartyPopper, Server, AlertCircle } from 'lucide-react';
+import { Calendar, Check, MailOpen, PartyPopper, Server, AlertCircle, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
-import { trackAffonsoPurchase, getPurchaseData, clearPurchaseData } from '@/utils/trackingUtils';
+import { 
+  trackAffonsoPurchase, 
+  getPurchaseData, 
+  clearPurchaseData, 
+  isAffonsoScriptLoaded
+} from '@/utils/trackingUtils';
 import { toast } from '@/components/ui/sonner';
 
 type TrackingStatus = 'idle' | 'loading' | 'success' | 'error' | 'timeout';
@@ -19,6 +25,8 @@ const ThankYou = () => {
   const [vimeoLoaded, setVimeoLoaded] = useState(false);
   const [trackingStatus, setTrackingStatus] = useState<TrackingStatus>('idle');
   const [userEmail, setUserEmail] = useState('');
+  const [retryCount, setRetryCount] = useState(0);
+  const [scriptReady, setScriptReady] = useState(false);
 
   useEffect(() => {
     // Set dimensions for confetti
@@ -43,6 +51,20 @@ const ThankYou = () => {
     script.onload = () => setVimeoLoaded(true);
     document.body.appendChild(script);
     
+    // Check if Affonso script is loaded
+    const checkScriptLoaded = () => {
+      if (isAffonsoScriptLoaded()) {
+        setScriptReady(true);
+        return;
+      }
+      
+      // Check again in 1 second if not loaded
+      setTimeout(checkScriptLoaded, 1000);
+    };
+    
+    // Start checking for script
+    checkScriptLoaded();
+    
     return () => {
       window.removeEventListener('resize', updateDimensions);
       clearTimeout(timer);
@@ -53,18 +75,22 @@ const ThankYou = () => {
     };
   }, []);
 
-  // Separate useEffect for purchase tracking to avoid dependency issues
+  // Initial attempt to track purchase when component loads
   useEffect(() => {
+    // Only run this once when the component mounts or when retry count changes
     const attemptPurchaseTracking = async () => {
+      // Only proceed if we're in idle state and script is ready
+      if (trackingStatus !== 'idle' || !scriptReady) return;
+      
       const purchaseData = getPurchaseData();
       
-      if (purchaseData && trackingStatus === 'idle') {
-        setTrackingStatus('loading');
-        
-        // If we don't have an email yet, we'll wait for user input
+      if (purchaseData) {
+        // Only proceed if we have the email or we're going to ask for it
         if (!purchaseData.email) {
-          return;
+          return; // We'll wait for user input
         }
+        
+        setTrackingStatus('loading');
         
         try {
           const result = await trackAffonsoPurchase(
@@ -96,11 +122,10 @@ const ThankYou = () => {
     };
     
     attemptPurchaseTracking();
-  }, [trackingStatus]);
+  }, [scriptReady, retryCount]); // Dependency on retryCount allows retrying
 
   // Set up tracking timeout in a separate useEffect
   useEffect(() => {
-    // Only set timeout when in loading state
     if (trackingStatus !== 'loading') return;
     
     const trackingTimeout = setTimeout(() => {
@@ -113,8 +138,8 @@ const ThankYou = () => {
     return () => clearTimeout(trackingTimeout);
   }, [trackingStatus]);
 
-  // Handle email input and manual tracking
-  const handleEmailSubmit = async (e) => {
+  // Handle email submission and manual tracking
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userEmail) {
       toast.error("Email required", { description: "Please enter your email to track your purchase" });
@@ -158,6 +183,13 @@ const ThankYou = () => {
         description: "No purchase data found to track" 
       });
     }
+  };
+  
+  // Handle retry tracking
+  const handleRetryTracking = () => {
+    setTrackingStatus('idle');
+    setRetryCount(prev => prev + 1);
+    toast.info("Retrying purchase tracking...");
   };
   
   // Purchase data for display
@@ -219,12 +251,23 @@ const ThankYou = () => {
                       <Check className="h-5 w-5" />
                       Purchase tracked successfully!
                     </div>
-                  ) : (trackingStatus === 'error' || trackingStatus === 'timeout') ? (
+                  ) : trackingStatus === 'loading' ? (
+                    <div className="flex items-center gap-2 text-blue-600 font-medium">
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Tracking your purchase...
+                    </div>
+                  ) : trackingStatus === 'error' || trackingStatus === 'timeout' ? (
                     <div>
                       <div className="flex items-center gap-2 text-amber-600 font-medium mb-4">
                         <AlertCircle className="h-5 w-5" />
                         {trackingStatus === 'error' ? 'There was an issue tracking your purchase.' : 'Tracking timed out.'}
                       </div>
+                      
+                      {!scriptReady && (
+                        <div className="bg-amber-50 p-3 rounded-md mb-4 text-amber-800 text-sm">
+                          The tracking system is still loading. Please wait a moment and try again.
+                        </div>
+                      )}
                       
                       <form onSubmit={handleEmailSubmit} className="flex flex-col space-y-4">
                         <div className="flex flex-col space-y-2">
@@ -242,13 +285,30 @@ const ThankYou = () => {
                           />
                         </div>
                         
-                        <Button 
-                          type="submit" 
-                          className="bg-saas-accent hover:bg-blue-700 text-white"
-                          disabled={trackingStatus === 'loading'}
-                        >
-                          {trackingStatus === 'loading' ? 'Processing...' : 'Track Purchase'}
-                        </Button>
+                        <div className="flex flex-col md:flex-row gap-2">
+                          <Button 
+                            type="submit" 
+                            className="bg-saas-accent hover:bg-blue-700 text-white flex-1"
+                            disabled={!scriptReady || trackingStatus === 'loading'}
+                          >
+                            {trackingStatus === 'loading' ? (
+                              <>
+                                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                Processing...
+                              </>
+                            ) : 'Track Purchase'}
+                          </Button>
+                          
+                          <Button 
+                            type="button" 
+                            variant="outline"
+                            onClick={handleRetryTracking}
+                            className="flex-1"
+                            disabled={!scriptReady || trackingStatus === 'loading'}
+                          >
+                            Retry
+                          </Button>
+                        </div>
                       </form>
                     </div>
                   ) : null}
