@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -7,7 +8,8 @@ import { Link, useLocation } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
 import { useToast } from '@/hooks/use-toast';
 import { trackPurchase, checkAffonsoStatus } from '@/utils/trackingUtils';
-import '../types/affonso'; // Import the types file
+// Import types directly with a reference directive
+/// <reference path="../types/affonso.d.ts" />
 
 // Define a type for the product information
 interface ProductInfo {
@@ -16,7 +18,7 @@ interface ProductInfo {
   productPrice: number;
 }
 
-// Define states for tracking script loading
+// Define a type for tracking script status
 type ScriptStatus = 'loading' | 'ready' | 'timeout' | 'error';
 
 const ThankYou = () => {

@@ -2,7 +2,8 @@
 /**
  * Tracking utilities for Affonso integration
  */
-import '../types/affonso'; // Import the types file
+// Import types directly with a reference directive
+/// <reference path="../types/affonso.d.ts" />
 
 // Interface for product information
 interface ProductInfo {

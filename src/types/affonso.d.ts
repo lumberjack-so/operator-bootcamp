@@ -1,4 +1,8 @@
 
+/**
+ * Type definitions for Affonso tracking service
+ */
+
 interface AffonsoInterface {
   signup: (email: string) => void;
   purchase: (orderData: {
