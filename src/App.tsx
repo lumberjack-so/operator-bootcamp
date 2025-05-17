@@ -12,22 +12,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Add Affonso tracking script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://affonso.io/js/pixel.min.js';
-    script.async = true;
-    script.defer = true;
-    script.dataset.affonso = 'cmas59i1t0030zn5a024kdnm2';
-    script.dataset.cookie_duration = '30';
-    document.head.appendChild(script);
-    
-    return () => {
-      if (document.head.contains(script)) {
-        document.head.removeChild(script);
-      }
-    };
-  }, []);
+  // Affonso tracking script now loaded in index.html
 
   return (
     <QueryClientProvider client={queryClient}>
