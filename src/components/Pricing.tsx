@@ -16,116 +16,78 @@ const Pricing = () => {
     logo: "/lovable-uploads/cca830e9-c681-4273-94e8-69eff61f6e64.png",
     description: "12 Build-Along sessions + community + replays",
     price: "$197",
-    priceValue: 197,
     fullValue: "$693",
     discount: "72% OFF",
     isPopular: false,
     emoji: "🛠️",
     isEarlyBird: true,
-    checkoutUrl: "https://buy.polar.sh/polar_cl_dYdrOWDsH8uiync5fmm7GceGLFzVn8OBHRgJX1440ch",
-    productId: "builder-pass"
+    checkoutUrl: "https://buy.polar.sh/polar_cl_dYdrOWDsH8uiync5fmm7GceGLFzVn8OBHRgJX1440ch"
   }, {
     title: "Operator Pass",
     logo: "/lovable-uploads/2aff9228-17af-428f-a871-7b1132121527.png",
     description: "Combines Deep Dive & Build-Along + perks",
     price: "$347",
-    priceValue: 347,
     fullValue: "$1,747",
     discount: "80% OFF",
     isPopular: true,
     emoji: "✨",
     isEarlyBird: true,
-    checkoutUrl: "https://buy.polar.sh/polar_cl_TPSVJn753qmRZXLylW5RiSk60IFKbEY6BK6zK4YJkQq",
-    productId: "operator-pass"
+    checkoutUrl: "https://buy.polar.sh/polar_cl_TPSVJn753qmRZXLylW5RiSk60IFKbEY6BK6zK4YJkQq"
   }, {
     title: "VIP Pass",
     logo: "/lovable-uploads/5ce67589-1b06-4944-91c3-594bd472f764.png",
     description: "For true AI-first Operators only",
     price: "$1,497",
-    priceValue: 1497,
     fullValue: "$4,997",
     discount: "70% OFF",
     isPopular: false,
     emoji: "👑",
-    checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl",
-    productId: "vip-pass"
+    checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl"
   }];
 
-  // Define the sharedFeatures array that was missing
-  const sharedFeatures = [
-    {
-      name: "12 Build-Along Sessions",
-      plans: [true, true, true]
-    },
-    {
-      name: "12 Deep Dive Sessions",
-      plans: [false, true, true]
-    },
-    {
-      name: "Community & Networking",
-      plans: [true, true, true]
-    },
-    {
-      name: "Lifetime Replays",
-      plans: [true, true, true]
-    },
-    {
-      name: "GPT Builder Tutor",
-      plans: [false, true, true]
-    },
-    {
-      name: "1:1 Kickoff Call",
-      plans: [false, false, true]
-    },
-    {
-      name: "Personal Project Reviews",
-      plans: [false, false, true]
-    }
-  ];
-
-  // Handle checkout button click with Affonso referral tracking
-  const handleCheckout = (plan) => {
-    // Get Affonso referral ID if it exists
-    const referralId = window.affonso_referral;
-    console.log('Affonso referral ID:', referralId || 'None detected');
+  // Handle checkout button click
+  const handleCheckout = (checkoutUrl: string) => {
+    // Open checkout in new tab
+    window.open(checkoutUrl, '_blank');
     
-    // Store selected plan information in localStorage for tracking
-    const planInfo = {
-      productId: plan.productId,
-      productName: plan.title,
-      productPrice: plan.priceValue
-    };
-    localStorage.setItem('selectedPlan', JSON.stringify(planInfo));
-    console.log('Stored product info in localStorage:', planInfo);
-    
-    // Create checkout URL with referral ID if available
-    const baseCheckoutUrl = plan.checkoutUrl;
-    
-    // Create the success URL with product info encoded in the URL parameters
-    const successUrl = new URL(`${window.location.origin}/thank-you`);
-    successUrl.searchParams.append('product_id', plan.productId);
-    successUrl.searchParams.append('product_name', encodeURIComponent(plan.title));
-    successUrl.searchParams.append('product_price', plan.priceValue.toString());
-    
-    // Add the success URL as a parameter to the checkout URL
-    const polarSuccessParam = `success_url=${encodeURIComponent(successUrl.toString())}`;
-    
-    // Build the final checkout URL
-    let finalCheckoutUrl = baseCheckoutUrl;
-    // Add the success URL parameter
-    finalCheckoutUrl += finalCheckoutUrl.includes('?') ? '&' : '?';
-    finalCheckoutUrl += polarSuccessParam;
-    
-    // Add referral ID if available
-    if (referralId) {
-      finalCheckoutUrl += `&affonso_referral=${referralId}`;
-    }
-    
-    console.log('Opening checkout URL:', finalCheckoutUrl);
-    
-    // Open checkout in new tab - but don't redirect the current tab
-    window.open(finalCheckoutUrl, '_blank');
+    // Navigate to thank you page
+    setTimeout(() => {
+      navigate('/thank-you');
+    }, 500);
   };
+
+  // Shared features list with yes/no for each plan
+  const sharedFeatures = [{
+    name: "Access to 12 n8n Tutorial Workshops",
+    plans: [true, true, true]
+  }, {
+    name: "Access to Deep Dive Workshops",
+    plans: [false, true, true]
+  }, {
+    name: "Community Access",
+    plans: [true, true, true]
+  }, {
+    name: "Lifetime Replays",
+    plans: [true, true, true]
+  }, {
+    name: "Live Q&A Participation",
+    plans: [false, true, true]
+  }, {
+    name: "Certificate of Completion",
+    plans: [false, true, true]
+  }, {
+    name: "$300 in AlfredOS Credits",
+    plans: [false, true, true]
+  }, {
+    name: "1-on-1 Private Coaching",
+    plans: [false, false, true]
+  }, {
+    name: "Custom GPT Tutor",
+    plans: [false, false, true]
+  }, {
+    name: "Unlimited DM / Email Support",
+    plans: [false, false, true]
+  }];
 
   // Countdown renderer
   const renderer = ({
@@ -146,7 +108,6 @@ const Pricing = () => {
         </div>;
     }
   };
-  
   return <section id="pricing" className="py-28 bg-gradient-to-b from-gray-50 to-white">
       <div className="container-custom">
         <div className="flex justify-center mb-4">
@@ -209,7 +170,7 @@ const Pricing = () => {
               
               <div className="p-8 pt-0 mt-auto">
                 <Button 
-                  onClick={() => handleCheckout(plan)}
+                  onClick={() => handleCheckout(plan.checkoutUrl)}
                   className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}
                 >
                   Reserve My Seat
