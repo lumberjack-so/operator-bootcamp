@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -175,14 +176,6 @@ const ThankYou = () => {
       if (affonsoReady) {
         trackPurchase();
       }
-      
-      // This effect runs whenever affonsoReady changes
-      useEffect(() => {
-        if (affonsoReady && checkoutVerified && !tracked) {
-          console.log('Affonso is now ready, attempting to track purchase');
-          trackPurchase();
-        }
-      }, [affonsoReady]);
     } else {
       console.log('No checkout ID detected - user may have accessed this page directly');
       // Show a message if the page was accessed without a checkout ID
@@ -191,6 +184,77 @@ const ThankYou = () => {
         description: "We couldn't verify your purchase. If you've completed checkout, please contact support.",
         variant: "destructive"
       });
+    }
+    
+    // Fixed: Moving the dependent useEffect into this one to fix React error #321
+    // This effect runs whenever affonsoReady changes
+    if (checkoutId && affonsoReady && !tracked) {
+      console.log('Affonso is ready, attempting to track purchase');
+      // We need to call trackPurchase again here since it's defined above
+      if (!tracked && affonsoReady) {
+        const productId = searchParams.get('product_id');
+        const productName = searchParams.get('product_name');
+        const productPrice = searchParams.get('product_price');
+        
+        let productInfo: ProductInfo;
+        
+        if (productId && productName && productPrice) {
+          productInfo = {
+            productId: productId,
+            productName: decodeURIComponent(productName),
+            productPrice: parseFloat(productPrice)
+          };
+        } else {
+          const planInfoStr = localStorage.getItem('selectedPlan');
+          if (planInfoStr) {
+            try {
+              const parsedInfo = JSON.parse(planInfoStr);
+              productInfo = {
+                productId: parsedInfo.productId || 'bootcamp-purchase',
+                productName: parsedInfo.productName || 'AI-First Operator Bootcamp',
+                productPrice: parsedInfo.productPrice || 0
+              };
+            } catch (error) {
+              productInfo = {
+                productId: 'bootcamp-purchase',
+                productName: 'AI-First Operator Bootcamp',
+                productPrice: 0
+              };
+            }
+          } else {
+            productInfo = {
+              productId: 'bootcamp-purchase',
+              productName: 'AI-First Operator Bootcamp',
+              productPrice: 0
+            };
+          }
+        }
+        
+        try {
+          window.Affonso.purchase({
+            id: checkoutId || `order-${Date.now()}`,
+            amount: productInfo.productPrice,
+            currency: 'USD',
+            products: [{
+              id: productInfo.productId,
+              name: productInfo.productName,
+              price: productInfo.productPrice,
+              quantity: 1
+            }]
+          });
+          
+          setTracked(true);
+          localStorage.removeItem('selectedPlan');
+          
+          toast({
+            title: "Purchase Tracked",
+            description: "Your purchase has been successfully recorded. Thank you!",
+            variant: "default"
+          });
+        } catch (error) {
+          console.error('Error tracking purchase with Affonso:', error);
+        }
+      }
     }
   }, [location.search, toast, affonsoReady, tracked]);
 
