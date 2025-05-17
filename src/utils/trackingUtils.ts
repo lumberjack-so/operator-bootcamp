@@ -2,7 +2,6 @@
 /**
  * Tracking utilities for Affonso integration
  */
-import '../types/affonso'; // Import the types file
 
 // Interface for product information
 interface ProductInfo {
