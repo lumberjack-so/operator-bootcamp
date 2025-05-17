@@ -3,9 +3,13 @@ import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Calendar, Check, MailOpen, PartyPopper, Server } from 'lucide-react';
+import { Calendar, Check, MailOpen, PartyPopper, Server, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
+import { trackAffonsoPurchase, getPurchaseData, clearPurchaseData } from '@/utils/trackingUtils';
+import { toast } from '@/components/ui/sonner';
+
+type TrackingStatus = 'idle' | 'loading' | 'success' | 'error' | 'timeout';
 
 const ThankYou = () => {
   const [dimensions, setDimensions] = useState({
@@ -14,6 +18,8 @@ const ThankYou = () => {
   });
   const [showConfetti, setShowConfetti] = useState(true);
   const [vimeoLoaded, setVimeoLoaded] = useState(false);
+  const [trackingStatus, setTrackingStatus] = useState<TrackingStatus>('idle');
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     // Set dimensions for confetti
@@ -38,15 +44,119 @@ const ThankYou = () => {
     script.onload = () => setVimeoLoaded(true);
     document.body.appendChild(script);
     
+    // Attempt to track purchase if data exists
+    const attemptPurchaseTracking = async () => {
+      const purchaseData = getPurchaseData();
+      
+      if (purchaseData) {
+        setTrackingStatus('loading');
+        
+        // If we don't have an email yet, we'll wait for user input
+        if (!purchaseData.email) {
+          return;
+        }
+        
+        try {
+          const result = await trackAffonsoPurchase(
+            purchaseData.purchaseId,
+            purchaseData.amount,
+            purchaseData.email
+          );
+          
+          if (result.success) {
+            setTrackingStatus('success');
+            toast.success("Purchase successfully tracked!", { 
+              description: "Thank you for your purchase!" 
+            });
+            clearPurchaseData(); // Clear after successful tracking
+          } else {
+            setTrackingStatus('error');
+            toast.error("Tracking issue", { 
+              description: result.error || "Could not track purchase" 
+            });
+          }
+        } catch (error) {
+          console.error("Error tracking purchase:", error);
+          setTrackingStatus('error');
+          toast.error("Tracking error", { 
+            description: "Something went wrong while tracking your purchase" 
+          });
+        }
+      }
+    };
+    
+    attemptPurchaseTracking();
+    
+    // Set a timeout for tracking after 15 seconds
+    const trackingTimeout = setTimeout(() => {
+      if (trackingStatus === 'loading') {
+        setTrackingStatus('timeout');
+        toast.warning("Tracking timeout", { 
+          description: "Purchase tracking timed out. You can try again manually." 
+        });
+      }
+    }, 15000);
+    
     return () => {
       window.removeEventListener('resize', updateDimensions);
       clearTimeout(timer);
+      clearTimeout(trackingTimeout);
       // Only remove the script if we added it
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
     };
-  }, []);
+  }, [trackingStatus, userEmail]);
+
+  // Handle email input and manual tracking
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    if (!userEmail) {
+      toast.error("Email required", { description: "Please enter your email to track your purchase" });
+      return;
+    }
+    
+    // Get purchase data and update with email
+    const purchaseData = getPurchaseData();
+    if (purchaseData) {
+      purchaseData.email = userEmail;
+      setTrackingStatus('loading');
+      
+      try {
+        const result = await trackAffonsoPurchase(
+          purchaseData.purchaseId,
+          purchaseData.amount,
+          purchaseData.email
+        );
+        
+        if (result.success) {
+          setTrackingStatus('success');
+          toast.success("Purchase successfully tracked!", { 
+            description: "Thank you for your purchase!" 
+          });
+          clearPurchaseData(); // Clear after successful tracking
+        } else {
+          setTrackingStatus('error');
+          toast.error("Tracking issue", { 
+            description: result.error || "Could not track purchase" 
+          });
+        }
+      } catch (error) {
+        console.error("Error tracking purchase:", error);
+        setTrackingStatus('error');
+        toast.error("Tracking error", { 
+          description: "Something went wrong while tracking your purchase" 
+        });
+      }
+    } else {
+      toast.error("No purchase data", { 
+        description: "No purchase data found to track" 
+      });
+    }
+  };
+  
+  // Purchase data for display
+  const purchaseData = getPurchaseData();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -83,6 +193,62 @@ const ThankYou = () => {
                   />
                 </div>
               </div>
+              
+              {/* Purchase Tracking Status */}
+              {purchaseData && (
+                <div className="bg-white rounded-xl shadow-md p-6 mb-8 border border-gray-100">
+                  <h3 className="text-xl font-bold mb-4">Purchase Details</h3>
+                  
+                  {purchaseData.productName && (
+                    <div className="mb-2 text-left">
+                      <span className="font-medium">Product:</span> {purchaseData.productName}
+                    </div>
+                  )}
+                  
+                  <div className="mb-4 text-left">
+                    <span className="font-medium">Amount:</span> ${purchaseData.amount}
+                  </div>
+                  
+                  {trackingStatus === 'success' ? (
+                    <div className="flex items-center gap-2 text-green-600 font-medium">
+                      <Check className="h-5 w-5" />
+                      Purchase tracked successfully!
+                    </div>
+                  ) : trackingStatus === 'error' || trackingStatus === 'timeout' ? (
+                    <div>
+                      <div className="flex items-center gap-2 text-amber-600 font-medium mb-4">
+                        <AlertCircle className="h-5 w-5" />
+                        {trackingStatus === 'error' ? 'There was an issue tracking your purchase.' : 'Tracking timed out.'}
+                      </div>
+                      
+                      <form onSubmit={handleEmailSubmit} className="flex flex-col space-y-4">
+                        <div className="flex flex-col space-y-2">
+                          <label htmlFor="email" className="text-sm font-medium text-left">
+                            Please enter your email to track your purchase:
+                          </label>
+                          <input 
+                            type="email"
+                            id="email"
+                            className="px-4 py-2 border rounded-md"
+                            value={userEmail}
+                            onChange={(e) => setUserEmail(e.target.value)}
+                            placeholder="your@email.com"
+                            required
+                          />
+                        </div>
+                        
+                        <Button 
+                          type="submit" 
+                          className="bg-saas-accent hover:bg-blue-700 text-white"
+                          disabled={trackingStatus === 'loading'}
+                        >
+                          {trackingStatus === 'loading' ? 'Processing...' : 'Track Purchase'}
+                        </Button>
+                      </form>
+                    </div>
+                  ) : null}
+                </div>
+              )}
               
               <div className="bg-white rounded-xl shadow-lg p-8 mb-12 border border-gray-100">
                 <div className="flex flex-col space-y-6">

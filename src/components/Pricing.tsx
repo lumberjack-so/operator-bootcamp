@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
@@ -5,6 +6,8 @@ import Countdown from 'react-countdown';
 import { Badge } from '@/components/ui/badge';
 import PassLogo from '@/components/PassLogo';
 import { useNavigate } from 'react-router-dom';
+import { getAffonsoReferralId, storePurchaseData } from '@/utils/trackingUtils';
+import { toast } from '@/components/ui/sonner';
 
 const Pricing = () => {
   // Set target date to May 31st, 2025 23:59 CET
@@ -16,6 +19,7 @@ const Pricing = () => {
     logo: "/lovable-uploads/cca830e9-c681-4273-94e8-69eff61f6e64.png",
     description: "12 Build-Along sessions + community + replays",
     price: "$197",
+    amount: 197,
     fullValue: "$693",
     discount: "72% OFF",
     isPopular: false,
@@ -27,6 +31,7 @@ const Pricing = () => {
     logo: "/lovable-uploads/2aff9228-17af-428f-a871-7b1132121527.png",
     description: "Combines Deep Dive & Build-Along + perks",
     price: "$347",
+    amount: 347,
     fullValue: "$1,747",
     discount: "80% OFF",
     isPopular: true,
@@ -38,6 +43,7 @@ const Pricing = () => {
     logo: "/lovable-uploads/5ce67589-1b06-4944-91c3-594bd472f764.png",
     description: "For true AI-first Operators only",
     price: "$1,497",
+    amount: 1497,
     fullValue: "$4,997",
     discount: "70% OFF",
     isPopular: false,
@@ -45,12 +51,39 @@ const Pricing = () => {
     checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl"
   }];
 
-  // Handle checkout button click
-  const handleCheckout = (checkoutUrl: string) => {
+  // Handle checkout button click with Affonso integration
+  const handleCheckout = (plan) => {
+    // Get referral ID from Affonso
+    const referralId = getAffonsoReferralId();
+    
+    // Create a unique purchase ID (simple implementation)
+    const purchaseId = `purchase_${Date.now()}`;
+    
+    // Store purchase data for retrieval on thank you page
+    storePurchaseData({
+      purchaseId: purchaseId,
+      amount: plan.amount,
+      email: "", // Will be collected at checkout
+      productName: plan.title
+    });
+    
+    // Prepare checkout URL with referral metadata
+    let checkoutUrl = plan.checkoutUrl;
+    
+    // If there's a referral ID, add it to the checkout URL as a query parameter
+    // This assumes Polar can extract it from URL or can be passed via JavaScript integration
+    if (referralId) {
+      // Adding URL parameter for documentation - ideally this would be handled via Polar's JavaScript SDK
+      const separator = checkoutUrl.includes('?') ? '&' : '?';
+      checkoutUrl += `${separator}affonso_referral=${encodeURIComponent(referralId)}`;
+      console.log(`Checkout with referral ID: ${referralId}`);
+      toast.success("Affiliate referral applied!", { duration: 3000 });
+    }
+    
     // Open checkout in new tab
     window.open(checkoutUrl, '_blank');
     
-    // Navigate to thank you page
+    // Navigate to thank you page with small delay
     setTimeout(() => {
       navigate('/thank-you');
     }, 500);
@@ -170,7 +203,7 @@ const Pricing = () => {
               
               <div className="p-8 pt-0 mt-auto">
                 <Button 
-                  onClick={() => handleCheckout(plan.checkoutUrl)}
+                  onClick={() => handleCheckout(plan)}
                   className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}
                 >
                   Reserve My Seat
