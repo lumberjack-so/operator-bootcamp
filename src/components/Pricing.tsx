@@ -45,10 +45,18 @@ const Pricing = () => {
     checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl"
   }];
 
-  // Handle checkout button click
+  // Handle checkout button click with Affonso referral tracking
   const handleCheckout = (checkoutUrl: string) => {
+    // Get Affonso referral ID if it exists
+    const referralId = window.affonso_referral;
+    
+    // Append referral ID to checkout URL if available
+    const finalCheckoutUrl = referralId 
+      ? `${checkoutUrl}${checkoutUrl.includes('?') ? '&' : '?'}affonso_referral=${referralId}`
+      : checkoutUrl;
+    
     // Open checkout in new tab
-    window.open(checkoutUrl, '_blank');
+    window.open(finalCheckoutUrl, '_blank');
     
     // Navigate to thank you page
     setTimeout(() => {
