@@ -83,10 +83,7 @@ const Pricing = () => {
     // Open checkout in new tab
     window.open(checkoutUrl, '_blank');
     
-    // Navigate to thank you page with small delay
-    setTimeout(() => {
-      navigate('/thank-you');
-    }, 500);
+    
   };
 
   // Shared features list with yes/no for each plan
