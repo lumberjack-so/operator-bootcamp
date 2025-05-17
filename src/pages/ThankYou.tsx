@@ -373,7 +373,7 @@ const ThankYou = () => {
                   "We're processing your order. If you've already completed checkout, you'll receive confirmation soon."}
               </p>
               
-              {(scriptStatus === 'timeout' || scriptStatus === 'error') && checkoutVerified && !tracked && (
+              {((scriptStatus === 'timeout' || scriptStatus === 'error') && checkoutVerified && !tracked) && (
                 <div className={`mb-6 p-4 border rounded-lg text-left ${statusInfo.color}`}>
                   <div className="flex items-center gap-2 mb-2">
                     {statusInfo.icon}
