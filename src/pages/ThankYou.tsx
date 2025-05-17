@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -8,6 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
 import { useToast } from '@/hooks/use-toast';
 import { trackPurchase, checkAffonsoStatus } from '@/utils/trackingUtils';
+import '../types/affonso'; // Import the types file
 
 // Define a type for the product information
 interface ProductInfo {
@@ -103,6 +103,7 @@ const ThankYou = () => {
       window.affonsoStatus.scriptLoaded = false;
       window.affonsoStatus.scriptFailed = false;
       window.affonsoStatus.loadAttempts += 1;
+      window.affonsoStatus.lastAttempt = new Date();
     }
     
     // Try to reload the script with backoff

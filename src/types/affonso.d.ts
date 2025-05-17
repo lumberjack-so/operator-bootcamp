@@ -14,7 +14,15 @@ interface AffonsoInterface {
   }) => void;
 }
 
+interface AffonsoStatusInterface {
+  scriptLoaded: boolean;
+  scriptFailed: boolean;
+  loadAttempts: number;
+  lastAttempt: Date | null;
+}
+
 interface Window {
   Affonso: AffonsoInterface;
   affonso_referral?: string;
+  affonsoStatus: AffonsoStatusInterface;
 }
