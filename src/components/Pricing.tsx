@@ -95,9 +95,9 @@ const Pricing = () => {
       ? `${baseCheckoutUrl}${baseCheckoutUrl.includes('?') ? '&' : '?'}affonso_referral=${referralId}`
       : baseCheckoutUrl;
     
-    console.log('Final checkout URL:', finalCheckoutUrl);
+    console.log('Opening checkout URL:', finalCheckoutUrl);
     
-    // Open checkout in new tab
+    // Open checkout in new tab - but don't redirect the current tab
     window.open(finalCheckoutUrl, '_blank');
     
     // Store selected plan information in session storage for tracking
@@ -108,13 +108,7 @@ const Pricing = () => {
     };
     sessionStorage.setItem('selectedPlan', JSON.stringify(planInfo));
     
-    // Add product details to thank you page URL
-    const thankYouUrl = `/thank-you?productId=${plan.productId}&productName=${encodeURIComponent(plan.title)}&productPrice=${plan.priceValue}`;
-    
-    // Navigate to thank you page
-    setTimeout(() => {
-      navigate(thankYouUrl);
-    }, 500);
+    // Remove the automatic redirect to thank you page
   };
 
   // Countdown renderer

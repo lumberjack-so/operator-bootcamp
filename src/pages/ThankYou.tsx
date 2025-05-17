@@ -14,62 +14,98 @@ const ThankYou = () => {
   });
   const [showConfetti, setShowConfetti] = useState(true);
   const [vimeoLoaded, setVimeoLoaded] = useState(false);
+  const [checkoutVerified, setCheckoutVerified] = useState(false);
   const location = useLocation();
   const { toast } = useToast();
   
-  // Track purchase with Affonso
   useEffect(() => {
-    // Get product details from URL search params if available
+    // Check if this page was accessed with a checkout_id parameter
     const searchParams = new URLSearchParams(location.search);
-    const productId = searchParams.get('productId');
-    const productName = searchParams.get('productName');
-    const productPrice = searchParams.get('productPrice');
+    const checkoutId = searchParams.get('checkout_id');
     
-    // Wait for Affonso script to load
-    const trackPurchase = () => {
-      if (window.Affonso && typeof window.Affonso.purchase === 'function') {
-        console.log('Tracking purchase with Affonso:', { 
-          productId, productName, productPrice
-        });
-        
+    if (checkoutId) {
+      console.log('Checkout ID detected:', checkoutId);
+      // If we have a checkout ID from Polar, we can assume the purchase was completed
+      setCheckoutVerified(true);
+      
+      // Get product details from session storage if available
+      const planInfoStr = sessionStorage.getItem('selectedPlan');
+      let productInfo = {};
+      
+      if (planInfoStr) {
         try {
-          // Track the purchase
-          window.Affonso.purchase({
-            // Generate a random order ID if not provided
-            id: searchParams.get('orderId') || `order-${Date.now()}`,
-            amount: productPrice ? parseFloat(productPrice) : 0,
-            currency: 'USD',
-            products: [{
-              id: productId || 'bootcamp-purchase',
-              name: productName || 'AI-First Operator Bootcamp',
-              price: productPrice ? parseFloat(productPrice) : 0,
-              quantity: 1
-            }]
-          });
-          
-          console.log('✅ Successfully tracked purchase with Affonso');
+          productInfo = JSON.parse(planInfoStr);
+          console.log('Retrieved product info from session storage:', productInfo);
         } catch (error) {
-          console.error('Error tracking purchase with Affonso:', error);
+          console.error('Error parsing product info from session storage:', error);
         }
       } else {
-        console.log('Affonso script not loaded yet or purchase method not available');
+        console.log('No product info found in session storage');
       }
-    };
-    
-    // Try to track purchase immediately if Affonso is already loaded
-    trackPurchase();
-    
-    // Set up a listener for when Affonso loads
-    const intervalId = setInterval(() => {
-      if (window.Affonso && typeof window.Affonso.purchase === 'function') {
-        trackPurchase();
-        clearInterval(intervalId);
-      }
-    }, 1000);
-    
-    // Clear interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [location.search]);
+      
+      // Track purchase with Affonso only if we have a checkout ID from Polar
+      const trackPurchase = () => {
+        if (window.Affonso && typeof window.Affonso.purchase === 'function') {
+          console.log('Tracking verified purchase with Affonso:', { 
+            checkoutId,
+            ...productInfo
+          });
+          
+          try {
+            // Track the purchase
+            window.Affonso.purchase({
+              // Use checkout ID as order ID if available
+              id: checkoutId || `order-${Date.now()}`,
+              amount: productInfo.productPrice || 0,
+              currency: 'USD',
+              products: [{
+                id: productInfo.productId || 'bootcamp-purchase',
+                name: productInfo.productName || 'AI-First Operator Bootcamp',
+                price: productInfo.productPrice || 0,
+                quantity: 1
+              }]
+            });
+            
+            console.log('✅ Successfully tracked purchase with Affonso');
+            toast({
+              title: "Purchase Tracked",
+              description: "Your purchase has been successfully recorded. Thank you!",
+              variant: "default"
+            });
+          } catch (error) {
+            console.error('Error tracking purchase with Affonso:', error);
+          }
+        } else {
+          console.log('Affonso script not loaded yet or purchase method not available');
+        }
+      };
+      
+      // Try to track purchase immediately if Affonso is already loaded
+      trackPurchase();
+      
+      // Set up a listener for when Affonso loads
+      const intervalId = setInterval(() => {
+        if (window.Affonso && typeof window.Affonso.purchase === 'function') {
+          trackPurchase();
+          clearInterval(intervalId);
+        }
+      }, 1000);
+      
+      // Clear session storage after tracking the purchase
+      sessionStorage.removeItem('selectedPlan');
+      
+      // Clear interval on component unmount
+      return () => clearInterval(intervalId);
+    } else {
+      console.log('No checkout ID detected - user may have accessed this page directly');
+      // Optional: Show a message or redirect if the page was accessed without a checkout ID
+      toast({
+        title: "Purchase Not Verified",
+        description: "We couldn't verify your purchase. If you've completed checkout, please contact support.",
+        variant: "destructive"
+      });
+    }
+  }, [location.search, toast]);
 
   useEffect(() => {
     // Set dimensions for confetti
@@ -106,7 +142,7 @@ const ThankYou = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {showConfetti && <ReactConfetti width={dimensions.width} height={dimensions.height} recycle={true} numberOfPieces={200} gravity={0.15} />}
+      {showConfetti && checkoutVerified && <ReactConfetti width={dimensions.width} height={dimensions.height} recycle={true} numberOfPieces={200} gravity={0.15} />}
       
       <Header />
       
@@ -121,78 +157,95 @@ const ThankYou = () => {
               </div>
               
               <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Thank You for Your Purchase!
+                {checkoutVerified ? "Thank You for Your Purchase!" : "Processing Your Order"}
               </h1>
               
               <p className="text-xl text-gray-700 mb-12">
-                You're now officially part of the AI-First Operator Bootcamp!
+                {checkoutVerified ? 
+                  "You're now officially part of the AI-First Operator Bootcamp!" :
+                  "We're processing your order. If you've already completed checkout, you'll receive confirmation soon."}
               </p>
               
-              <div className="mb-12 max-w-2xl mx-auto">
-                <div className="relative" style={{ paddingTop: "75%" }}>
-                  <iframe 
-                    src="https://player.vimeo.com/video/1085020029?h=e471f28267&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
-                    frameBorder="0" 
-                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
-                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }} 
-                    title="You're in! Welcome to the AI-First Operator Bootcamp!"
-                  />
+              {checkoutVerified && (
+                <div className="mb-12 max-w-2xl mx-auto">
+                  <div className="relative" style={{ paddingTop: "75%" }}>
+                    <iframe 
+                      src="https://player.vimeo.com/video/1085020029?h=e471f28267&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+                      frameBorder="0" 
+                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }} 
+                      title="You're in! Welcome to the AI-First Operator Bootcamp!"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
               
-              <div className="bg-white rounded-xl shadow-lg p-8 mb-12 border border-gray-100">
-                <div className="flex flex-col space-y-6">
-                  <div className="flex items-start">
-                    <div className="bg-green-100 p-3 rounded-full mr-4">
-                      <MailOpen className="h-6 w-6 text-green-600" />
+              {checkoutVerified ? (
+                <div className="bg-white rounded-xl shadow-lg p-8 mb-12 border border-gray-100">
+                  <div className="flex flex-col space-y-6">
+                    <div className="flex items-start">
+                      <div className="bg-green-100 p-3 rounded-full mr-4">
+                        <MailOpen className="h-6 w-6 text-green-600" />
+                      </div>
+                      <div className="text-left">
+                        <h3 className="text-lg font-bold mb-2">Check Your Email</h3>
+                        <p className="text-gray-600">
+                          You should receive an email shortly with all the details about your access to the bootcamp resources.
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-left">
-                      <h3 className="text-lg font-bold mb-2">Check Your Email</h3>
-                      <p className="text-gray-600">
-                        You should receive an email shortly with all the details about your access to the bootcamp resources.
-                      </p>
+                    
+                    <div className="flex items-start">
+                      <div className="bg-highlight bg-opacity-20 p-3 rounded-full mr-4">
+                        <Calendar className="h-6 w-6 text-highlight-dark" />
+                      </div>
+                      <div className="text-left">
+                        <h3 className="text-lg font-bold mb-2">Calendar Invite Coming Soon</h3>
+                        <p className="text-gray-600">
+                          In the next week, you'll receive a calendar invite for the upcoming sessions. Add it to your calendar so you don't miss out!
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-highlight bg-opacity-20 p-3 rounded-full mr-4">
-                      <Calendar className="h-6 w-6 text-highlight-dark" />
+                    
+                    <div className="flex items-start">
+                      <div className="bg-blue-100 p-3 rounded-full mr-4">
+                        <Check className="h-6 w-6 text-saas-accent" />
+                      </div>
+                      <div className="text-left">
+                        <h3 className="text-lg font-bold mb-2">Get Ready</h3>
+                        <p className="text-gray-600">We're excited to have you on board! Prepare to transform your life with AI-first operations. </p>
+                      </div>
                     </div>
-                    <div className="text-left">
-                      <h3 className="text-lg font-bold mb-2">Calendar Invite Coming Soon</h3>
-                      <p className="text-gray-600">
-                        In the next week, you'll receive a calendar invite for the upcoming sessions. Add it to your calendar so you don't miss out!
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-blue-100 p-3 rounded-full mr-4">
-                      <Check className="h-6 w-6 text-saas-accent" />
-                    </div>
-                    <div className="text-left">
-                      <h3 className="text-lg font-bold mb-2">Get Ready</h3>
-                      <p className="text-gray-600">We're excited to have you on board! Prepare to transform your life with AI-first operations. </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="bg-yellow-100 p-3 rounded-full mr-4">
-                      <Server className="h-6 w-6 text-yellow-600" />
-                    </div>
-                    <div className="text-left">
-                      <h3 className="text-lg font-bold mb-2">Setup Your n8n Environment</h3>
-                      <p className="text-gray-600">
-                        Before the program starts, please ensure you have a working n8n environment. You can either:
-                      </p>
-                      <ul className="list-disc ml-5 mt-2 space-y-1 text-gray-600">
-                        <li>Sign up for an <a href="https://www.n8n.io/cloud/" target="_blank" rel="noopener noreferrer" className="text-saas-accent hover:underline">n8n cloud subscription</a></li>
-                        <li>Self-host your own n8n instance (for help, follow this <a href="https://lumberjack.so/p/install-n8n-on-railway-in-5-minutes" target="_blank" rel="noopener noreferrer" className="text-saas-accent hover:underline">5-minute Railway setup tutorial</a>)</li>
-                      </ul>
+                    
+                    <div className="flex items-start">
+                      <div className="bg-yellow-100 p-3 rounded-full mr-4">
+                        <Server className="h-6 w-6 text-yellow-600" />
+                      </div>
+                      <div className="text-left">
+                        <h3 className="text-lg font-bold mb-2">Setup Your n8n Environment</h3>
+                        <p className="text-gray-600">
+                          Before the program starts, please ensure you have a working n8n environment. You can either:
+                        </p>
+                        <ul className="list-disc ml-5 mt-2 space-y-1 text-gray-600">
+                          <li>Sign up for an <a href="https://www.n8n.io/cloud/" target="_blank" rel="noopener noreferrer" className="text-saas-accent hover:underline">n8n cloud subscription</a></li>
+                          <li>Self-host your own n8n instance (for help, follow this <a href="https://lumberjack.so/p/install-n8n-on-railway-in-5-minutes" target="_blank" rel="noopener noreferrer" className="text-saas-accent hover:underline">5-minute Railway setup tutorial</a>)</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="bg-white rounded-xl shadow-lg p-8 mb-12 border border-gray-100">
+                  <p className="text-gray-600 mb-4">
+                    If you've completed your purchase but aren't seeing confirmation, please try:
+                  </p>
+                  <ul className="list-disc ml-5 space-y-2 text-gray-600 text-left mb-6">
+                    <li>Refreshing this page</li>
+                    <li>Checking your email for purchase confirmation</li>
+                    <li>Contacting our support team if issues persist</li>
+                  </ul>
+                </div>
+              )}
               
               <div className="flex flex-col md:flex-row justify-center gap-4">
                 <Button asChild className="bg-saas-accent hover:bg-blue-700 text-white py-6 px-8">
