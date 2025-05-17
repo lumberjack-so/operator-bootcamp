@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
@@ -52,10 +51,40 @@ const Pricing = () => {
     productId: "vip-pass"
   }];
 
+  // Define the sharedFeatures array that was missing
+  const sharedFeatures = [
+    {
+      name: "12 Build-Along Sessions",
+      plans: [true, true, true]
+    },
+    {
+      name: "12 Deep Dive Sessions",
+      plans: [false, true, true]
+    },
+    {
+      name: "Community & Networking",
+      plans: [true, true, true]
+    },
+    {
+      name: "Lifetime Replays",
+      plans: [true, true, true]
+    },
+    {
+      name: "GPT Builder Tutor",
+      plans: [false, true, true]
+    },
+    {
+      name: "1:1 Kickoff Call",
+      plans: [false, false, true]
+    },
+    {
+      name: "Personal Project Reviews",
+      plans: [false, false, true]
+    }
+  ];
+
   // Handle checkout button click with Affonso referral tracking
   const handleCheckout = (plan) => {
-    console.log('Initiating checkout for:', plan.title);
-    
     // Get Affonso referral ID if it exists
     const referralId = window.affonso_referral;
     console.log('Affonso referral ID:', referralId || 'None detected');
@@ -107,6 +136,7 @@ const Pricing = () => {
         </div>;
     }
   };
+  
   return <section id="pricing" className="py-28 bg-gradient-to-b from-gray-50 to-white">
       <div className="container-custom">
         <div className="flex justify-center mb-4">
