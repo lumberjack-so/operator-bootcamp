@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -10,9 +9,9 @@ import { useToast } from '@/hooks/use-toast';
 
 // Define a type for the product information
 interface ProductInfo {
-  productId?: string;
-  productName?: string;
-  productPrice?: number;
+  productId: string;
+  productName: string;
+  productPrice: number;
 }
 
 const ThankYou = () => {
@@ -23,8 +22,39 @@ const ThankYou = () => {
   const [showConfetti, setShowConfetti] = useState(true);
   const [vimeoLoaded, setVimeoLoaded] = useState(false);
   const [checkoutVerified, setCheckoutVerified] = useState(false);
+  const [affonsoReady, setAffonsoReady] = useState(false);
+  const [tracked, setTracked] = useState(false);
   const location = useLocation();
   const { toast } = useToast();
+  
+  // This effect deals with the Affonso script loading detection
+  useEffect(() => {
+    console.log("Checking for Affonso script...");
+    
+    // Check if Affonso is already loaded
+    if (window.Affonso && typeof window.Affonso.purchase === 'function') {
+      console.log("Affonso script already loaded!");
+      setAffonsoReady(true);
+      return;
+    }
+    
+    // Set up a more robust detection for the Affonso script
+    const intervalId = setInterval(() => {
+      if (window.Affonso && typeof window.Affonso.purchase === 'function') {
+        console.log("Affonso script loaded and ready!");
+        setAffonsoReady(true);
+        clearInterval(intervalId);
+      } else {
+        console.log("Waiting for Affonso script to load...");
+      }
+    }, 1000); // Check every second
+    
+    // Clean up interval on unmount
+    return () => {
+      clearInterval(intervalId);
+      console.log("Cleaned up Affonso detection interval");
+    };
+  }, []);
   
   useEffect(() => {
     // Check if this page was accessed with a checkout_id parameter
@@ -36,31 +66,64 @@ const ThankYou = () => {
       // If we have a checkout ID from Polar, we can assume the purchase was completed
       setCheckoutVerified(true);
       
-      // Get product details from session storage if available
-      const planInfoStr = sessionStorage.getItem('selectedPlan');
-      // Initialize with default values that match our interface
-      let productInfo: ProductInfo = {
-        productId: 'bootcamp-purchase',
-        productName: 'AI-First Operator Bootcamp',
-        productPrice: 0
-      };
+      // Get product details from multiple sources with fallbacks
       
-      if (planInfoStr) {
-        try {
-          const parsedInfo = JSON.parse(planInfoStr) as ProductInfo;
-          // Merge with defaults to ensure we have valid values
-          productInfo = { ...productInfo, ...parsedInfo };
-          console.log('Retrieved product info from session storage:', productInfo);
-        } catch (error) {
-          console.error('Error parsing product info from session storage:', error);
-        }
+      // 1. First try URL parameters (primary source)
+      const productId = searchParams.get('product_id');
+      const productName = searchParams.get('product_name');
+      const productPrice = searchParams.get('product_price');
+      
+      let productInfo: ProductInfo;
+      
+      if (productId && productName && productPrice) {
+        // Product info found in URL parameters
+        console.log('Retrieved product info from URL parameters');
+        productInfo = {
+          productId: productId,
+          productName: decodeURIComponent(productName),
+          productPrice: parseFloat(productPrice)
+        };
+        console.log('Product info from URL:', productInfo);
       } else {
-        console.log('No product info found in session storage');
+        // 2. Try localStorage if URL parameters aren't available
+        console.log('No product info in URL, checking localStorage...');
+        const planInfoStr = localStorage.getItem('selectedPlan');
+        
+        if (planInfoStr) {
+          try {
+            const parsedInfo = JSON.parse(planInfoStr);
+            console.log('Retrieved product info from localStorage:', parsedInfo);
+            
+            // Ensure we have all required fields
+            productInfo = {
+              productId: parsedInfo.productId || 'bootcamp-purchase',
+              productName: parsedInfo.productName || 'AI-First Operator Bootcamp',
+              productPrice: parsedInfo.productPrice || 0
+            };
+          } catch (error) {
+            console.error('Error parsing product info from localStorage:', error);
+            // 3. Fallback to default values
+            productInfo = {
+              productId: 'bootcamp-purchase',
+              productName: 'AI-First Operator Bootcamp',
+              productPrice: 0
+            };
+          }
+        } else {
+          console.log('No product info found in localStorage');
+          // Fallback to default values
+          productInfo = {
+            productId: 'bootcamp-purchase',
+            productName: 'AI-First Operator Bootcamp',
+            productPrice: 0
+          };
+        }
       }
       
       // Track purchase with Affonso only if we have a checkout ID from Polar
+      // and Affonso is ready
       const trackPurchase = () => {
-        if (window.Affonso && typeof window.Affonso.purchase === 'function') {
+        if (!tracked && affonsoReady) {
           console.log('Tracking verified purchase with Affonso:', { 
             checkoutId,
             ...productInfo
@@ -71,56 +134,65 @@ const ThankYou = () => {
             window.Affonso.purchase({
               // Use checkout ID as order ID if available
               id: checkoutId || `order-${Date.now()}`,
-              amount: productInfo.productPrice || 0,
+              amount: productInfo.productPrice,
               currency: 'USD',
               products: [{
-                id: productInfo.productId || 'bootcamp-purchase',
-                name: productInfo.productName || 'AI-First Operator Bootcamp',
-                price: productInfo.productPrice || 0,
+                id: productInfo.productId,
+                name: productInfo.productName,
+                price: productInfo.productPrice,
                 quantity: 1
               }]
             });
             
             console.log('✅ Successfully tracked purchase with Affonso');
+            setTracked(true);
+            
             toast({
               title: "Purchase Tracked",
               description: "Your purchase has been successfully recorded. Thank you!",
               variant: "default"
             });
+            
+            // Clear localStorage after successful tracking
+            localStorage.removeItem('selectedPlan');
+            console.log('Cleared product info from localStorage');
           } catch (error) {
             console.error('Error tracking purchase with Affonso:', error);
+            toast({
+              title: "Tracking Error",
+              description: "There was an error recording your purchase. Our team has been notified.",
+              variant: "destructive"
+            });
           }
+        } else if (tracked) {
+          console.log('Purchase already tracked, skipping');
         } else {
-          console.log('Affonso script not loaded yet or purchase method not available');
+          console.log('Cannot track purchase yet, Affonso not ready');
         }
       };
       
-      // Try to track purchase immediately if Affonso is already loaded
-      trackPurchase();
+      // Check if we can track the purchase now
+      if (affonsoReady) {
+        trackPurchase();
+      }
       
-      // Set up a listener for when Affonso loads
-      const intervalId = setInterval(() => {
-        if (window.Affonso && typeof window.Affonso.purchase === 'function') {
+      // This effect runs whenever affonsoReady changes
+      useEffect(() => {
+        if (affonsoReady && checkoutVerified && !tracked) {
+          console.log('Affonso is now ready, attempting to track purchase');
           trackPurchase();
-          clearInterval(intervalId);
         }
-      }, 1000);
-      
-      // Clear session storage after tracking the purchase
-      sessionStorage.removeItem('selectedPlan');
-      
-      // Clear interval on component unmount
-      return () => clearInterval(intervalId);
+      }, [affonsoReady]);
     } else {
       console.log('No checkout ID detected - user may have accessed this page directly');
-      // Optional: Show a message or redirect if the page was accessed without a checkout ID
+      // Show a message if the page was accessed without a checkout ID
       toast({
         title: "Purchase Not Verified",
         description: "We couldn't verify your purchase. If you've completed checkout, please contact support.",
         variant: "destructive"
       });
     }
-  }, [location.search, toast]);
+  }, [location.search, toast, affonsoReady, tracked]);
 
   useEffect(() => {
     // Set dimensions for confetti

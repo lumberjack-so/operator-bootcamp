@@ -89,26 +89,42 @@ const Pricing = () => {
     const referralId = window.affonso_referral;
     console.log('Affonso referral ID:', referralId || 'None detected');
     
-    // Create checkout URL with referral ID if available
-    const baseCheckoutUrl = plan.checkoutUrl;
-    const finalCheckoutUrl = referralId 
-      ? `${baseCheckoutUrl}${baseCheckoutUrl.includes('?') ? '&' : '?'}affonso_referral=${referralId}`
-      : baseCheckoutUrl;
-    
-    console.log('Opening checkout URL:', finalCheckoutUrl);
-    
-    // Open checkout in new tab - but don't redirect the current tab
-    window.open(finalCheckoutUrl, '_blank');
-    
-    // Store selected plan information in session storage for tracking
+    // Store selected plan information in localStorage for tracking
     const planInfo = {
       productId: plan.productId,
       productName: plan.title,
       productPrice: plan.priceValue
     };
-    sessionStorage.setItem('selectedPlan', JSON.stringify(planInfo));
+    localStorage.setItem('selectedPlan', JSON.stringify(planInfo));
+    console.log('Stored product info in localStorage:', planInfo);
     
-    // Remove the automatic redirect to thank you page
+    // Create checkout URL with referral ID if available
+    const baseCheckoutUrl = plan.checkoutUrl;
+    
+    // Create the success URL with product info encoded in the URL parameters
+    const successUrl = new URL(`${window.location.origin}/thank-you`);
+    successUrl.searchParams.append('product_id', plan.productId);
+    successUrl.searchParams.append('product_name', encodeURIComponent(plan.title));
+    successUrl.searchParams.append('product_price', plan.priceValue.toString());
+    
+    // Add the success URL as a parameter to the checkout URL
+    const polarSuccessParam = `success_url=${encodeURIComponent(successUrl.toString())}`;
+    
+    // Build the final checkout URL
+    let finalCheckoutUrl = baseCheckoutUrl;
+    // Add the success URL parameter
+    finalCheckoutUrl += finalCheckoutUrl.includes('?') ? '&' : '?';
+    finalCheckoutUrl += polarSuccessParam;
+    
+    // Add referral ID if available
+    if (referralId) {
+      finalCheckoutUrl += `&affonso_referral=${referralId}`;
+    }
+    
+    console.log('Opening checkout URL:', finalCheckoutUrl);
+    
+    // Open checkout in new tab - but don't redirect the current tab
+    window.open(finalCheckoutUrl, '_blank');
   };
 
   // Countdown renderer
