@@ -1,11 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Calendar, Check, MailOpen, PartyPopper, Server } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ReactConfetti from 'react-confetti';
+import { useToast } from '@/hooks/use-toast';
 
 const ThankYou = () => {
   const [dimensions, setDimensions] = useState({
@@ -14,6 +14,62 @@ const ThankYou = () => {
   });
   const [showConfetti, setShowConfetti] = useState(true);
   const [vimeoLoaded, setVimeoLoaded] = useState(false);
+  const location = useLocation();
+  const { toast } = useToast();
+  
+  // Track purchase with Affonso
+  useEffect(() => {
+    // Get product details from URL search params if available
+    const searchParams = new URLSearchParams(location.search);
+    const productId = searchParams.get('productId');
+    const productName = searchParams.get('productName');
+    const productPrice = searchParams.get('productPrice');
+    
+    // Wait for Affonso script to load
+    const trackPurchase = () => {
+      if (window.Affonso && typeof window.Affonso.purchase === 'function') {
+        console.log('Tracking purchase with Affonso:', { 
+          productId, productName, productPrice
+        });
+        
+        try {
+          // Track the purchase
+          window.Affonso.purchase({
+            // Generate a random order ID if not provided
+            id: searchParams.get('orderId') || `order-${Date.now()}`,
+            amount: productPrice ? parseFloat(productPrice) : 0,
+            currency: 'USD',
+            products: [{
+              id: productId || 'bootcamp-purchase',
+              name: productName || 'AI-First Operator Bootcamp',
+              price: productPrice ? parseFloat(productPrice) : 0,
+              quantity: 1
+            }]
+          });
+          
+          console.log('✅ Successfully tracked purchase with Affonso');
+        } catch (error) {
+          console.error('Error tracking purchase with Affonso:', error);
+        }
+      } else {
+        console.log('Affonso script not loaded yet or purchase method not available');
+      }
+    };
+    
+    // Try to track purchase immediately if Affonso is already loaded
+    trackPurchase();
+    
+    // Set up a listener for when Affonso loads
+    const intervalId = setInterval(() => {
+      if (window.Affonso && typeof window.Affonso.purchase === 'function') {
+        trackPurchase();
+        clearInterval(intervalId);
+      }
+    }, 1000);
+    
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [location.search]);
 
   useEffect(() => {
     // Set dimensions for confetti

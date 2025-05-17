@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Heart, Timer, X, Ribbon } from 'lucide-react';
@@ -16,86 +17,76 @@ const Pricing = () => {
     logo: "/lovable-uploads/cca830e9-c681-4273-94e8-69eff61f6e64.png",
     description: "12 Build-Along sessions + community + replays",
     price: "$197",
+    priceValue: 197,
     fullValue: "$693",
     discount: "72% OFF",
     isPopular: false,
     emoji: "🛠️",
     isEarlyBird: true,
-    checkoutUrl: "https://buy.polar.sh/polar_cl_dYdrOWDsH8uiync5fmm7GceGLFzVn8OBHRgJX1440ch"
+    checkoutUrl: "https://buy.polar.sh/polar_cl_dYdrOWDsH8uiync5fmm7GceGLFzVn8OBHRgJX1440ch",
+    productId: "builder-pass"
   }, {
     title: "Operator Pass",
     logo: "/lovable-uploads/2aff9228-17af-428f-a871-7b1132121527.png",
     description: "Combines Deep Dive & Build-Along + perks",
     price: "$347",
+    priceValue: 347,
     fullValue: "$1,747",
     discount: "80% OFF",
     isPopular: true,
     emoji: "✨",
     isEarlyBird: true,
-    checkoutUrl: "https://buy.polar.sh/polar_cl_TPSVJn753qmRZXLylW5RiSk60IFKbEY6BK6zK4YJkQq"
+    checkoutUrl: "https://buy.polar.sh/polar_cl_TPSVJn753qmRZXLylW5RiSk60IFKbEY6BK6zK4YJkQq",
+    productId: "operator-pass"
   }, {
     title: "VIP Pass",
     logo: "/lovable-uploads/5ce67589-1b06-4944-91c3-594bd472f764.png",
     description: "For true AI-first Operators only",
     price: "$1,497",
+    priceValue: 1497,
     fullValue: "$4,997",
     discount: "70% OFF",
     isPopular: false,
     emoji: "👑",
-    checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl"
+    checkoutUrl: "https://buy.polar.sh/polar_cl_8NR2YOvtp8MvJLY9klBjxWwpDQS5dI67rDfQR2R6cVl",
+    productId: "vip-pass"
   }];
 
   // Handle checkout button click with Affonso referral tracking
-  const handleCheckout = (checkoutUrl: string) => {
+  const handleCheckout = (plan) => {
+    console.log('Initiating checkout for:', plan.title);
+    
     // Get Affonso referral ID if it exists
     const referralId = window.affonso_referral;
+    console.log('Affonso referral ID:', referralId || 'None detected');
     
-    // Append referral ID to checkout URL if available
+    // Create checkout URL with referral ID if available
+    const baseCheckoutUrl = plan.checkoutUrl;
     const finalCheckoutUrl = referralId 
-      ? `${checkoutUrl}${checkoutUrl.includes('?') ? '&' : '?'}affonso_referral=${referralId}`
-      : checkoutUrl;
+      ? `${baseCheckoutUrl}${baseCheckoutUrl.includes('?') ? '&' : '?'}affonso_referral=${referralId}`
+      : baseCheckoutUrl;
+    
+    console.log('Final checkout URL:', finalCheckoutUrl);
     
     // Open checkout in new tab
     window.open(finalCheckoutUrl, '_blank');
     
+    // Store selected plan information in session storage for tracking
+    const planInfo = {
+      productId: plan.productId,
+      productName: plan.title,
+      productPrice: plan.priceValue
+    };
+    sessionStorage.setItem('selectedPlan', JSON.stringify(planInfo));
+    
+    // Add product details to thank you page URL
+    const thankYouUrl = `/thank-you?productId=${plan.productId}&productName=${encodeURIComponent(plan.title)}&productPrice=${plan.priceValue}`;
+    
     // Navigate to thank you page
     setTimeout(() => {
-      navigate('/thank-you');
+      navigate(thankYouUrl);
     }, 500);
   };
-
-  // Shared features list with yes/no for each plan
-  const sharedFeatures = [{
-    name: "Access to 12 n8n Tutorial Workshops",
-    plans: [true, true, true]
-  }, {
-    name: "Access to Deep Dive Workshops",
-    plans: [false, true, true]
-  }, {
-    name: "Community Access",
-    plans: [true, true, true]
-  }, {
-    name: "Lifetime Replays",
-    plans: [true, true, true]
-  }, {
-    name: "Live Q&A Participation",
-    plans: [false, true, true]
-  }, {
-    name: "Certificate of Completion",
-    plans: [false, true, true]
-  }, {
-    name: "$300 in AlfredOS Credits",
-    plans: [false, true, true]
-  }, {
-    name: "1-on-1 Private Coaching",
-    plans: [false, false, true]
-  }, {
-    name: "Custom GPT Tutor",
-    plans: [false, false, true]
-  }, {
-    name: "Unlimited DM / Email Support",
-    plans: [false, false, true]
-  }];
 
   // Countdown renderer
   const renderer = ({
@@ -178,7 +169,7 @@ const Pricing = () => {
               
               <div className="p-8 pt-0 mt-auto">
                 <Button 
-                  onClick={() => handleCheckout(plan.checkoutUrl)}
+                  onClick={() => handleCheckout(plan)}
                   className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}
                 >
                   Reserve My Seat
