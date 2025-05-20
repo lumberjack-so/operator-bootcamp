@@ -8,12 +8,10 @@ import PassLogo from '@/components/PassLogo';
 import { useNavigate } from 'react-router-dom';
 import { getAffonsoReferralId, storePurchaseData } from '@/utils/trackingUtils';
 import { toast } from '@/components/ui/sonner';
-
 const Pricing = () => {
   // Set target date to May 31st, 2025 23:59 CET
   const targetDate = new Date('2025-05-31T23:59:00+02:00');
   const navigate = useNavigate();
-  
   type Plan = {
     title: string;
     logo: string;
@@ -28,7 +26,6 @@ const Pricing = () => {
     checkoutUrl: string;
     productId: string;
   };
-
   const pricingPlans: Plan[] = [{
     title: "Builder Pass",
     logo: "/lovable-uploads/cca830e9-c681-4273-94e8-69eff61f6e64.png",
@@ -78,26 +75,29 @@ const Pricing = () => {
     storePurchaseData({
       purchaseId,
       amount: plan.amount,
-      email: "", // Captured during Polar checkout
-      productName: plan.title,
+      email: "",
+      // Captured during Polar checkout
+      productName: plan.title
     });
 
     // Access Vite env var (cast to any to avoid TS error if not typed)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const FUNCTION_URL = (import.meta as any).env.VITE_CREATE_CHECKOUT_URL || "https://ojflhjvssqramhexvclr.supabase.co/functions/v1/createCheckout";
-
     try {
       const res = await fetch(FUNCTION_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           productId: plan.productId,
-          referralId,
-        }),
+          referralId
+        })
       });
-
       if (res.ok) {
-        const { url } = await res.json();
+        const {
+          url
+        } = await res.json();
         window.location.href = url; // same-tab redirect for smoother flow
         return;
       }
@@ -114,7 +114,6 @@ const Pricing = () => {
       const sep = fallbackUrl.includes("?") ? "&" : "?";
       fallbackUrl += `${sep}metadata[affonso_referral]=${encodeURIComponent(referralId)}`;
     }
-
     window.location.href = fallbackUrl;
   };
 
@@ -206,9 +205,7 @@ const Pricing = () => {
                   {plan.isEarlyBird && <Badge className="bg-amber-200 text-amber-800 hover:bg-amber-300 border-amber-400 animate-pulse">
                       Early Bird
                     </Badge>}
-                  {plan.title === "VIP Pass" && <Badge className="bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-400 animate-pulse">
-                      10 spots only
-                    </Badge>}
+                  {plan.title === "VIP Pass" && <Badge className="bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-400 animate-pulse">9 spots left!</Badge>}
                 </div>
                 
                 <div className="flex items-center justify-center gap-2 mb-8 p-3 bg-green-50 border border-green-100 rounded-lg">
@@ -231,10 +228,7 @@ const Pricing = () => {
               </div>
               
               <div className="p-8 pt-0 mt-auto">
-                <Button 
-                  onClick={() => handleCheckout(plan)}
-                  className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}
-                >
+                <Button onClick={() => handleCheckout(plan)} className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}>
                   Reserve My Seat
                 </Button>
               </div>
@@ -243,5 +237,4 @@ const Pricing = () => {
       </div>
     </section>;
 };
-
 export default Pricing;
