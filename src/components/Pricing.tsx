@@ -205,7 +205,7 @@ const Pricing = () => {
                   {plan.isEarlyBird && <Badge className="bg-amber-200 text-amber-800 hover:bg-amber-300 border-amber-400 animate-pulse">
                       Early Bird
                     </Badge>}
-                  {plan.title === "VIP Pass" && <Badge className="bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-400 animate-pulse">9 spots left!</Badge>}
+                  {plan.title === "VIP Pass" && <Badge className="bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-400 animate-pulse">6 spots left!</Badge>}
                 </div>
                 
                 <div className="flex items-center justify-center gap-2 mb-8 p-3 bg-green-50 border border-green-100 rounded-lg">
