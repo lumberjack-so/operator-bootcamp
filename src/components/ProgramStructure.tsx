@@ -79,7 +79,7 @@ const ProgramStructure = () => {
                 <TableRow>
                   <TableHead className="w-12">Week</TableHead>
                   <TableHead className="w-1/3">Deep-Dive Workshop</TableHead>
-                  <TableHead className="w-1/3">Build-Along Focus</TableHead>
+                  <TableHead className="w-1/3">n8n Tutorial Workshop</TableHead>
                   <TableHead className="w-1/3">What You'll Learn</TableHead>
                 </TableRow>
               </TableHeader>
