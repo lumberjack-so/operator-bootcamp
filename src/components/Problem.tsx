@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, AlertTriangle, Check, Calendar } from 'lucide-react';
@@ -74,7 +73,7 @@ const Problem = () => {
           </div>
           
           <div className="flex justify-center w-full">
-            <Button size="lg" className="button-primary flex items-center gap-3 px-10 py-7 text-lg" onClick={() => document.getElementById('pricing')?.scrollIntoView({
+            <Button size="lg" className="button-primary flex items-center gap-3 px-10 py-7 text-lg plausible-event-name=Interest" onClick={() => document.getElementById('pricing')?.scrollIntoView({
             behavior: 'smooth'
           })}>
               Grab Your Seat <ArrowRight size={20} />

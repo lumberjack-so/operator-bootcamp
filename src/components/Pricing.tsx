@@ -8,6 +8,7 @@ import PassLogo from '@/components/PassLogo';
 import { useNavigate } from 'react-router-dom';
 import { getAffonsoReferralId, storePurchaseData } from '@/utils/trackingUtils';
 import { toast } from '@/components/ui/sonner';
+
 const Pricing = () => {
   // Set target date to May 31st, 2025 23:59 CET
   const targetDate = new Date('2025-05-31T23:59:00+02:00');
@@ -80,6 +81,16 @@ const Pricing = () => {
       productName: plan.title
     });
 
+    // Trigger Plausible Purchase Initiated event with custom properties
+    if (window.plausible) {
+      window.plausible('Purchase Initiated', {
+        props: {
+          plan: plan.title,
+          revenue: plan.amount
+        }
+      });
+    }
+
     // Access Vite env var (cast to any to avoid TS error if not typed)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const FUNCTION_URL = (import.meta as any).env.VITE_CREATE_CHECKOUT_URL || "https://ojflhjvssqramhexvclr.supabase.co/functions/v1/createCheckout";
@@ -118,37 +129,39 @@ const Pricing = () => {
   };
 
   // Shared features list with yes/no for each plan
-  const sharedFeatures = [{
-    name: "Access to 12 n8n Tutorial Workshops",
-    plans: [true, true, true]
-  }, {
-    name: "Access to Deep Dive Workshops",
-    plans: [false, true, true]
-  }, {
-    name: "Community Access",
-    plans: [true, true, true]
-  }, {
-    name: "Lifetime Replays",
-    plans: [true, true, true]
-  }, {
-    name: "Live Q&A Participation",
-    plans: [false, true, true]
-  }, {
-    name: "Certificate of Completion",
-    plans: [false, true, true]
-  }, {
-    name: "$300 in AlfredOS Credits",
-    plans: [false, true, true]
-  }, {
-    name: "1-on-1 Private Coaching",
-    plans: [false, false, true]
-  }, {
-    name: "Custom GPT Tutor",
-    plans: [false, false, true]
-  }, {
-    name: "Unlimited DM / Email Support",
-    plans: [false, false, true]
-  }];
+  const sharedFeatures = [
+    {
+      name: "Access to 12 n8n Tutorial Workshops",
+      plans: [true, true, true]
+    }, {
+      name: "Access to Deep Dive Workshops",
+      plans: [false, true, true]
+    }, {
+      name: "Community Access",
+      plans: [true, true, true]
+    }, {
+      name: "Lifetime Replays",
+      plans: [true, true, true]
+    }, {
+      name: "Live Q&A Participation",
+      plans: [false, true, true]
+    }, {
+      name: "Certificate of Completion",
+      plans: [false, true, true]
+    }, {
+      name: "$300 in AlfredOS Credits",
+      plans: [false, true, true]
+    }, {
+      name: "1-on-1 Private Coaching",
+      plans: [false, false, true]
+    }, {
+      name: "Custom GPT Tutor",
+      plans: [false, false, true]
+    }, {
+      name: "Unlimited DM / Email Support",
+      plans: [false, false, true]
+    }
+  ];
 
   // Countdown renderer
   const renderer = ({
@@ -228,7 +241,7 @@ const Pricing = () => {
               </div>
               
               <div className="p-8 pt-0 mt-auto">
-                <Button onClick={() => handleCheckout(plan)} className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03]`}>
+                <Button onClick={() => handleCheckout(plan)} className={`w-full py-6 ${plan.isPopular ? 'bg-highlight hover:bg-highlight-dark text-black' : 'bg-gradient-to-r from-saas-accent to-purple-600 hover:from-saas-accent hover:to-purple-700 text-white'} transition-all duration-300 transform hover:scale-[1.03] plausible-event-name=Purchase+Initiated plausible-event-plan=${plan.title} plausible-event-revenue=${plan.amount}`}>
                   Reserve My Seat
                 </Button>
               </div>

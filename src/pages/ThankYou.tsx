@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -63,6 +62,17 @@ const ThankYou = () => {
     
     // Start checking for script
     checkScriptLoaded();
+
+    // Trigger Plausible Purchase Completed event
+    const purchaseData = getPurchaseData();
+    if (purchaseData && window.plausible) {
+      window.plausible('Purchase Completed', {
+        props: {
+          plan: purchaseData.productName || 'Unknown',
+          revenue: purchaseData.amount
+        }
+      });
+    }
     
     return () => {
       window.removeEventListener('resize', updateDimensions);

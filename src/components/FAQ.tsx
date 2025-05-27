@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from '@/components/ui/button';
@@ -18,51 +17,53 @@ const FAQ = () => {
       }
     };
   }, []);
-  const faqs = [{
-    question: "When does the bootcamp start?",
-    answer: "The bootcamp officially starts on July 2nd, 2025. Mark your calendar and get ready to transform your workflows!",
-    emoji: "📅"
-  }, {
-    question: "What's the format of the workshops?",
-    answer: "Deep dive workshops are prerecorded videos (up to 60 minutes each) that you can watch at your own pace. The n8n builder workshops are conducted live for interactive learning and real-time problem solving.",
-    emoji: "🎥"
-  }, {
-    question: "I'm not technical—will I drown?",
-    answer: "Nope. Drowning requires deep water; we start you in the kiddie pool and raise the floor each week. By Week 3 you'll brag about your Git commits.",
-    emoji: "🏊‍♂️"
-  }, {
-    question: "What if I miss a live call?",
-    answer: "Catch the 4K replay, skim the timestamped notes, drop questions in the Community—done. Life happens, automation waits.",
-    emoji: "🎬"
-  }, {
-    question: "Time-zone issues?",
-    answer: "The weekly live call alternates between 9 AM ET / 4 PM ET so both hemispheres stay sane. Worst case: watch the replay over breakfast.",
-    emoji: "🌍"
-  }, {
-    question: "How much homework are we talking?",
-    answer: "About one Netflix episode per week—except you end with workflows, not cliff-hangers.",
-    emoji: "📚"
-  }, {
-    question: "I already know n8n basics—too easy for me?",
-    answer: "Great! You'll sprint through Weeks 1-3 and feast on advanced agent architecture, Claude Desktop tricks and monetisation modules.",
-    emoji: "🚀"
-  }, {
-    question: "Corporate card ready—can you invoice?",
-    answer: "Yes. VAT-friendly invoices, PO numbers, carrier pigeons—whatever your finance team needs.",
-    emoji: "💳"
-  }, {
-    question: "What if I'm still not satisfied?",
-    answer: "Take the first two weeks. If you're not automating real stuff by then, email us for a 100% refund. No awkward forms, no \"break-up\" call.",
-    emoji: "🔙"
-  }, {
-    question: "Software requirements?",
-    answer: "Free n8n Desktop/self-host, a GitHub account, Zoom, optional Cursor or VS Code. If your laptop runs Chrome, you're good.",
-    emoji: "💻"
-  }, {
-    question: "Do I lose access after 90 days?",
-    answer: "Never. Recordings, templates and Community stay open—automation is a lifelong sport.",
-    emoji: "🔐"
-  }];
+  const faqs = [
+    {
+      question: "When does the bootcamp start?",
+      answer: "The bootcamp officially starts on July 2nd, 2025. Mark your calendar and get ready to transform your workflows!",
+      emoji: "📅"
+    }, {
+      question: "What's the format of the workshops?",
+      answer: "Deep dive workshops are prerecorded videos (up to 60 minutes each) that you can watch at your own pace. The n8n builder workshops are conducted live for interactive learning and real-time problem solving.",
+      emoji: "🎥"
+    }, {
+      question: "I'm not technical—will I drown?",
+      answer: "Nope. Drowning requires deep water; we start you in the kiddie pool and raise the floor each week. By Week 3 you'll brag about your Git commits.",
+      emoji: "🏊‍♂️"
+    }, {
+      question: "What if I miss a live call?",
+      answer: "Catch the 4K replay, skim the timestamped notes, drop questions in the Community—done. Life happens, automation waits.",
+      emoji: "🎬"
+    }, {
+      question: "Time-zone issues?",
+      answer: "The weekly live call alternates between 9 AM ET / 4 PM ET so both hemispheres stay sane. Worst case: watch the replay over breakfast.",
+      emoji: "🌍"
+    }, {
+      question: "How much homework are we talking?",
+      answer: "About one Netflix episode per week—except you end with workflows, not cliff-hangers.",
+      emoji: "📚"
+    }, {
+      question: "I already know n8n basics—too easy for me?",
+      answer: "Great! You'll sprint through Weeks 1-3 and feast on advanced agent architecture, Claude Desktop tricks and monetisation modules.",
+      emoji: "🚀"
+    }, {
+      question: "Corporate card ready—can you invoice?",
+      answer: "Yes. VAT-friendly invoices, PO numbers, carrier pigeons—whatever your finance team needs.",
+      emoji: "💳"
+    }, {
+      question: "What if I'm still not satisfied?",
+      answer: "Take the first two weeks. If you're not automating real stuff by then, email us for a 100% refund. No awkward forms, no \"break-up\" call.",
+      emoji: "🔙"
+    }, {
+      question: "Software requirements?",
+      answer: "Free n8n Desktop/self-host, a GitHub account, Zoom, optional Cursor or VS Code. If your laptop runs Chrome, you're good.",
+      emoji: "💻"
+    }, {
+      question: "Do I lose access after 90 days?",
+      answer: "Never. Recordings, templates and Community stay open—automation is a lifelong sport.",
+      emoji: "🔐"
+    }
+  ];
   return <section id="faq" className="py-28 bg-white">
       <div className="container-custom">
         <div className="max-w-3xl mx-auto">
@@ -123,7 +124,7 @@ const FAQ = () => {
             
             
             
-            <Button size="lg" className="button-primary w-full py-7 text-lg">
+            <Button size="lg" className="button-primary w-full py-7 text-lg plausible-event-name=Interest">
               Reserve Your Spot Now
             </Button>
           </div>

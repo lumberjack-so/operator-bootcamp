@@ -40,7 +40,7 @@ const Header = () => {
         <div>
           <Button 
             onClick={scrollToPricing}
-            className="button-primary flex items-center gap-2 px-5"
+            className="button-primary flex items-center gap-2 px-5 plausible-event-name=Interest"
           >
             Buy Now
           </Button>

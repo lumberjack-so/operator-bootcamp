@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Award, Heart } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -36,7 +37,7 @@ const Instructor = () => {
             </h3>
             
             
-            <a href="#pricing" className="bg-highlight hover:bg-highlight-dark text-black font-bold py-5 px-14 rounded-lg inline-block shadow-sm hover:shadow-md transition-all text-lg">
+            <a href="#pricing" className="bg-highlight hover:bg-highlight-dark text-black font-bold py-5 px-14 rounded-lg inline-block shadow-sm hover:shadow-md transition-all text-lg plausible-event-name=Interest">
               I'M IN → 
             </a>
           </div>
