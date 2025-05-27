@@ -81,12 +81,15 @@ const Pricing = () => {
       productName: plan.title
     });
 
-    // Trigger Plausible Purchase Initiated event with custom properties
+    // Trigger Plausible Purchase Initiated event with revenue tracking
     if (window.plausible) {
       window.plausible('Purchase Initiated', {
         props: {
-          plan: plan.title,
-          revenue: plan.amount
+          plan: plan.title
+        },
+        revenue: {
+          currency: 'USD',
+          amount: plan.amount
         }
       });
     }

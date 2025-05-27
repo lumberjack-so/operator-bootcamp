@@ -6,6 +6,10 @@ declare global {
       eventName: string,
       options?: {
         props?: Record<string, string | number>;
+        revenue?: {
+          currency: string;
+          amount: number;
+        };
         callback?: () => void;
       }
     ) => void;
