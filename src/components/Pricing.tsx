@@ -10,8 +10,8 @@ import { getAffonsoReferralId, storePurchaseData } from '@/utils/trackingUtils';
 import { toast } from '@/components/ui/sonner';
 
 const Pricing = () => {
-  // Set target date to May 31st, 2025 23:59 CET
-  const targetDate = new Date('2025-05-31T23:59:00+02:00');
+  // Set target date to June 2nd, 2025 23:59 ET
+  const targetDate = new Date('2025-06-02T23:59:00-05:00');
   const navigate = useNavigate();
   type Plan = {
     title: string;
