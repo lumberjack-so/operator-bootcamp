@@ -8,7 +8,6 @@ import PassLogo from '@/components/PassLogo';
 import { useNavigate } from 'react-router-dom';
 import { getAffonsoReferralId, storePurchaseData } from '@/utils/trackingUtils';
 import { toast } from '@/components/ui/sonner';
-
 const Pricing = () => {
   // Set target date to June 2nd, 2025 23:59 ET
   const targetDate = new Date('2025-06-02T23:59:00-05:00');
@@ -132,39 +131,37 @@ const Pricing = () => {
   };
 
   // Shared features list with yes/no for each plan
-  const sharedFeatures = [
-    {
-      name: "Access to 12 n8n Tutorial Workshops",
-      plans: [true, true, true]
-    }, {
-      name: "Access to Deep Dive Workshops",
-      plans: [false, true, true]
-    }, {
-      name: "Community Access",
-      plans: [true, true, true]
-    }, {
-      name: "Lifetime Replays",
-      plans: [true, true, true]
-    }, {
-      name: "Live Q&A Participation",
-      plans: [false, true, true]
-    }, {
-      name: "Certificate of Completion",
-      plans: [false, true, true]
-    }, {
-      name: "$300 in AlfredOS Credits",
-      plans: [false, true, true]
-    }, {
-      name: "1-on-1 Private Coaching",
-      plans: [false, false, true]
-    }, {
-      name: "Custom GPT Tutor",
-      plans: [false, false, true]
-    }, {
-      name: "Unlimited DM / Email Support",
-      plans: [false, false, true]
-    }
-  ];
+  const sharedFeatures = [{
+    name: "Access to 12 n8n Tutorial Workshops",
+    plans: [true, true, true]
+  }, {
+    name: "Access to Deep Dive Workshops",
+    plans: [false, true, true]
+  }, {
+    name: "Community Access",
+    plans: [true, true, true]
+  }, {
+    name: "Lifetime Replays",
+    plans: [true, true, true]
+  }, {
+    name: "Live Q&A Participation",
+    plans: [false, true, true]
+  }, {
+    name: "Certificate of Completion",
+    plans: [false, true, true]
+  }, {
+    name: "$300 in AlfredOS Credits",
+    plans: [false, true, true]
+  }, {
+    name: "1-on-1 Private Coaching",
+    plans: [false, false, true]
+  }, {
+    name: "Custom GPT Tutor",
+    plans: [false, false, true]
+  }, {
+    name: "Unlimited DM / Email Support",
+    plans: [false, false, true]
+  }];
 
   // Countdown renderer
   const renderer = ({
@@ -221,7 +218,7 @@ const Pricing = () => {
                   {plan.isEarlyBird && <Badge className="bg-amber-200 text-amber-800 hover:bg-amber-300 border-amber-400 animate-pulse">
                       Early Bird
                     </Badge>}
-                  {plan.title === "VIP Pass" && <Badge className="bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-400 animate-pulse">6 spots left!</Badge>}
+                  {plan.title === "VIP Pass" && <Badge className="bg-rose-100 text-rose-800 hover:bg-rose-200 border-rose-400 animate-pulse">5 spots left!</Badge>}
                 </div>
                 
                 <div className="flex items-center justify-center gap-2 mb-8 p-3 bg-green-50 border border-green-100 rounded-lg">
