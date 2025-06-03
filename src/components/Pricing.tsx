@@ -172,7 +172,7 @@ const Pricing = () => {
     completed
   }) => {
     if (completed) {
-      return <span className="font-bold text-red-500">Offer expired!</span>;
+      return;
     } else {
       return <div className="inline-flex items-center gap-2 font-mono bg-gray-100 px-3 py-1 rounded-md">
           <span className="bg-black text-white px-2 py-1 rounded">{days}d</span>:
@@ -192,8 +192,8 @@ const Pricing = () => {
         
         <div className="text-center mb-16 flex flex-col items-center justify-center space-y-2">
           <div className="flex items-center justify-center gap-2 text-lg">
-            <Timer className="h-5 w-5 text-red-500 animate-pulse" />
-            <em>Early bird prices rise in:</em>
+            
+            
           </div>
           <Countdown date={targetDate} renderer={renderer} />
         </div>
